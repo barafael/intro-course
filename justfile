@@ -1,20 +1,16 @@
 snippets:
     snippet-extractor --directory projects --output snippets.json --relative
 
-autolink:
-    markdown-linkify language-basics-01.md --config linkify.toml --output language-basics-01-autolinked.md
+autolink target:
+    markdown-linkify {{target}}.md --config linkify.toml --output {{target}}.autolinked
 
-codeblocks:
-    markdown-codeblock-processor language-basics-01-autolinked.md --snippets snippets.json -o language-basics-01-final.md
+codeblocks target:
+    markdown-codeblock-processor {{target}}.autolinked --snippets snippets.json -o {{target}}.final.md
 
-marp:
-    marp --allow-local-files --html --pdf-outlines.headings true --pdf-outlines.pages true language-basics-01-final.md --html true --theme marp-theme-rhea/rhea.css
+marp target:
+    marp --allow-local-files --html --pdf-outlines.headings true --pdf-outlines.pages true {{target}}.final.md --html true --theme marp-theme-rhea/rhea.css
 
-presentation: snippets autolink codeblocks marp
+presentation target: snippets (autolink target) (codeblocks target) (marp target)
 
-watch: presentation
-    chromium language-basics-01-final.html
-    watchexec --exts md --debounce 10s "just presentation"
-
-all: presentation
-    chromium language-basics-01-final.html
+open target: (presentation target)
+    chromium {{target}}.final.html &
