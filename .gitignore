@@ -2,3 +2,7 @@ target/
 
 *.pdf
 *.html
+
+*.final.md
+*.autolinked.md
+*.autolinked
