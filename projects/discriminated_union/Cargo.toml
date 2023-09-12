@@ -1,0 +1,19 @@
+[package]
+name = "discriminated_union_generator"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["lib", "cdylib"]
+
+[build-dependencies]
+cbindgen = "0.25"
+
+[dependencies]
+cbindgen = "0.25"
+cc = "1"
+clap = { version = "4.4.3", features = ["derive"] }
+current_platform = "0.2.0"
+
+# only used for linking to serde_json::value::Value
+serde_json = "1"

@@ -22,6 +22,8 @@ _paginate: false
 
 ## Language Basics:<br>How to bind values to names
 
+![bg blur:1px brightness contrast:0.3](images/waves_orange_lightblue.png)
+
 ---
 
 ## There Are No Variables
