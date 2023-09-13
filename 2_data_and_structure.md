@@ -40,7 +40,8 @@ And that's it!
 
 ## `struct`s ("Product Types")
 
-A `struct` is just a "Plain Old Data" type. Not a class. It is comprised of **members**.
+A `struct` is just a "Plain Old Data" type. Not a class.
+It is comprised of **members**.
 
 ````rust tag:playground-button
 struct Message {
@@ -241,7 +242,7 @@ struct Version(u32, u32, u32);
 
 Realistic example: [rust:std::sync::mpsc::SendError]
 
-In reality, this is rare on it's own.
+In reality, this is rare on it's own (but we'll see why it exists).
 
 ---
 
@@ -255,11 +256,7 @@ struct StatelessCodec;
 
 Sometimes a unique type is required but it has no meaningful members.
 
-Guess the size in bytes?
-
-````rust tag:playground-button playground-before:$"struct StatelessCodec; fn main() {"$ playground-after:$"}"$
-println!("{}", std::mem::size_of::<StatelessCodec>());
-````
+[docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html] struct has no ([keyword:pub]) members, used as a marker
 
 ---
 
@@ -274,6 +271,116 @@ bool: 2 possible different values
 u8: 256 possible different values
 
 struct Bunch((), bool, u8); // 1 * 2 * 256 values
+````
+
+---
+
+## Size of a `struct`
+
+For a product type, the size in bytes is the sum of the size of the members.
+
+````rust tag:playground-button playground-before:$"struct Bunch((), bool, u8); fn main() {"$ playground-after:$"}"$
+println!("{}", std::mem::size_of::<Bunch>());
+````
+
+This is true for member-less [keyword:struct]s too:
+
+````rust tag:playground-button playground-before:$"struct StatelessCodec; fn main() {"$ playground-after:$"}"$
+println!("{}", std::mem::size_of::<StatelessCodec>());
+````
+
+---
+
+## Memory Layout, Alignment and Padding
+
+Rust **does not** have a stable ABI. The compiler is free to determine the memory layout of [keyword:struct] members as it pleases. For example, it can sort the members by size, so that least padding is required.
+
+To manually determine the binary layout of a struct:
+
+````rust marker:simple_misaligned_reprc_struct
+
+````
+
+<table style="width:100%; table-layout: fixed; text-align: center">
+    <tr>
+        <td><code>u8</code>     </td>
+        <td><code>u8</code>     </td>
+        <td><code>d/c</code>    </td>
+        <td><code>d/c</code>    </td>
+        <td><code>u32[0]</code> </td>
+        <td><code>u32[1]</code> </td>
+        <td><code>u32[2]</code> </td>
+        <td><code>u32[3]</code> </td>
+    </tr>
+</table>
+
+---
+
+## Memory Layout, Alignment and Padding
+
+````rust marker:print_meta
+
+````
+
+---
+
+## Memory Layout, Alignment and Padding
+
+````rust marker:print_meta
+
+````
+
+This prints:
+
+````
+type name: to_byte_slice::tests::misaligned_struct::A,
+len: 8,
+bytes: 1, 2, 0, 0, 4, 0, 0, 0
+````
+
+---
+
+## Memory Layout, Alignment and Padding (Packed)
+
+You can **pack** struct members, of course.
+
+````rust marker:simple_misaligned_reprpacked_struct
+
+````
+
+<table style="width:100%; table-layout: fixed; text-align: center">
+    <tr>
+        <td><code>u8</code>     </td>
+        <td><code>u8</code>     </td>
+        <td><code>u32[0]</code> </td>
+        <td><code>u32[1]</code> </td>
+        <td><code>u32[2]</code> </td>
+        <td><code>u32[3]</code> </td>
+    </tr>
+</table>
+
+---
+
+## Memory Layout, Alignment and Padding (Packed)
+
+````rust marker:print_meta_packed
+
+````
+
+---
+
+## Memory Layout and Padding (Packed)
+
+````rust marker:print_meta_packed
+
+````
+
+This prints:
+
+````
+type name: to_byte_slice::tests::misaligned_struct_packed::A,
+len: 6,
+bytes: 1, 2, 4, 0, 0, 0
 ````
 
 ---
@@ -294,11 +401,11 @@ enum Event {
 }
 ````
 
-In the binary, this looks like a "discriminated union" in C.
+In the binary, this looks like a "discriminated union" in C (we'll see).
 
 ---
 
-## Why "Sum Type"?
+## What does "Sum Type" mean?
 
 The syntax in the variants is exactly like the syntax for `struct`s - that's no coincidence.
 
@@ -314,6 +421,86 @@ enum Any {
     Byte(u8),
 }
 ````
+
+---
+
+## Example: `Maybe<T>` type
+
+Simple type borrowed from Haskell land:
+
+````rust marker:enum_type_maybe
+
+````
+
+This type signifies a value that may or may not be present.
+Don't mind the generic `T`.
+
+---
+
+## Memberless Enum?
+
+In the same way where a member-less [keyword:struct] has exactly one possible value isomorphic to `()`, a variant-less [keyword:enum] has **no** possible value.
+
+````rust tag:playground-button playground-wrap:main
+enum Impossible {}
+//let x = Impossible::?;
+assert_eq!(0, std::mem::size_of::<Impossible>());
+````
+
+This fact is exploited by [rust:std::convert::Infallible]: it is an un-instantiable type.
+
+<!-- _footer: '1: neutral element of multiplication, 0: neutral element of summation' -->
+
+---
+
+## How does a Sum Type look in C?
+
+Let's examine this enum:
+
+````rust marker:disc_union_enum
+
+````
+
+<!-- _footer: 'Inspired by [`serde_json::Value`](https://docs.rs/serde_json/1.0.106/serde_json/enum.Value.html)'-->
+
+---
+
+## C Tag Enum
+
+Let's [mozilla/cbindgen](https://github.com/mozilla/cbindgen) to look at the C representation.
+The generated "Tag Enum":
+
+````c marker:disc_union_tag_enum
+
+````
+
+Note that C enums are simply global integers with compiler-assigned values.
+
+---
+
+## C Struct `Value`
+
+The wrapping `struct` with the "tag" and "union":
+
+````c
+typedef struct Value {
+  Value_Tag tag;
+  union {
+    struct {
+      bool bool_;
+    };
+    // ...
+  };
+} Value;
+````
+
+---
+
+## Size of an [keyword:enum]
+
+An [keyword:enum] needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [keyword:enum].
+
+**Add**itionally, the [keyword:enum] must have space to store the (aligned) data for the largest variant.
 
 ---
 

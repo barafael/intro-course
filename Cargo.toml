@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "projects/to_byte_slice",
+    "projects/discriminated_union",
+    "projects/simple_server",
+]

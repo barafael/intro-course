@@ -1,5 +1,21 @@
 {
   "snippets": {
+    "projects/discriminated_union/disc_union/disc_union.h": {
+      "disc_union_tag_enum": {
+        "content": "typedef enum Value_Tag {\n  Null,\n  Bool,\n  Number,\n  String,\n} Value_Tag;",
+        "file": "projects/discriminated_union/disc_union/disc_union.h",
+        "line": 10,
+        "col": 0
+      }
+    },
+    "projects/discriminated_union/src/lib.rs": {
+      "disc_union_enum": {
+        "content": "#[repr(C)]\n#[derive(Debug)]\npub enum Value {\n    Null,\n    Bool(bool),\n    Number(f64),\n    String(*const c_char),\n    // Array(Vec<Value>),\n    // Object(HashMap<CString, Box<Value>>),\n}",
+        "file": "projects/discriminated_union/src/lib.rs",
+        "line": 14,
+        "col": 0
+      }
+    },
     "projects/simple_server/src/main.rs": {
       "mutable_binding_in_destructuring_pattern": {
         "content": "        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;",
@@ -10,6 +26,38 @@
       "server_cliche_loop": {
         "content": "    loop {\n        // marker-start mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
         "file": "projects/simple_server/src/main.rs",
+        "line": 39,
+        "col": 0
+      }
+    },
+    "projects/to_byte_slice/src/lib.rs": {
+      "enum_type_maybe": {
+        "content": "        enum Maybe<T> {\n            Just(T),\n            Nothing,\n        }",
+        "file": "projects/to_byte_slice/src/lib.rs",
+        "line": 52,
+        "col": 0
+      },
+      "print_meta": {
+        "content": "        let a = A(1, 2, 4);\n        print_meta(&a);",
+        "file": "projects/to_byte_slice/src/lib.rs",
+        "line": 31,
+        "col": 0
+      },
+      "print_meta_packed": {
+        "content": "        let a = A(1, 2, 4);\n        print_meta(&a);",
+        "file": "projects/to_byte_slice/src/lib.rs",
+        "line": 44,
+        "col": 0
+      },
+      "simple_misaligned_reprc_struct": {
+        "content": "        #[repr(C)]\n        struct A(u8, u8, u32);",
+        "file": "projects/to_byte_slice/src/lib.rs",
+        "line": 26,
+        "col": 0
+      },
+      "simple_misaligned_reprpacked_struct": {
+        "content": "        #[repr(packed)]\n        struct A(u8, u8, u32);",
+        "file": "projects/to_byte_slice/src/lib.rs",
         "line": 39,
         "col": 0
       }

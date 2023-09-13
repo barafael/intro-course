@@ -11,7 +11,8 @@ use std::{
 
 /// An enum representing JSON data.
 /// For a production-quality version of this, see
-/// [`serde_json::value::Value`].
+/// [`serde_json::Value`].
+// marker-start disc_union_enum
 #[repr(C)]
 #[derive(Debug)]
 pub enum Value {
@@ -22,6 +23,7 @@ pub enum Value {
     // Array(Vec<Value>),
     // Object(HashMap<CString, Box<Value>>),
 }
+// marker-end disc_union_enum
 
 #[no_mangle]
 pub extern "C" fn create_number(number: f64) -> Value {
