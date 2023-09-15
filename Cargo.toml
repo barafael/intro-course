@@ -5,4 +5,5 @@ members = [
     "projects/to_byte_slice",
     "projects/discriminated_union",
     "projects/simple_server",
+    "projects/maybe",
 ]

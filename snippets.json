@@ -16,46 +16,72 @@
         "col": 0
       }
     },
+    "projects/maybe/src/lib.rs": {
+      "enum_type_maybe": {
+        "content": "pub enum Maybe<T> {\n    Just(T),\n    Nothing,\n}",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 1,
+        "col": 0
+      },
+      "enum_type_maybe_match": {
+        "content": "        match it {\n            Maybe::Just(\"something\") => println!(\"found \\\"something\\\"!\"),\n            Maybe::Just(\"data!\") => println!(\"found \\\"data!\\\"\"),\n            Maybe::Just(something_else) => println!(\"found {something_else}!\"),\n            Maybe::Nothing => println!(\"there was nothing in it...\"),\n        }",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 31,
+        "col": 0
+      },
+      "maybe_type_enum_sizes": {
+        "content": "        print_type_info(&Maybe::Just(1u8));\n        print_type_info(&Maybe::<u16>::Nothing);\n        print_type_info(&Maybe::Just(false));",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 43,
+        "col": 0
+      },
+      "maybe_type_iflet": {
+        "content": "        if let Maybe::Just(data) = it {\n            println!(\"got some data: {data:?}\");\n        } else {\n            println!(\"there's nothing in it.\");\n        }",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 19,
+        "col": 0
+      },
+      "maybe_type_size_of_references": {
+        "content": "        print_type_info(&Maybe::Just(Box::new(8)));\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 61,
+        "col": 0
+      }
+    },
     "projects/simple_server/src/main.rs": {
       "mutable_binding_in_destructuring_pattern": {
         "content": "        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;",
         "file": "projects/simple_server/src/main.rs",
-        "line": 41,
+        "line": 58,
         "col": 0
       },
       "server_cliche_loop": {
         "content": "    loop {\n        // marker-start mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
         "file": "projects/simple_server/src/main.rs",
-        "line": 39,
+        "line": 56,
         "col": 0
       }
     },
     "projects/to_byte_slice/src/lib.rs": {
-      "enum_type_maybe": {
-        "content": "        enum Maybe<T> {\n            Just(T),\n            Nothing,\n        }",
-        "file": "projects/to_byte_slice/src/lib.rs",
-        "line": 52,
-        "col": 0
-      },
       "print_meta": {
-        "content": "        let a = A(1, 2, 4);\n        print_meta(&a);",
+        "content": "        let a = A(1, 2, 4);\n        print_type_info(&a);",
         "file": "projects/to_byte_slice/src/lib.rs",
         "line": 31,
         "col": 0
       },
       "print_meta_packed": {
-        "content": "        let a = A(1, 2, 4);\n        print_meta(&a);",
+        "content": "        let a = A(1, 2, 4);\n        print_type_info(&a);",
         "file": "projects/to_byte_slice/src/lib.rs",
         "line": 44,
         "col": 0
       },
-      "simple_misaligned_reprc_struct": {
+      "simple_badly_aligned_reprc_struct": {
         "content": "        #[repr(C)]\n        struct A(u8, u8, u32);",
         "file": "projects/to_byte_slice/src/lib.rs",
         "line": 26,
         "col": 0
       },
-      "simple_misaligned_reprpacked_struct": {
+      "simple_badly_aligned_reprpacked_struct": {
         "content": "        #[repr(packed)]\n        struct A(u8, u8, u32);",
         "file": "projects/to_byte_slice/src/lib.rs",
         "line": 39,

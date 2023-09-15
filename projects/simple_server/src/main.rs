@@ -21,6 +21,23 @@ enum Message {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    #[derive(Debug)]
+    struct Message {
+        from: Option<String>,
+        to: String,
+        content: String,
+    }
+    impl std::fmt::Display for Message {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            let from = self.from.as_ref().map(String::as_str).unwrap_or("nobody");
+            write!(
+                f,
+                "Message from \"{}\" to \"{}\": \"{}\"",
+                from, self.to, self.content
+            )
+        }
+    }
+
     let addr = "127.0.0.1:8080"
         .parse::<SocketAddr>()
         .context("Invalid ip:port")?;

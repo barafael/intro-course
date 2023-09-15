@@ -36,6 +36,8 @@ _paginate: false
 
 And that's it!
 
+Of course, there are implications; construction, deconstruction, pattern matching, size/alignment/padding
+
 ---
 
 ## `struct`s ("Product Types")
@@ -55,7 +57,8 @@ struct Message {
 
 ## Con`struct`ion
 
-There is only one way to initialize a `struct`. Looks a little like a C++ initializer list.
+There is only one way to initialize a `struct`.
+Looks a little like a C++ initializer list:
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -63,13 +66,55 @@ let msg = Message {
     to: "Bertha".to_string(),
     content: "Hey, a struct".to_string(),
 };
+println!("Receiver: {}", msg.to);
 ````
 
 ---
 
-## But how can we print it?
+## Con`struct`ion
 
-Well, just use `println!`?
+Mutability extends to all struct members (because the mutability is part of the binding).
+
+````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
+let mut msg = Message {
+    from: None,
+    to: "Bertha".to_string(),
+    content: "Hey, a struct".to_string(),
+};
+msg.from = Some("Nick".to_string());
+````
+
+---
+
+## Example from Standard Library: [`Duration`](rust:std::time::Duration)
+
+A [`Duration`](rust:std::time::Duration) contains private members for seconds and nanoseconds.
+
+The type defines constants like [`SECOND`](rust:std::time::Duration::SECOND) and functions like [`from_millis`](rust:std::time::Duration::from_secs).
+
+This type is widely used to represent time spans among the standard library and external crates.
+
+---
+
+## Example from Standard Library: [`Vec<T>`](rust:std::vec::Vec)
+
+A [`Vec<T>`](rust:std::vec::Vec) is like a C++ `std::vector<T>` or Java `ArrayList<T>`.
+
+The API is slightly different, but the idea is the same.
+
+````rust tag:playground-button
+pub struct Vec<T> {
+    ptr: NonNull<T>,
+    cap: usize,
+    len: usize,
+}
+````
+
+---
+
+## How to print the entire `struct`?
+
+Well, just use [`println!`](rust:std::println)?
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -82,7 +127,7 @@ println!("{msg}");
 
 ---
 
-## Pls can we print it?
+## How to print the entire `struct`?
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -106,7 +151,7 @@ error[E0277]: `Message` doesn't implement `std::fmt::Display`
 
 ---
 
-## I just want to print it!
+## Trying to print struct with `:?`
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -114,7 +159,7 @@ let msg = Message {
     to: "Bertha".to_string(),
     content: "Hey, a struct".to_string(),
 };
-println!("{msg:#?}");
+println!("{msg:?}");
 ````
 
 ---
@@ -125,8 +170,8 @@ println!("{msg:#?}");
 error[E0277]: `Message` doesn't implement `Debug`
   --> src/main.rs:12:15
    |
-12 |     println!("{msg:#?}");
-   |               ^^^^^^^^ `Message` cannot be formatted using `{:?}`
+12 |     println!("{msg:?}");
+   |               ^^^^^^^ `Message` cannot be formatted using `{:?}`
    |
    = help: the trait `Debug` is not implemented for `Message`
    = note: add `#[derive(Debug)]` to `Message` or manually `impl Debug for Message`
@@ -140,7 +185,9 @@ help: consider annotating `Message` with `#[derive(Debug)]`
 
 ---
 
-## WTF is this
+## Just `derive` it!
+
+Extending a type with `derive`-able behaviour:
 
 ````rust
 #[derive(Debug)]
@@ -151,11 +198,12 @@ struct Message {
 }
 ````
 
-Shh... A `derive` may be used to extend a type with a derivable trait - more on this later.
+A `derive` may be used to extend a type with a derivable trait -
+more on this later.
 
 ---
 
-## WTF is this
+## Now printing is easy, actually
 
 ````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -166,9 +214,11 @@ let msg = Message {
 println!("{msg:#?}");
 ````
 
+`:#?` as a format string uses a pretty-printer. Normally, just use `:?`.
+
 ---
 
-## Finally :)
+## Now printing is easy, actually
 
 ````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -207,28 +257,39 @@ The Rust API guidelines recommend [eagerly deriving common traits](https://rust-
 
 ---
 
-## Preview: Deriving Traits
+## Now what about that [`std::fmt::Display`](rust:std::fmt::Display)?
 
-Don't overdo it though :)
+Customize user-facing type display:
 
-````rust
-#[derive(
-	clap::ValueEnum, PartialEq, Eq, PartialOrd, Clone, Copy, Debug, Serialize, Deserialize, Default,
-)]
-pub enum Level {
-	Trace = 0,
-	Debug,
-	#[default]
-	Info,
-	Warn,
-	Error,
-	Critical,
-	Off,
+````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, }"$
+impl std::fmt::Display for Message {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let from = self.from.as_ref().map(String::as_str).unwrap_or("nobody");
+        write!(
+            f,
+            "Message from '{}' to '{}': '{}'",
+            from, self.to, self.content
+        )
+    }
 }
 ````
 
-<!--
-_footer: 'From: [Level](https://github.com/microsoft/vscode/blob/6b9583d2dc4140e0db51d8037643e5ce8763cb0c/cli/src/log.rs#L29C1-L41) in the 0.9% of VSCode that are written in Rust' -->
+---
+
+## Now what about that [`std::fmt::Display`](rust:std::fmt::Display)?
+
+Customize user-facing type display:
+
+````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, } impl std::fmt::Display for Message { fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result { let from = self.from.as_ref().map(String::as_str).unwrap_or("nobody"); write!( f, "Message from '{}' to '{}': '{}'", from, self.to, self.content) } }fn main() {"$ playground-after:$"}"$
+println!(
+    "{}",
+    Message {
+        from: Some("Alice".to_string()),
+        to: "Bob".to_string(),
+        content: "In a bottle".to_string(),
+    }
+);
+````
 
 ---
 
@@ -240,7 +301,7 @@ Sometimes, it is not necessary/possible to give the members good names.
 struct Version(u32, u32, u32);
 ````
 
-Realistic example: [rust:std::sync::mpsc::SendError]
+Realistic example: [`SendError<T>`][rust:std::sync::mpsc::SendError]
 
 In reality, this is rare on it's own (but we'll see why it exists).
 
@@ -260,7 +321,7 @@ Sometimes a unique type is required but it has no meaningful members.
 
 ---
 
-## Now what is a Product Type?
+## Now, what is a Product Type?
 
 Just a term from type theory.
 The number of different values is the product of the number of different values of each member.
@@ -277,7 +338,7 @@ struct Bunch((), bool, u8); // 1 * 2 * 256 values
 
 ## Size of a `struct`
 
-For a product type, the size in bytes is the sum of the size of the members.
+For a product type, the size in bytes is the sum of the sizes of the members.
 
 ````rust tag:playground-button playground-before:$"struct Bunch((), bool, u8); fn main() {"$ playground-after:$"}"$
 println!("{}", std::mem::size_of::<Bunch>());
@@ -293,11 +354,11 @@ println!("{}", std::mem::size_of::<StatelessCodec>());
 
 ## Memory Layout, Alignment and Padding
 
-Rust **does not** have a stable ABI. The compiler is free to determine the memory layout of [keyword:struct] members as it pleases. For example, it can sort the members by size, so that least padding is required.
+Rust **does not** have a stable ABI. The compiler is free to determine the memory layout of [keyword:struct] members as it pleases. It may align the members, or sort the members by size, for least padding.
 
-To manually determine the binary layout of a struct:
+To manually influence the binary layout of a struct:
 
-````rust marker:simple_misaligned_reprc_struct
+````rust marker:simple_badly_aligned_reprc_struct
 
 ````
 
@@ -322,29 +383,25 @@ To manually determine the binary layout of a struct:
 
 ````
 
----
-
-## Memory Layout, Alignment and Padding
-
-````rust marker:print_meta
-
-````
-
 This prints:
 
 ````
-type name: to_byte_slice::tests::misaligned_struct::A,
+type name: to_byte_slice::tests::badly_aligned_struct::A,
 len: 8,
 bytes: 1, 2, 0, 0, 4, 0, 0, 0
 ````
 
+We see that 2 bytes of padding were added, and the members are in order of definition.
+
+<!-- _footer: 'Note that relying on struct layout in C is very questionable' -->
+
 ---
 
-## Memory Layout, Alignment and Padding (Packed)
+## Packed Structs
 
 You can **pack** struct members, of course.
 
-````rust marker:simple_misaligned_reprpacked_struct
+````rust marker:simple_badly_aligned_reprpacked_struct
 
 ````
 
@@ -361,7 +418,7 @@ You can **pack** struct members, of course.
 
 ---
 
-## Memory Layout, Alignment and Padding (Packed)
+## Packed Structs
 
 ````rust marker:print_meta_packed
 
@@ -369,7 +426,7 @@ You can **pack** struct members, of course.
 
 ---
 
-## Memory Layout and Padding (Packed)
+## Packed Structs
 
 ````rust marker:print_meta_packed
 
@@ -378,12 +435,13 @@ You can **pack** struct members, of course.
 This prints:
 
 ````
-type name: to_byte_slice::tests::misaligned_struct_packed::A,
+type name: to_byte_slice::tests::badly_aligned_struct_packed::A,
 len: 6,
 bytes: 1, 2, 4, 0, 0, 0
 ````
 
 ---
+
 
 ## Is there also a Sum Type then?
 
@@ -424,6 +482,23 @@ enum Any {
 
 ---
 
+## Example from Standard Library: [`ErrorKind`](rust:std::io::ErrorKind)
+
+````rust
+#[non_exhaustive]
+pub enum ErrorKind {
+    NotFound,
+    PermissionDenied,
+    ConnectionRefused,
+    ConnectionReset,
+    HostUnreachable,
+...
+````
+
+Functions like [`rust:std::net::TcpStream::connect`] return [`rust:std::io::Error`], which wraps an [`ErrorKind`](rust:std::io::ErrorKind).
+
+---
+
 ## Example: `Maybe<T>` type
 
 Simple type borrowed from Haskell land:
@@ -437,6 +512,54 @@ Don't mind the generic `T`.
 
 ---
 
+## How can we get at the data?
+
+Destructuring data in the simple 2-case distinction:
+
+````rust marker:maybe_type_iflet
+
+````
+
+---
+
+## How can we get at the data?
+
+For enums with more variants, it's more complex:
+
+````rust marker:enum_type_maybe_match
+
+````
+
+This is an exhaustive match over patterns. These patterns are just like in our chapter about [keyword:let].
+
+---
+
+## Deriving traits on enums
+
+Maybe a bit too much, but it's a realistic example.
+Note that `clap::ValueEnum` is defined in a foreign crate!
+
+````rust
+#[derive(
+    clap::ValueEnum, PartialEq, Eq, PartialOrd, Clone, Copy, Debug, Serialize, Deserialize, Default,
+)]
+pub enum Level {
+    Trace = 0,
+    Debug,
+    #[default]
+    Info,
+    Warn,
+    Error,
+    Critical,
+    Off,
+}
+````
+
+<!--
+_footer: 'From: [Level](https://github.com/microsoft/vscode/blob/6b9583d2dc4140e0db51d8037643e5ce8763cb0c/cli/src/log.rs#L29C1-L41) in the 0.9% of VSCode that are written in Rust' -->
+
+---
+
 ## Memberless Enum?
 
 In the same way where a member-less [keyword:struct] has exactly one possible value isomorphic to `()`, a variant-less [keyword:enum] has **no** possible value.
@@ -447,9 +570,39 @@ enum Impossible {}
 assert_eq!(0, std::mem::size_of::<Impossible>());
 ````
 
-This fact is exploited by [rust:std::convert::Infallible]: it is an un-instantiable type.
+This fact is exploited by [`Infallible`](rust:std::convert::Infallible): it is an un-instantiable type.
 
 <!-- _footer: '1: neutral element of multiplication, 0: neutral element of summation' -->
+
+---
+
+## Size of an [keyword:enum]
+
+An [keyword:enum] needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [keyword:enum].
+
+**Add**itionally, the [keyword:enum] must have space to store the (aligned) data for the largest variant.
+
+````rust marker:maybe_type_enum_sizes
+
+````
+
+---
+
+## Wait - how could a `Maybe<bool>` be 1 byte?
+
+A single byte containing both bool values and the marker? Yep!
+
+Why is this special? Well, it means that the compiler must peer into [keyword:bool] to find the possible bit patterns.
+
+This is called "niche optimization" and is crucial.
+
+````rust marker:maybe_type_size_of_references
+
+````
+
+---
+
+## C-Like Null-Checking APIs
 
 ---
 
@@ -493,14 +646,6 @@ typedef struct Value {
   };
 } Value;
 ````
-
----
-
-## Size of an [keyword:enum]
-
-An [keyword:enum] needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [keyword:enum].
-
-**Add**itionally, the [keyword:enum] must have space to store the (aligned) data for the largest variant.
 
 ---
 
