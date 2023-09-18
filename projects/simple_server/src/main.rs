@@ -29,7 +29,7 @@ async fn main() -> anyhow::Result<()> {
     }
     impl std::fmt::Display for Message {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            let from = self.from.as_ref().map(String::as_str).unwrap_or("nobody");
+            let from = self.from.as_deref().unwrap_or("nobody");
             write!(
                 f,
                 "Message from \"{}\" to \"{}\": \"{}\"",
@@ -88,11 +88,13 @@ where
     let mut line = String::new();
     let mut reader = BufReader::new(reader);
 
+    // marker-start break_loop_with_value
     loop {
         if let Ok(bytes_read) = reader.read_line(&mut line).await {
             if bytes_read == 0 {
                 break Ok(());
             }
+            // marker-end break_loop_with_value
             let msg = serde_json::from_str::<Message>(&line[..bytes_read])
                 .unwrap_or_else(|_e| Message::Bottle(line.clone()));
             tx.send(msg)

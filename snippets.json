@@ -49,6 +49,12 @@
       }
     },
     "projects/simple_server/src/main.rs": {
+      "break_loop_with_value": {
+        "content": "    loop {\n        if let Ok(bytes_read) = reader.read_line(&mut line).await {\n            if bytes_read == 0 {\n                break Ok(());\n            }",
+        "file": "projects/simple_server/src/main.rs",
+        "line": 90,
+        "col": 0
+      },
       "mutable_binding_in_destructuring_pattern": {
         "content": "        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;",
         "file": "projects/simple_server/src/main.rs",

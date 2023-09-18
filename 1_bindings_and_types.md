@@ -26,6 +26,8 @@ _paginate: false
 
 ---
 
+<!-- header: ' '-->
+
 ## There Are No Variables
 
 There are **Bindings** instead! It's a conceptual difference.
@@ -86,7 +88,7 @@ Example: Immutability is the trivial way to achieve safe sharing of data in more
 
 ---
 
-## Aside: `println!` and output formatting
+## Aside: [`println!`](rust:std::println) and output formatting
 
 To print a value using its "debug representation" (we'll get to it):
 
@@ -101,7 +103,7 @@ The `:?` means debug. `:#?` is debug with pretty-print. There are more options, 
 
 ---
 
-## Aside: `println!` and output formatting
+## Aside: [`println!`](rust:std::println) and output formatting
 
 A single identifier can be inlined in the format string, but expressions of any other sort do not work.
 
@@ -159,7 +161,7 @@ Note that this does keep the value alive until the end of the scope.
 
 ## Binding and Patterns
 
-The part after [keyword:let] is special - it's a **Pattern**.
+The part after [`let`](keyword:let) is special - it's a **Pattern**.
 
 Up to now we have only seen simple patterns such as `a`, `name`, or `_`.
 
@@ -176,7 +178,7 @@ There is more to this. Patterns will come in again and again later!
 
 ## Mutable Bindings
 
-A binding can simply be made mutable by the [keyword:mut](keyword:mut)
+A binding can simply be made mutable by the [`mut`](keyword:mut)
 
 ````rust tag:playground-button playground-before:$"fn main(){"$ playground-after:$"dbg!(a);}"$
 let mut a = 5;
@@ -224,7 +226,7 @@ We will see later exactly how this works.
 
 ---
 
-## Preview: Server Loop with only one `mut`
+## Preview: Server Loop with only one [`mut`](keyword:mut)
 
 ````rust marker:server_cliche_loop hide_other_markers
 

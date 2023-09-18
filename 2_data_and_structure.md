@@ -30,9 +30,9 @@ _paginate: false
 
 ![bg blur:6px left:33%](images/gears.png)
 
-"All of these things": `struct`
+"All of these things": [`struct`](keyword:struct)
 
-"Any of these things": `enum`
+"Any of these things": [`enum`](keyword:enum)
 
 And that's it!
 
@@ -40,9 +40,11 @@ Of course, there are implications; construction, deconstruction, pattern matchin
 
 ---
 
-## `struct`s ("Product Types")
+<!-- header: ' '-->
 
-A `struct` is just a "Plain Old Data" type. Not a class.
+## [`struct`](keyword:struct)s ("Product Types")
+
+A [`struct`](keyword:struct) is just a "Plain Old Data" type. Not a class.
 It is comprised of **members**.
 
 ````rust tag:playground-button
@@ -55,9 +57,9 @@ struct Message {
 
 ---
 
-## Con`struct`ion
+## Con[`struct`](keyword:struct)ion
 
-There is only one way to initialize a `struct`.
+There is only one way to initialize a [`struct`](keyword:struct).
 Looks a little like a C++ initializer list:
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
@@ -71,9 +73,9 @@ println!("Receiver: {}", msg.to);
 
 ---
 
-## Con`struct`ion
+## Con[`struct`](keyword:struct)ion
 
-Mutability extends to all struct members (because the mutability is part of the binding).
+Mutability extends to all [`struct`](keyword:struct) members (because the mutability is part of the binding).
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let mut msg = Message {
@@ -112,7 +114,7 @@ pub struct Vec<T> {
 
 ---
 
-## How to print the entire `struct`?
+## How to print the entire [`struct`](keyword:struct)?
 
 Well, just use [`println!`](rust:std::println)?
 
@@ -127,7 +129,7 @@ println!("{msg}");
 
 ---
 
-## How to print the entire `struct`?
+## How to print the entire [`struct`](keyword:struct)?
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -151,7 +153,7 @@ error[E0277]: `Message` doesn't implement `std::fmt::Display`
 
 ---
 
-## Trying to print struct with `:?`
+## Trying to print a [`struct`](keyword:struct) with `:?`
 
 ````rust tag:playground-button playground-before:$"struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -198,7 +200,7 @@ struct Message {
 }
 ````
 
-A `derive` may be used to extend a type with a derivable trait -
+A `derive` may be used to extend a type with a derivable [`trait`](keyword:trait) -
 more on this later.
 
 ---
@@ -214,7 +216,7 @@ let msg = Message {
 println!("{msg:#?}");
 ````
 
-`:#?` as a format string uses a pretty-printer. Normally, just use `:?`.
+<!-- _footer: '`:#?` as a format string uses a pretty-printer. Normally, just use `:?`.' -->
 
 ---
 
@@ -242,7 +244,7 @@ Message {
 ## Preview: Deriving Traits
 
 `derive`-ing just means generating Code for a type.
-This code comes in the form of a [keyword:trait] like [rust:std::fmt::Debug].
+This code comes in the form of a [`trait`](keyword:trait) like [`Debug`](rust:std::fmt::Debug).
 
 ````rust tag:playground-button
 #[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -301,7 +303,7 @@ Sometimes, it is not necessary/possible to give the members good names.
 struct Version(u32, u32, u32);
 ````
 
-Realistic example: [`SendError<T>`][rust:std::sync::mpsc::SendError]
+Realistic example: [`SendError<T>`](rust:std::sync::mpsc::SendError)
 
 In reality, this is rare on it's own (but we'll see why it exists).
 
@@ -317,7 +319,7 @@ struct StatelessCodec;
 
 Sometimes a unique type is required but it has no meaningful members.
 
-[docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html] struct has no ([keyword:pub]) members, used as a marker
+[`Elapsed`](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) struct has no ([`pub`](keyword:pub)) members, used as a marker
 
 ---
 
@@ -336,7 +338,7 @@ struct Bunch((), bool, u8); // 1 * 2 * 256 values
 
 ---
 
-## Size of a `struct`
+## Size of a [`struct`](keyword:struct)
 
 For a product type, the size in bytes is the sum of the sizes of the members.
 
@@ -344,7 +346,7 @@ For a product type, the size in bytes is the sum of the sizes of the members.
 println!("{}", std::mem::size_of::<Bunch>());
 ````
 
-This is true for member-less [keyword:struct]s too:
+This is true for member-less [`struct`](keyword:struct)s too:
 
 ````rust tag:playground-button playground-before:$"struct StatelessCodec; fn main() {"$ playground-after:$"}"$
 println!("{}", std::mem::size_of::<StatelessCodec>());
@@ -354,9 +356,9 @@ println!("{}", std::mem::size_of::<StatelessCodec>());
 
 ## Memory Layout, Alignment and Padding
 
-Rust **does not** have a stable ABI. The compiler is free to determine the memory layout of [keyword:struct] members as it pleases. It may align the members, or sort the members by size, for least padding.
+Rust **does not** have a stable ABI. The compiler is free to determine the memory layout of [`struct`](keyword:struct) members as it pleases. It may align the members, or sort the members by size, for least padding.
 
-To manually influence the binary layout of a struct:
+To manually influence the binary layout of a [`struct`](keyword:struct):
 
 ````rust marker:simple_badly_aligned_reprc_struct
 
@@ -399,7 +401,7 @@ We see that 2 bytes of padding were added, and the members are in order of defin
 
 ## Packed Structs
 
-You can **pack** struct members, of course.
+You can **pack** [`struct`](keyword:struct) members, of course.
 
 ````rust marker:simple_badly_aligned_reprpacked_struct
 
@@ -445,8 +447,8 @@ bytes: 1, 2, 4, 0, 0, 0
 
 ## Is there also a Sum Type then?
 
-An [keyword:enum] is a type with a number of variants.
-Each variant carries data. The enum is exactly one variant at any time.
+An [`enum`](keyword:enum) is a type with a number of variants.
+Each variant carries data. The [`enum`](keyword:enum) is exactly one variant at any time.
 
 ````rust tag:playground-button
 enum Event {
@@ -459,13 +461,13 @@ enum Event {
 }
 ````
 
-In the binary, this looks like a "discriminated union" in C (we'll see).
+<!-- _footer: 'In the binary, this looks like a "discriminated union" in C (we'll see).' -->
 
 ---
 
 ## What does "Sum Type" mean?
 
-The syntax in the variants is exactly like the syntax for `struct`s - that's no coincidence.
+The syntax in the variants is exactly like the syntax for [`struct`](keyword:struct)s - that's no coincidence.
 
 ````rust
 (): 1 possible value
@@ -524,20 +526,20 @@ Destructuring data in the simple 2-case distinction:
 
 ## How can we get at the data?
 
-For enums with more variants, it's more complex:
+For [`enum`](keyword:enum)s with more variants, it's more complex:
 
 ````rust marker:enum_type_maybe_match
 
 ````
 
-This is an exhaustive match over patterns. These patterns are just like in our chapter about [keyword:let].
+This is an exhaustive match over patterns. These patterns are just like in our chapter about [`let`](keyword:let).
 
 ---
 
 ## Deriving traits on enums
 
 Maybe a bit too much, but it's a realistic example.
-Note that `clap::ValueEnum` is defined in a foreign crate!
+Note that [`clap::ValueEnum`](docsrs:https://docs.rs/clap/latest/clap/trait.ValueEnum.html) is defined in a foreign crate!
 
 ````rust
 #[derive(
@@ -562,7 +564,7 @@ _footer: 'From: [Level](https://github.com/microsoft/vscode/blob/6b9583d2dc4140e
 
 ## Memberless Enum?
 
-In the same way where a member-less [keyword:struct] has exactly one possible value isomorphic to `()`, a variant-less [keyword:enum] has **no** possible value.
+In the same way where a member-less [`struct`](keyword:struct) has exactly one possible value isomorphic to `()`, a variant-less [`enum`](keyword:enum) has **no** possible value.
 
 ````rust tag:playground-button playground-wrap:main
 enum Impossible {}
@@ -576,11 +578,11 @@ This fact is exploited by [`Infallible`](rust:std::convert::Infallible): it is a
 
 ---
 
-## Size of an [keyword:enum]
+## Size of an [`enum`](keyword:enum)
 
-An [keyword:enum] needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [keyword:enum].
+An [`enum`](keyword:enum) needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [`enum`](keyword:enum).
 
-**Add**itionally, the [keyword:enum] must have space to store the (aligned) data for the largest variant.
+**Add**itionally, the [`enum`](keyword:enum) must have space to store the (aligned) data for the largest variant.
 
 ````rust marker:maybe_type_enum_sizes
 
@@ -592,7 +594,7 @@ An [keyword:enum] needs space to store the "discriminant": the value that marks 
 
 A single byte containing both bool values and the marker? Yep!
 
-Why is this special? Well, it means that the compiler must peer into [keyword:bool] to find the possible bit patterns.
+Why is this special? Well, it means that the compiler must peer into [`bool`](keyword:bool) to find the possible bit patterns.
 
 This is called "niche optimization" and is crucial.
 

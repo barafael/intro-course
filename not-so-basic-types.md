@@ -100,9 +100,9 @@ This means you can use it as a value in a datastructure normally.
 
 ## Notable Basic Types: Never
 
-The never type (`!` or `std::convert::Invallible`) is somewhat experimental still.
+The never type ([`!`](rust:std::convert::Infallible) or [`Infallible`](rust:std::convert::Infallible)) is somewhat experimental still.
 
-It denotes the return value of a diverging function, such as `loop {}`, `panic!()`, `return` or `break`.
+It denotes the return value of a diverging function, such as [`loop {}`](keyword:loop ), [`panic!()`](keyword:panic), [`return`](keyword:return) or [`break`](keyword:break).
 
 The never type is a subtype of every type, which means it can be converted to every type out there.
 
@@ -151,7 +151,7 @@ Simpler, with normal type specification:
 let parsed: usize = String::from("1337").parse().unwrap();
 ````
 
-This works for all types implementing [rust:std::str::FromStr] (see signature of [rust:str::parse]).
+This works for all types implementing [rust:`std::str::FromStr`] (see signature of [rust:`str::parse`]).
 
 ---
 
