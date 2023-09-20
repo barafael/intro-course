@@ -100,7 +100,7 @@ This type is widely used to represent time spans among the standard library and 
 
 ## Example from Standard Library: [`Vec<T>`](rust:std::vec::Vec)
 
-A [`Vec<T>`](rust:std::vec::Vec) is like a C++ `std::vector<T>` or Java `ArrayList<T>`.
+A [`Vec<T>`](rust:std::vec::Vec) is like a C++ _std::vector<T>_ or Java _ArrayList<T>_.
 
 The API is slightly different, but the idea is the same.
 
@@ -189,7 +189,8 @@ help: consider annotating `Message` with `#[derive(Debug)]`
 
 ## Just `derive` it!
 
-Extending a type with `derive`-able behaviour:
+A `derive` may be used to extend a type with a derivable [`trait`](keyword:trait) -
+more on this later.
 
 ````rust
 #[derive(Debug)]
@@ -200,12 +201,9 @@ struct Message {
 }
 ````
 
-A `derive` may be used to extend a type with a derivable [`trait`](keyword:trait) -
-more on this later.
-
 ---
 
-## Now printing is easy, actually
+## Now printing is easy, finally
 
 ````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -255,7 +253,9 @@ struct Message {
 }
 ````
 
-The Rust API guidelines recommend [eagerly deriving common traits](https://rust-lang.github.io/api-guidelines/interoperability.html#types-eagerly-implement-common-traits-c-common-traits). Above, traits like `Default` are possible but may violate semantics.
+The Rust API guidelines recommend [eagerly deriving common traits](https://rust-lang.github.io/api-guidelines/interoperability.html#types-eagerly-implement-common-traits-c-common-traits).
+
+<!-- _footer: 'Some raits like [`Default`](rust:Default) are derivable but may not make sense (like above).' -->
 
 ---
 
@@ -497,7 +497,7 @@ pub enum ErrorKind {
 ...
 ````
 
-Functions like [`rust:std::net::TcpStream::connect`] return [`rust:std::io::Error`], which wraps an [`ErrorKind`](rust:std::io::ErrorKind).
+Functions like [`TcpStream::connect`](rust:std::net::TcpStream::connect) return [`io::Error`](rust:std::io::Error), which wraps an [`ErrorKind`](rust:std::io::ErrorKind).
 
 ---
 
@@ -532,7 +532,8 @@ For [`enum`](keyword:enum)s with more variants, it's more complex:
 
 ````
 
-This is an exhaustive match over patterns. These patterns are just like in our chapter about [`let`](keyword:let).
+This is an exhaustive match over patterns.
+These patterns are just like in our chapter about [`let`](keyword:let).
 
 ---
 

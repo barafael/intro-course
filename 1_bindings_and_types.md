@@ -37,6 +37,17 @@ let age = 4;
 let name = "Eric";
 ````
 
+---
+
+## There Are No Variables
+
+There are **Bindings** instead! It's a conceptual difference.
+
+````rust tag:playground-button playground-wrap:main
+let age = 4;
+let name = "Eric";
+````
+
 **Values** are bound to **Names**.
 
 These bindings above are **immutable**!
@@ -82,7 +93,7 @@ An immutable binding to a value means:
 the value cannot be changed through that binding.
 
 The Mutable/Immutable distinction is important.
-It plays a role in many areas of Rust.
+It plays a role all over Rust.
 
 Example: Immutability is the trivial way to achieve safe sharing of data in more than one thread.
 
@@ -90,8 +101,7 @@ Example: Immutability is the trivial way to achieve safe sharing of data in more
 
 ## Aside: [`println!`](rust:std::println) and output formatting
 
-To print a value using its "debug representation" (we'll get to it):
-
+To print a value using its "debug representation":
 ````rust tag:playground-button playground-wrap:main
 let a = 4;
 let b = std::env::current_dir().unwrap();
@@ -99,7 +109,7 @@ println!("{:?}", a);
 println!("{:?}", b);
 ````
 
-The `:?` means debug. `:#?` is debug with pretty-print. There are more options, we'll see them later.
+<!-- _footer: 'The `:?` means debug. `:#?` is debug with pretty-print. There are more options, we'll see them later.' -->
 
 ---
 
@@ -112,6 +122,22 @@ let pi_half = std::f64::consts::PI / 2.0;
 // `f64` has not only debug but also display formatter, so `{a}` works
 println!("display: {pi_half}; 5 decimal places: {pi_half:.5}");
 ````
+
+---
+
+## Aside: [`println!`](rust:std::println) and output formatting
+
+A single identifier can be inlined in the format string, but expressions of any other sort do not work.
+
+````rust tag:playground-button playground-wrap:main
+let pi_half = std::f64::consts::PI / 2.0;
+// `f64` has not only debug but also display formatter, so `{a}` works
+println!("display: {pi_half * 2.0}");
+````
+
+---
+
+## Aside: Pretty-Printing
 
 The pretty-printer can come in handy:
 
@@ -172,7 +198,7 @@ let (before, after) = "012345678".split_at(4);
 println!("{before}, then {after}");
 ````
 
-There is more to this. Patterns will come in again and again later!
+<!-- _footer: 'There is more to this. Patterns will come in again and again later!' -->
 
 ---
 

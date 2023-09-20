@@ -16,6 +16,32 @@
         "col": 0
       }
     },
+    "projects/fizzbuzz_iterator/src/lib.rs": {
+      "first_20_elems": {
+        "content": "        let fizzbuzz = Fizzbuzz::default();\n        fizzbuzz.take(20).for_each(|elem| {\n            println!(\"{elem}\");\n        })",
+        "file": "projects/fizzbuzz_iterator/src/lib.rs",
+        "line": 28,
+        "col": 0
+      },
+      "fizzbuzz_iterator_trait_impl_1": {
+        "content": "impl Iterator for Fizzbuzz {\n    type Item = String;",
+        "file": "projects/fizzbuzz_iterator/src/lib.rs",
+        "line": 5,
+        "col": 0
+      },
+      "fizzbuzz_iterator_trait_impl_2": {
+        "content": "    fn next(&mut self) -> Option<Self::Item> {\n        self.0 += 1;\n        match (self.0 % 3 == 0, self.0 % 5 == 0) {\n            (true, true) => Some(\"Fizzbuzz!\".to_string()),\n            (false, true) => Some(\"Fizz\".to_string()),\n            (true, false) => Some(\"Buzz\".to_string()),\n            _ => Some(format!(\"{}\", self.0)),\n        }\n    }",
+        "file": "projects/fizzbuzz_iterator/src/lib.rs",
+        "line": 9,
+        "col": 0
+      },
+      "fizzbuzz_struct": {
+        "content": "#[derive(Default)]\nstruct Fizzbuzz(u64);",
+        "file": "projects/fizzbuzz_iterator/src/lib.rs",
+        "line": 0,
+        "col": 0
+      }
+    },
     "projects/maybe/src/lib.rs": {
       "enum_type_maybe": {
         "content": "pub enum Maybe<T> {\n    Just(T),\n    Nothing,\n}",
