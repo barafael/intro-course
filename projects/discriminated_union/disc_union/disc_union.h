@@ -8,14 +8,14 @@
  * For a production-quality version of this, see
  * [`serde_json::Value`].
  */
-// marker-start disc_union_tag_enum
+// marker-start:disc_union_tag_enum
 typedef enum Value_Tag {
   Null,
   Bool,
   Number,
   String,
 } Value_Tag;
-// marker-end disc_union_tag_enum
+// marker-end:disc_union_tag_enum
 
 typedef struct Value {
   Value_Tag tag;

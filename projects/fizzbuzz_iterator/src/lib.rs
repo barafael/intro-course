@@ -1,13 +1,13 @@
-// marker-start fizzbuzz_struct
+// marker-start:fizzbuzz_struct
 #[derive(Default)]
 struct Fizzbuzz(u64);
-// marker-end fizzbuzz_struct
+// marker-end:fizzbuzz_struct
 
-// marker-start fizzbuzz_iterator_trait_impl_1
+// marker-start:fizzbuzz_iterator_trait_impl_1
 impl Iterator for Fizzbuzz {
     type Item = String;
-    // marker-end fizzbuzz_iterator_trait_impl_1
-    // marker-start fizzbuzz_iterator_trait_impl_2
+    // marker-end:fizzbuzz_iterator_trait_impl_1
+    // marker-start:fizzbuzz_iterator_trait_impl_2
     fn next(&mut self) -> Option<Self::Item> {
         self.0 += 1;
         match (self.0 % 3 == 0, self.0 % 5 == 0) {
@@ -17,7 +17,7 @@ impl Iterator for Fizzbuzz {
             _ => Some(format!("{}", self.0)),
         }
     }
-    // marker-end fizzbuzz_iterator_trait_impl_2
+    // marker-end:fizzbuzz_iterator_trait_impl_2
 }
 
 #[cfg(test)]
@@ -26,11 +26,11 @@ mod test {
 
     #[test]
     fn first_20() {
-        // marker-start first_20_elems
+        // marker-start:first_20_elems
         let fizzbuzz = Fizzbuzz::default();
         fizzbuzz.take(20).for_each(|elem| {
             println!("{elem}");
         })
-        // marker-end first_20_elems
+        // marker-end:first_20_elems
     }
 }

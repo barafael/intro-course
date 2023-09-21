@@ -24,27 +24,27 @@ mod tests {
 
     #[test]
     fn badly_aligned_struct() {
-        // marker-start simple_badly_aligned_reprc_struct
+        // marker-start:simple_badly_aligned_reprc_struct
         #[repr(C)]
         struct A(u8, u8, u32);
-        // marker-end simple_badly_aligned_reprc_struct
+        // marker-end:simple_badly_aligned_reprc_struct
 
-        // marker-start print_meta
+        // marker-start:print_meta
         let a = A(1, 2, 4);
         print_type_info(&a);
-        // marker-end print_meta
+        // marker-end:print_meta
     }
 
     #[test]
     fn badly_aligned_struct_packed() {
-        // marker-start simple_badly_aligned_reprpacked_struct
+        // marker-start:simple_badly_aligned_reprpacked_struct
         #[repr(packed)]
         struct A(u8, u8, u32);
-        // marker-end simple_badly_aligned_reprpacked_struct
+        // marker-end:simple_badly_aligned_reprpacked_struct
 
-        // marker-start print_meta_packed
+        // marker-start:print_meta_packed
         let a = A(1, 2, 4);
         print_type_info(&a);
-        // marker-end print_meta_packed
+        // marker-end:print_meta_packed
     }
 }

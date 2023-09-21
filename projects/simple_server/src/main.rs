@@ -54,14 +54,14 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
-    // marker-start server_cliche_loop
+    // marker-start:server_cliche_loop
     loop {
-        // marker-start mutable_binding_in_destructuring_pattern
+        // marker-start:mutable_binding_in_destructuring_pattern
         let (mut socket, addr) = listener
             .accept()
             .await
             .context("Failed to accept on socket")?;
-        // marker-end mutable_binding_in_destructuring_pattern
+        // marker-end:mutable_binding_in_destructuring_pattern
 
         let tx = tx.clone();
 
@@ -72,7 +72,7 @@ async fn main() -> anyhow::Result<()> {
                 .expect("Failed to handle connection");
         });
     }
-    // marker-end server_cliche_loop
+    // marker-end:server_cliche_loop
 }
 
 async fn handle_connection<Reader, Writer>(
@@ -88,13 +88,13 @@ where
     let mut line = String::new();
     let mut reader = BufReader::new(reader);
 
-    // marker-start break_loop_with_value
+    // marker-start:break_loop_with_value
     loop {
         if let Ok(bytes_read) = reader.read_line(&mut line).await {
             if bytes_read == 0 {
                 break Ok(());
             }
-            // marker-end break_loop_with_value
+            // marker-end:break_loop_with_value
             let msg = serde_json::from_str::<Message>(&line[..bytes_read])
                 .unwrap_or_else(|_e| Message::Bottle(line.clone()));
             tx.send(msg)

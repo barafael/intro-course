@@ -88,7 +88,7 @@
         "col": 0
       },
       "server_cliche_loop": {
-        "content": "    loop {\n        // marker-start mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
+        "content": "    loop {\n        // marker-start:mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end:mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
         "file": "projects/simple_server/src/main.rs",
         "line": 56,
         "col": 0
