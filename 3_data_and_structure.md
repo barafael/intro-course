@@ -88,13 +88,27 @@ msg.from = Some("Nick".to_string());
 
 ---
 
-## Example from Standard Library: [`Duration`](rust:std::time::Duration)
+## Example [`struct`](keyword:struct) from Standard Library: [`Duration`](rust:std::time::Duration)
 
 A [`Duration`](rust:std::time::Duration) contains private members for seconds and nanoseconds.
 
 The type defines constants like [`SECOND`](rust:std::time::Duration::SECOND) and functions like [`from_millis`](rust:std::time::Duration::from_secs).
 
-This type is widely used to represent time spans among the standard library and external crates.
+---
+
+## Common crates using [`Duration`](rust:std::time::Duration)
+
+Like many types from [`std`](rust:std), [`Duration`](rust:std::time::Duration) is ubiquitously used throughout the ecosystem:
+
+[`timeout` in tokio](docsrs:https://docs.rs/tokio/latest/tokio/time/fn.timeout.html)
+
+[`connect_timeout` in tauri](docsrs:https://docs.rs/tauri/latest/tauri/api/http/struct.ClientBuilder.html#method.connect_timeout)
+
+[Cursor blinking in alacritty](https://github.com/alacritty/alacritty/blob/a58fb39b68caa34b073f66911c0ac6945f56eac2/alacritty/src/event.rs#L1017C1-L1019C1)
+
+[`with_timeout` in simple-tokio-watchdog](https://docs.rs/simple-tokio-watchdog/0.2.0/simple_tokio_watchdog/struct.Watchdog.html#method.with_timeout)
+
+[More on GH Code Search](https://github.com/search?type=code&auto_enroll=true&q=Duration%3A%3A+language%3ARust)
 
 ---
 
@@ -218,7 +232,7 @@ println!("{msg:#?}");
 
 ---
 
-## Now printing is easy, actually
+## Now printing is easy, finally
 
 ````rust tag:playground-button playground-before:$"#[derive(Debug)] struct Message { from: Option<String>, to: String, content: String, }fn main() {"$ playground-after:$"}"$
 let msg = Message {
@@ -319,13 +333,12 @@ struct StatelessCodec;
 
 Sometimes a unique type is required but it has no meaningful members.
 
-[`Elapsed`](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) struct has no ([`pub`](keyword:pub)) members, used as a marker
+[](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) struct has no ([`pub`](keyword:pub)) members, used as a marker
 
 ---
 
 ## Now, what is a Product Type?
 
-Just a term from type theory.
 The number of different values is the product of the number of different values of each member.
 
 ````rust
@@ -333,7 +346,7 @@ The number of different values is the product of the number of different values 
 bool: 2 possible different values
 u8: 256 possible different values
 
-struct Bunch((), bool, u8); // 1 * 2 * 256 values
+struct Bunch((), bool, u8): 1 * 2 * 256 = 512 values
 ````
 
 ---
@@ -364,6 +377,8 @@ To manually influence the binary layout of a [`struct`](keyword:struct):
 
 ````
 
+<div data-marpit-fragment>
+
 <table style="width:100%; table-layout: fixed; text-align: center">
     <tr>
         <td><code>u8</code>     </td>
@@ -377,6 +392,8 @@ To manually influence the binary layout of a [`struct`](keyword:struct):
     </tr>
 </table>
 
+</div>
+
 ---
 
 ## Memory Layout, Alignment and Padding
@@ -384,6 +401,8 @@ To manually influence the binary layout of a [`struct`](keyword:struct):
 ````rust marker:print_meta
 
 ````
+
+<div data-marpit-fragment>
 
 This prints:
 
@@ -394,6 +413,8 @@ bytes: 1, 2, 0, 0, 4, 0, 0, 0
 ````
 
 We see that 2 bytes of padding were added, and the members are in order of definition.
+
+</div>
 
 <!-- _footer: 'Note that relying on struct layout in C is very questionable' -->
 
@@ -407,6 +428,9 @@ You can **pack** [`struct`](keyword:struct) members, of course.
 
 ````
 
+<div data-marpit-fragment>
+
+
 <table style="width:100%; table-layout: fixed; text-align: center">
     <tr>
         <td><code>u8</code>     </td>
@@ -417,6 +441,8 @@ You can **pack** [`struct`](keyword:struct) members, of course.
         <td><code>u32[3]</code> </td>
     </tr>
 </table>
+
+</div>
 
 ---
 
@@ -600,6 +626,20 @@ Why is this special? Well, it means that the compiler must peer into [`bool`](ke
 This is called "niche optimization" and is crucial.
 
 ````rust marker:maybe_type_size_of_references
+
+````
+
+---
+
+## Wait - how could a `Maybe<bool>` be 1 byte?
+
+A single byte containing both bool values and the marker? Yep!
+
+Why is this special? Well, it means that the compiler must peer into [`bool`](keyword:bool) to find the possible bit patterns.
+
+This is called "niche optimization" and is crucial.
+
+````rust marker:maybe_type_size_of_boxes
 
 ````
 

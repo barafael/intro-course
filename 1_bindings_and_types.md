@@ -20,9 +20,27 @@ _paginate: false
 
 # Bindings and Types
 
+<br>
+
 ## Language Basics:<br>How to bind values to names
 
-![bg blur:1px brightness contrast:0.3](images/waves_orange_lightblue.png)
+![bg](images/waves_orange_lightblue.png)
+
+---
+
+## Overview
+
+![bg blur:4px left:33%](images/pattern.png)
+
+Binding values to names
+
+Console output basics
+
+Immutability and functional basics
+
+Mutability
+
+Basics of types
 
 ---
 
@@ -37,42 +55,26 @@ let age = 4;
 let name = "Eric";
 ````
 
----
-
-## There Are No Variables
-
-There are **Bindings** instead! It's a conceptual difference.
-
-````rust tag:playground-button playground-wrap:main
-let age = 4;
-let name = "Eric";
-````
+<div data-marpit-fragment>
 
 **Values** are bound to **Names**.
 
 These bindings above are **immutable**!
 
+</div>
+
 ---
 
 ## Immutable?
 
-Try this:
+Incrementing a "variable":
 
 ````rust tag:playground-button playground-wrap:main
 let age = 4;
 age += 1;
 ````
 
----
-
-## Immutable?
-
-Try this:
-
-````rust tag:playground-button playground-wrap:main
-let age = 4;
-age += 1;
-````
+<div data-marpit-fragment>
 
 ````
 error[E0384]: cannot assign twice to immutable variable `age`
@@ -83,6 +85,8 @@ error[E0384]: cannot assign twice to immutable variable `age`
 3 |     age += 1;
   |     ^^^^^^^^ cannot assign twice to immutable variable
 ````
+
+</div>
 
 ---
 
@@ -99,51 +103,137 @@ Example: Immutability is the trivial way to achieve safe sharing of data in more
 
 ---
 
-## Aside: [`println!`](rust:std::println) and output formatting
+## Quick HowTo: Console output
 
-To print a value using its "debug representation":
+Now that we know how to bind values, lets do something with them.
+
 ````rust tag:playground-button playground-wrap:main
-let a = 4;
-let b = std::env::current_dir().unwrap();
-println!("{:?}", a);
-println!("{:?}", b);
+let name = "Ulysses";
+println!("Hi, {}", name);
+println!("Nice to meet ya, {name}");
 ````
 
-<!-- _footer: 'The `:?` means debug. `:#?` is debug with pretty-print. There are more options, we'll see them later.' -->
+<div data-marpit-fragment>
+
+This uses the "display trait" for formatting.
+"Display" is intended for user-facing representation.
+
+</div>
 
 ---
 
-## Aside: [`println!`](rust:std::println) and output formatting
+## [`println!`](rust:std::println) and output formatting
 
-A single identifier can be inlined in the format string, but expressions of any other sort do not work.
+To print a value using its "debug representation":
+
+````rust tag:playground-button playground-wrap:main
+let dir = std::env::current_dir().unwrap();
+let id = std::process::id();
+
+println!("{:?}", dir);
+println!("{:?}", id);
+````
+
+<!-- _footer: 'The `:?` means debug. `:#?` is debug with pretty-print.' -->
+
+---
+
+## [`println!`](rust:std::println) and output formatting
+
+A single identifier can be inlined in the format string:
 
 ````rust tag:playground-button playground-wrap:main
 let pi_half = std::f64::consts::PI / 2.0;
-// `f64` has not only debug but also display formatter, so `{a}` works
 println!("display: {pi_half}; 5 decimal places: {pi_half:.5}");
 ````
 
+<!-- _footer: '`f64` has not only debug but also display formatter, so `{a}` works too' -->
+
 ---
 
-## Aside: [`println!`](rust:std::println) and output formatting
+## [`println!`](rust:std::println) and output formatting
 
-A single identifier can be inlined in the format string, but expressions of any other sort do not work.
+However, expressions of any other kind (other than identifiers) do not work:
 
 ````rust tag:playground-button playground-wrap:main
 let pi_half = std::f64::consts::PI / 2.0;
-// `f64` has not only debug but also display formatter, so `{a}` works
 println!("display: {pi_half * 2.0}");
 ````
 
+This may change in the future.
+
 ---
 
-## Aside: Pretty-Printing
+## Pretty-Printing
 
 The pretty-printer can come in handy:
 
 ````rust tag:playground-button playground-wrap:main
 println!("{:#?}", std::fs::read_to_string("nofile.txt"));
 ````
+
+<div data-marpit-fragment>
+
+````
+Err(
+    Os {
+        code: 2,
+        kind: NotFound,
+        message: "No such file or directory",
+    },
+)
+````
+
+</div>
+
+---
+
+## The [`dbg!`](rust:std::dbg!) macro
+
+It's kind of like [`println!`](rust:std::println).
+
+- uses [`Debug`](rust:std::fmt::Debug) formatting (`:?`)
+- does not require a format string
+- wraps around the expression it prints (`tee`-like)
+
+<div data-marpit-fragment>
+
+````rust tag:playground-button playground-wrap:main
+let filtered_sum: i32 = [1, 2, 3, 4, 5, 6, 7]
+    .into_iter()
+    .map(|e| dbg!(e + 10))
+    .filter(|e| e % 2 == 0)
+    .sum();
+````
+
+</div>
+
+---
+
+# Why the exclamation mark?
+
+It's a macro, meaning it can take an arbitrary number of arguments with varying types.
+It can also [`return`](keyword:return) the calling function.
+
+```rust tag:playground-button playground-wrap:main
+println!("path: {}", env!("PATH"));
+```
+
+[`env!`](rust:std::env!) is another macro. It evaluates environment variables _at compile time_.
+
+---
+
+## Aside: Macro Visualization
+
+<style scoped>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+![center width:800px](images/dbg-macro-graph.png)
+
+<!-- _footer: '[macro_railroad](https://github.com/lukaslueg/macro_railroad_ext)' -->
 
 ---
 
@@ -163,33 +253,53 @@ println!("{a}");
 // println!("{b}");
 ````
 
-Deconstruction at end of scope, in opposite order of construction.
+<!-- _footer: 'Deconstruction happens at end of a scope, in opposite order of construction.' -->
 
 ---
 
 ## Special Binding Names
 
+To immediately deconstruct a value when it is being bound:
+
 ````rust tag:playground-button playground-wrap:main
-// means: discard whatever is being bound here.
-let _ = i_dont_care();
+let _ = some_fn_with_effect();
 ````
 
-Note that this throws the value away immediately (by dtor).
+This can be used (sparingly) to get rid of "unused value" warnings.
 
-````rust tag:playground-button playground-wrap:main
+Real-life examples [here](https://github.com/search?type=code&auto_enroll=true&q=%22let+_+%22+language%3ARust+).
+
+---
+
+## Special Binding Names
+
+To suppress "unused binding" warnings:
+
+````rust tag:playground-button playground-before:$"fn some_function() -> String { todo!() } fn main() {"$ playground-after:$"}"$
 // means: "`_name` is unused, pls no compiler warnings".
 let _name = some_function();
 ````
 
-Note that this does keep the value alive until the end of the scope.
+<div data-marpit-fragment>
+
+````
+warning: unused variable: `name`
+ --> src/main.rs:6:9
+  |
+6 |     let name = some_function();
+  |         ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+````
+
+</div>
+
+<!-- _footer: 'In this case, the value is kept alive until the end of its scope.' -->
 
 ---
 
-## Binding and Patterns
+## Preview: Binding and Patterns
 
 The part after [`let`](keyword:let) is special - it's a **Pattern**.
-
-Up to now we have only seen simple patterns such as `a`, `name`, or `_`.
+Simple patterns: `a`, `name`, or `_`.
 
 Patterns can also destructure the value on the right-hand-side:
 
@@ -202,20 +312,36 @@ println!("{before}, then {after}");
 
 ---
 
+## Preview: Binding and Patterns
+
+Structures can unsurprisingly also be destructured:
+
+````rust
+struct Message { ... }
+...
+let Message { sender, content, tag, .. } = client.recv().await?;
+````
+
+---
+
 ## Mutable Bindings
 
-A binding can simply be made mutable by the [`mut`](keyword:mut)
+A binding can simply be made mutable by the keyword [`mut`](keyword:mut):
 
 ````rust tag:playground-button playground-before:$"fn main(){"$ playground-after:$"dbg!(a);}"$
 let mut a = 5;
 a += 4;
 ````
 
+<div data-marpit-fragment>
+
 This works inside destructuring patterns, too:
 
 ````rust marker:mutable_binding_in_destructuring_pattern
 
 ````
+
+</div>
 
 ---
 
@@ -236,11 +362,15 @@ Somewhat surprisingly, you can often get away without mutability.
 
 ## Preview: Iterator Combinators
 
+Mutation is not required when using iterator combinators:
+
 ````rust tag:playground-button playground-before:$"fn main(){"$ playground-after:$"dbg!(sum);}"$
 let sum = [1, 2, 3, 4].iter().fold(0, |acc, n| acc + n);
 ````
 
 Fold is like `reduce` in other languages.
+
+<div data-marpit-fragment>
 
 More concisely:
 
@@ -248,7 +378,9 @@ More concisely:
 let sum = [1, 2, 3, 4].iter().sum::<u8>();
 ````
 
-We will see later exactly how this works.
+</div>
+
+<!-- _footer: 'We will see later exactly how this works.' -->
 
 ---
 
@@ -260,9 +392,23 @@ We will see later exactly how this works.
 
 ---
 
+## Idiomatic Re-binding
+
+Re-binding to the same name drops the previous value.
+This is idiomatic in Rust!
+
+````rust tag:playground-button playground-before:$"use std::path::PathBuf; use serde::{Serialize, Deserialize}; #[derive(Debug, Serialize, Deserialize)] pub struct Config {    name: PathBuf,    limit: u8,}fn main() {"$ playground-after:$"}"$
+let config = std::fs::read_to_string("config.yaml").unwrap();
+let config: Config = serde_yaml::from_str(&config).unwrap();
+````
+
+<!-- _footer: 'This may seem unusual, at first.' -->
+
+---
+
 ## What about Types?
 
-Every binding has a type. You can usually omit it. The [Hindley-Milner Type Inference](https://reasoning.page/2022/12/11/hindley-milner-type-inference-in-rust/) algorithm determines the type of all bindings. No need to worry about it, it gets out of the way.
+Every binding has a type. It can usually be omitted.
 
 To manually annotate the type of a bound value:
 
@@ -270,6 +416,8 @@ To manually annotate the type of a bound value:
 let x: u8 = 5;
 let name: String = "Bohica".to_string();
 ````
+
+<!-- _footer: 'The [Hindley-Milner Type Inference](https://reasoning.page/2022/12/11/hindley-milner-type-inference-in-rust/) algorithm determines the type of all bindings.' -->
 
 ---
 
@@ -298,15 +446,7 @@ Sometimes the inference cannot help:
 let abs = 3.abs();
 ````
 
----
-
-## Ambiguous Integer Types
-
-Sometimes the inference cannot help:
-
-````rust tag:playground-button playground-wrap:main
-let abs = 3.abs();
-````
+<div data-marpit-fragment>
 
 ````
 error[E0689]: can't call method `abs` on ambiguous numeric type `{integer}`
@@ -321,6 +461,8 @@ help: you must specify a concrete type for this numeric value, like `i32`
   |               ~~~~~
 ````
 
+</div>
+
 ---
 
 ## Ambiguous Integer Types
@@ -331,11 +473,15 @@ With type annotation, it isn't a problem:
 let abs: u8 = 3.abs();
 ````
 
+<div data-marpit-fragment>
+
 Of course, you can also follow the compiler suggestion:
 
 ````rust tag:playground-button playground-wrap:main
 let abs = 3_i32.abs();
 ````
+
+</div>
 
 ---
 
@@ -348,8 +494,23 @@ let abs = 3.abs();
 let result = abs + 1u8;
 ````
 
-We will see later that function signatures require stating a full type.
+We will see later: function signatures require stating a full type.
 This vastly simplifies type inference (and obviously readability!).
+
+---
+
+## Review
+
+![bg right](images/stripes.png)
+
+- Bindings
+- Immutability
+- [`println!`](rust:std::println!) and other macros
+- Scope
+- Special bindings
+- Mutability
+- Rebinding
+- Types
 
 ---
 

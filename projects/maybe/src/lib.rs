@@ -59,10 +59,10 @@ mod test {
 
     #[test]
     fn maybe_type_box() {
-        // marker-start:maybe_type_size_of_references
+        // marker-start:maybe_type_size_of_boxes
         print_type_info(&Maybe::Just(Box::new(8)));
         print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));
         print_type_info(&Maybe::<Box<String>>::Nothing);
-        // marker-end:maybe_type_size_of_references
+        // marker-end:maybe_type_size_of_boxes
     }
 }

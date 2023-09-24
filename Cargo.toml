@@ -7,4 +7,5 @@ members = [
     "projects/simple_server",
     "projects/maybe",
     "projects/fizzbuzz_iterator",
+    "projects/gzip_roundtrip",
 ]

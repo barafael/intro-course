@@ -67,10 +67,16 @@
         "line": 19,
         "col": 0
       },
-      "maybe_type_size_of_references": {
+      "maybe_type_size_of_boxes": {
         "content": "        print_type_info(&Maybe::Just(Box::new(8)));\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
         "file": "projects/maybe/src/lib.rs",
         "line": 61,
+        "col": 0
+      },
+      "maybe_type_size_of_references": {
+        "content": "        print_type_info(&Maybe::Just(&1u8));\n        print_type_info(&Maybe::Just(&[2u64]));\n        print_type_info(&Maybe::<&str>::Nothing);",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 52,
         "col": 0
       }
     },
