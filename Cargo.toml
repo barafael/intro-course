@@ -8,4 +8,5 @@ members = [
     "projects/maybe",
     "projects/fizzbuzz_iterator",
     "projects/gzip_roundtrip",
+    "projects/simple_snippets",
 ]

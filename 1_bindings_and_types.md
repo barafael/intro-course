@@ -402,7 +402,7 @@ let config = std::fs::read_to_string("config.yaml").unwrap();
 let config: Config = serde_yaml::from_str(&config).unwrap();
 ````
 
-<!-- _footer: 'This may seem unusual, at first.' -->
+<!-- _footer: 'Note that the type may change in shadowed bindings.' -->
 
 ---
 

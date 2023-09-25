@@ -72,6 +72,24 @@ Assignments (via [`let`](keyword:let) or like above) really are re-bindings of n
 
 ---
 
+## Statement or Expression?
+
+Why is `++` not a thing in Rust?
+
+````rust tag:playground-button playground-wrap:main
+let mut age = 4;
+age++;
+````
+
+<div data-marpit-fragment>
+
+`++` is both an expression (evaluates) and a statement (has an effect).
+Execution order is unspecified in pathological cases (`c++ + c++`).
+
+</div>
+
+---
+
 ## Expressions in blocks
 
 A block can be used to group expressions.
