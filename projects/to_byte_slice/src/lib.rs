@@ -15,7 +15,7 @@ pub fn print_type_info<T>(value: &T) {
         std::any::type_name::<T>(),
         slice.len(),
         slice.iter().join(", ")
-    )
+    );
 }
 
 #[cfg(test)]

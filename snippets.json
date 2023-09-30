@@ -52,31 +52,49 @@
       "enum_type_maybe_match": {
         "content": "        match it {\n            Maybe::Just(\"something\") => println!(\"found \\\"something\\\"!\"),\n            Maybe::Just(\"data!\") => println!(\"found \\\"data!\\\"\"),\n            Maybe::Just(something_else) => println!(\"found {something_else}!\"),\n            Maybe::Nothing => println!(\"there was nothing in it...\"),\n        }",
         "file": "projects/maybe/src/lib.rs",
-        "line": 31,
+        "line": 54,
+        "col": 0
+      },
+      "maybe_fn": {
+        "content": "    pub fn is_just(&self) -> bool {\n        matches!(self, &Maybe::Just(_))\n    }",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 18,
+        "col": 0
+      },
+      "maybe_fn_mut": {
+        "content": "    pub fn take(&mut self) -> Maybe<T> {\n        std::mem::replace(self, Maybe::Nothing)\n    }",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 24,
+        "col": 0
+      },
+      "maybe_fn_once": {
+        "content": "    pub fn unwrap(self) -> T {\n        match self {\n            Maybe::Just(t) => t,\n            Maybe::Nothing => panic!(\"`unwrap` on a `Maybe::Nothing`!\"),\n        }\n    }",
+        "file": "projects/maybe/src/lib.rs",
+        "line": 9,
         "col": 0
       },
       "maybe_type_enum_sizes": {
         "content": "        print_type_info(&Maybe::Just(1u8));\n        print_type_info(&Maybe::<u16>::Nothing);\n        print_type_info(&Maybe::Just(false));",
         "file": "projects/maybe/src/lib.rs",
-        "line": 43,
+        "line": 66,
         "col": 0
       },
       "maybe_type_iflet": {
         "content": "        if let Maybe::Just(data) = it {\n            println!(\"got some data: {data:?}\");\n        } else {\n            println!(\"there's nothing in it.\");\n        }",
         "file": "projects/maybe/src/lib.rs",
-        "line": 19,
+        "line": 42,
         "col": 0
       },
       "maybe_type_size_of_boxes": {
         "content": "        print_type_info(&Maybe::Just(Box::new(8)));\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
         "file": "projects/maybe/src/lib.rs",
-        "line": 61,
+        "line": 84,
         "col": 0
       },
       "maybe_type_size_of_references": {
         "content": "        print_type_info(&Maybe::Just(&1u8));\n        print_type_info(&Maybe::Just(&[2u64]));\n        print_type_info(&Maybe::<&str>::Nothing);",
         "file": "projects/maybe/src/lib.rs",
-        "line": 52,
+        "line": 75,
         "col": 0
       }
     },
@@ -97,6 +115,44 @@
         "content": "    loop {\n        // marker-start:mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end:mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
         "file": "projects/simple_server/src/main.rs",
         "line": 56,
+        "col": 0
+      }
+    },
+    "projects/simple_snippets/src/lib.rs": {
+      "find_tv_fn": {
+        "content": "        fn find_tv<'a>(input: &'a str) -> Option<Selection<'a>> {\n            input\n                .split_whitespace()\n                .find(|token| token.contains(\"television\"))\n                .map(Selection)\n        }",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 36,
+        "col": 0
+      },
+      "selection_struct": {
+        "content": "        #[derive(Debug)]\n        struct Selection<'a>(&'a str);",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 31,
+        "col": 0
+      },
+      "serde_deserialize_with_shared_references_1": {
+        "content": "        #[derive(Debug, Deserialize, Serialize)]\n        struct Item<'a, 'b> {\n            name: &'a str,\n            description: &'b str,\n        }",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 54,
+        "col": 0
+      },
+      "serde_deserialize_with_shared_references_2": {
+        "content": "        let input = String::from(\n            r#\"{\n            \"name\":\"toothbrush\",\n            \"description\":\"used, good condition\"\n        }\"#,\n        );\n        let item: Item = serde_json::from_str(&input).unwrap();\n        //drop(input); // UNCOMMENT THIS\n        dbg!(item);",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 61,
+        "col": 0
+      },
+      "sharing_data_with_threads": {
+        "content": "        let data: &str = \"this is data!\";\n        let handle_1 = std::thread::spawn(move || {\n            println!(\"data 1: {data}\");\n        });",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 16,
+        "col": 0
+      },
+      "simple_mutex": {
+        "content": "        let value = Mutex::new(5);\n        let mut guard: MutexGuard<'_, i32> = value.lock().unwrap();\n        *guard = 1;\n        dbg!(*guard);",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 6,
         "col": 0
       }
     },
@@ -122,6 +178,26 @@
       "simple_badly_aligned_reprpacked_struct": {
         "content": "        #[repr(packed)]\n        struct A(u8, u8, u32);",
         "file": "projects/to_byte_slice/src/lib.rs",
+        "line": 39,
+        "col": 0
+      }
+    },
+    "projects/traffic_light/src/main.rs": {
+      "traffic_light_consume": {
+        "content": "impl TrafficLight<Yellow> {\n    pub fn red(self) -> TrafficLight<Red> {\n        TrafficLight {\n            marker: PhantomData::<Red>,\n        }\n    }\n}",
+        "file": "projects/traffic_light/src/main.rs",
+        "line": 55,
+        "col": 0
+      },
+      "traffic_light_default": {
+        "content": "impl Default for TrafficLight<Red> {\n    fn default() -> Self {\n        TrafficLight {\n            marker: PhantomData::<Red>,\n        }\n    }\n}",
+        "file": "projects/traffic_light/src/main.rs",
+        "line": 29,
+        "col": 0
+      },
+      "traffic_light_display": {
+        "content": "impl Display for TrafficLight<Red> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n        write!(f, \"Red traffic light\")\n    }\n}",
+        "file": "projects/traffic_light/src/main.rs",
         "line": 39,
         "col": 0
       }

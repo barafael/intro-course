@@ -6,6 +6,29 @@ pub enum Maybe<T> {
 }
 // marker-end:enum_type_maybe
 
+impl<T> Maybe<T> {
+    // marker-start:maybe_fn_once
+    pub fn unwrap(self) -> T {
+        match self {
+            Maybe::Just(t) => t,
+            Maybe::Nothing => panic!("`unwrap` on a `Maybe::Nothing`!"),
+        }
+    }
+    // marker-end:maybe_fn_once
+
+    // marker-start:maybe_fn
+    pub fn is_just(&self) -> bool {
+        matches!(self, &Maybe::Just(_))
+    }
+    // marker-end:maybe_fn
+
+    // marker-start:maybe_fn_mut
+    pub fn take(&mut self) -> Maybe<T> {
+        std::mem::replace(self, Maybe::Nothing)
+    }
+    // marker-end:maybe_fn_mut
+}
+
 #[cfg(test)]
 mod test {
     use std::{io::ErrorKind, sync::Arc, time::Duration};

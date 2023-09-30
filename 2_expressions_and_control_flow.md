@@ -277,7 +277,7 @@ let end = loop {
 
 ---
 
-## "Special Blocks": [`loop`](keyword:loop)
+## "Special Blocks": [`loop`][keyword:loop]
 
 In a function returning `Ok(())` or `Err(...)`
 

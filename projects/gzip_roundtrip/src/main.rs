@@ -1,4 +1,4 @@
-//! See [https://github.com/rust-lang/flate2-rs/blob/main/fuzz/fuzz_targets/fuzz_gz_roundtrip.rs]
+//! See <https://github.com/rust-lang/flate2-rs/blob/main/fuzz/fuzz_targets/fuzz_gz_roundtrip.rs>
 
 use flate2::read::GzDecoder;
 use flate2::write::GzEncoder;

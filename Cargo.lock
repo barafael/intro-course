@@ -590,6 +590,11 @@ dependencies = [
 [[package]]
 name = "simple_snippets"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "smallvec"
@@ -708,6 +713,10 @@ checksum = "f4f7f0dd8d50a853a531c426359045b1998f04219d88799810762cd4ad314234"
 dependencies = [
  "serde",
 ]
+
+[[package]]
+name = "traffic_light"
+version = "0.1.0"
 
 [[package]]
 name = "unicode-ident"

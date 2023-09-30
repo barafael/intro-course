@@ -9,4 +9,5 @@ members = [
     "projects/fizzbuzz_iterator",
     "projects/gzip_roundtrip",
     "projects/simple_snippets",
+    "projects/traffic_light",
 ]
