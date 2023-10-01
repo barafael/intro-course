@@ -1,5 +1,5 @@
 ---
-title: Rust und C++
+title: Collections in Rust and C++
 marp: true
 theme: rhea
 color: "dark-gray"
@@ -25,6 +25,8 @@ _paginate: false
 ## Äquivalenzen und Unterschiede
 
 ---
+
+<!-- header -->
 
 # Disclaimer (Triggerwarnung?)
 

@@ -88,11 +88,13 @@ msg.from = Some("Nick".to_string());
 
 ---
 
-## Example [`struct`](keyword:struct) from Standard Library: [`Duration`](rust:std::time::Duration)
+## [`struct`](keyword:struct) from Standard Library: [`Duration`](rust:std::time::Duration)
 
 A [`Duration`](rust:std::time::Duration) contains private members for seconds and nanoseconds.
 
 The type defines constants like [`SECOND`](rust:std::time::Duration::SECOND) and functions like [`from_millis`](rust:std::time::Duration::from_secs).
+
+Human-readable durations like "1ms" or "2 days" can be parsed to [`Duration`](rust:std::time::Duration)s using the [`humantime`](docsrs:https://docs.rs/humantime/latest/humantime/) crate.
 
 ---
 
@@ -333,7 +335,17 @@ struct StatelessCodec;
 
 Sometimes a unique type is required but it has no meaningful members.
 
-[](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) struct has no ([`pub`](keyword:pub)) members, used as a marker
+---
+
+## [`Elapsed`](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) empty tuple struct
+
+````rust
+pub struct Elapsed(());
+````
+
+The struct [](docsrs:https://docs.rs/tokio/latest/tokio/time/error/struct.Elapsed.html) has no ([`pub`](keyword:pub)) members. This prevents manual construction, leaving it open for the future at no cost.
+
+<!-- _footer: '[Elapsed in tokio](https://docs.rs/tokio/latest/src/tokio/time/error.rs.html#48)' -->
 
 ---
 
@@ -474,7 +486,8 @@ bytes: 1, 2, 4, 0, 0, 0
 ## Is there also a Sum Type then?
 
 An [`enum`](keyword:enum) is a type with a number of variants.
-Each variant carries data. The [`enum`](keyword:enum) is exactly one variant at any time.
+Each variant carries data.
+The [`enum`](keyword:enum) is exactly one variant at any time.
 
 ````rust tag:playground-button
 enum Event {
@@ -607,7 +620,7 @@ This fact is exploited by [`Infallible`](rust:std::convert::Infallible): it is a
 
 ## Size of an [`enum`](keyword:enum)
 
-An [`enum`](keyword:enum) needs space to store the "discriminant": the value that marks the valid variant. The size of the discriminant depends on the number of variants of the [`enum`](keyword:enum).
+An [`enum`](keyword:enum) needs space to store the **discriminant**: the value that marks the valid variant. The size of the **discriminant** depends on the number of variants of the [`enum`](keyword:enum).
 
 **Add**itionally, the [`enum`](keyword:enum) must have space to store the (aligned) data for the largest variant.
 
@@ -646,6 +659,68 @@ This is called "niche optimization" and is crucial.
 ---
 
 ## C-Like Null-Checking APIs
+
+````cpp
+char* x = get_item(12);
+if (x == nullptr) {
+    return -1;
+}
+````
+
+Equivalent to:
+
+````rust
+fn get_item(i32) -> Option<Box<i32>>;
+let x = get_item(12);
+if x.is_none() {
+    return -1;
+}
+````
+
+<!-- _footer: 'This is NOT idiomatic rust!' -->
+
+---
+
+## C-Like Null-Checking APIs
+
+````cpp
+char* x = get_item(12);
+if (x == nullptr) {
+    return -1;
+}
+````
+
+Equivalent to:
+
+````rust
+fn get_item(i32) -> Option<Box<i32>>;
+let x = match get_item(12) {
+    Some(x) => x,
+    None => return -1,
+};
+````
+
+<!-- _footer: 'Still not completely idiomatic rust!' -->
+
+---
+
+## C-Like Null-Checking APIs
+
+````cpp
+char* x = get_item(12);
+if (x == nullptr) {
+    return -1;
+}
+````
+
+Equivalent to:
+
+````rust
+fn get_item(i32) -> Option<Box<i32>>;
+let Some(x) = get_item(12) else {
+    return -1;
+}
+````
 
 ---
 
@@ -692,7 +767,27 @@ typedef struct Value {
 
 ---
 
+## Review
+
+![bg right height:600px](images/gears_2.gif)
+
+<style scoped>
+li {
+    font-size: 30px;
+}
+</style>
+
+- structs collect members
+- enums discern variants
+- For printing, just derive Debug
+- Memory Layout is pretty minimal:
+  - structs look like dense C structs
+  - enums look like C tagged unions
+  - Some types have size 0!
+
+---
+
 ## Questions?
 
-<iframe style="margin-top:5%" width="100%" height="80%" src="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn+main%28%29+%7B%7D%0A">
+<jframe style="margin-top:5%" width="100%" height="80%" src="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn+main%28%29+%7B%7D%0A">
 </iframe>

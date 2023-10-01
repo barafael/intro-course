@@ -17,7 +17,6 @@ _footer: ''
 _paginate: false
  -->
 <!-- _class: lead -->
-
 # Expressions and Control Flow
 
 ![bg blur:1px brightness:1.1 contrast:1.3](images/triangles_blue_to_orange.png)
@@ -90,6 +89,22 @@ Execution order is unspecified in pathological cases (`c++ + c++`).
 
 ---
 
+## Statements
+
+There are only few actual statements:
+
+````rust tag:playground-button playground-wrap:main
+let mut a = 4;
+a += 3;
+fn reset(counter: &mut i32) {
+    *counter = 0;
+}
+````
+
+<!-- calling a mutating function of course can be considered a statement -->
+
+---
+
 ## Expressions in blocks
 
 A block can be used to group expressions.
@@ -121,12 +136,12 @@ When empty, or when terminated by a `;`, the type of a block will be [`()`](http
 ````rust tag:playground-button playground-wrap:main
 { };
 { 5; };
-{ println!("println returns `()`")};
+{ println!("println returns `()`") };
 ````
 
 ---
 
-## "Special Blocks": `if`
+## "Special Blocks": [`if`](keyword:if)
 
 If-expressions can be viewed as special block expressions.
 
@@ -138,7 +153,7 @@ This is just like the "ternary operator", but generalized.
 
 ---
 
-## "Special Blocks": `if`
+## "Special Blocks": [`if`](keyword:if)
 
 The syntax differs quite a bit from other languages:
 
@@ -203,6 +218,31 @@ It's the only subtype that exists (it can become any other type).
 
 ---
 
+## "Special Blocks": [`match`](keyword:match)
+
+TODO
+````rust tag:playground-button playground-wrap:main
+enum PageEvent {
+    Load,
+    KeyPress(char),
+    Paste(String),
+    Click { x: i64, y: i64 },
+}
+
+impl PageEvent {
+    pub fn show(&self) -> String {
+        match self {
+            PageEvent::Load => "Page loaded".to_string(),
+            PageEvent::KeyPress(c) => format!("Key {c} pressed"),
+            PageEvent::Paste(content) => format!("Pasted content {content}"),
+            PageEvent::Click { x, y } => format!("Clicked at (x: {x}, y: {y})"),
+        }
+    }
+}
+````
+
+---
+
 ## Match as a generalized `else-if` chain
 
 ````rust tag:playground-button playground-wrap:main
@@ -213,6 +253,29 @@ let text = match small {
     _ => "a lot...",
 };
 ````
+
+---
+
+TODO: if let
+
+---
+
+TODO: let-else
+
+let GeoJson::FeatureCollection(features) = geojson else {
+    return Err(format_err_status!(
+        422,
+        "GeoJSON was not a Feature Collection",
+    ));
+};
+
+
+pub fn div(val: Value, _env: &mut Environment) -> Result<Value, anyhow::Error> {
+    let Value::Sexpr(s) = val else {
+        return Err(anyhow::anyhow!("non-sexpr passed to 'div'"));
+    };
+    s.div()
+}
 
 ---
 
@@ -305,7 +368,21 @@ let end = loop {
 
 ---
 
-## "Special Blocks": [Functions!](keyword:fn)
+TODO: while-let
+
+while let Ok(e) = page.next_event() {
+    let event = match e.event {
+        PageEvent::Load => "Page loaded".to_string(),
+        PageEvent::KeyPress(c) => format!("Key {c} pressed"),
+        PageEvent::Paste(content) => format!("Pasted content {content}"),
+        PageEvent::Click { x, y } => format!("Clicked at (x: {x}, y: {y})"),
+    };
+    println!("Event {event} logged at {}", e.timestamp);
+};
+
+---
+
+## "Special Blocks": [`Functions`](keyword:fn)
 
 A function can be seen as a special kind of block:
 
@@ -315,6 +392,47 @@ fn random() -> u32 {
       // guaranteed to be random.
 }
 ````
+
+---
+
+## "Special Blocks": [`Functions`](keyword:fn)
+
+Omitting the return type makes the function return `()`, called "Unit":
+
+````rust tag:playground-button
+fn trigger(&mut self) {
+    // ...
+}
+````
+
+---
+
+## "Special Blocks": [`Functions`](keyword:fn)
+
+Special return type: [`std::convert::Infallible`](rust:std::convert::Infallible)
+
+````rust tag:playground-button
+fn main() -> ! {
+    loop {
+        let input = read_input().await;
+        dbg!(input);
+    }
+}
+````
+
+---
+
+## The `main` function
+
+````rust tag:playground-button playground-wrap:main
+fn main() -> anyhow::Result<()> {
+    Err(anyhow::anyhow!("Not feeling it today"))
+}
+````
+
+`main` must return a type that is a [`Termination`](https://doc.rust-lang.org/std/process/trait.Termination.html#implementors).
+
+Examples: [`()`](https://doc.rust-lang.org/std/primitive.unit.html), [`!`](rust:std::convert::Infallible), [`ExitCode`](rust:std::process::ExitCode), and [`Result<T, E>`](rust:std::result::Result)
 
 ---
 
@@ -345,6 +463,47 @@ Equivalent, but less nice:
     })
     .sum::<i32>();
 ````
+
+---
+
+## Expression Orientation
+
+These are perfectly fine snippets:
+
+````rust tag:playground-button playground-wrap:main
+let value = if 'C'.is_uppercase() { 5 } else { 8 };
+
+let next = match value {
+    5 => 6,
+    8 => 9,
+    n if n % 2 == 0 => n + 1,
+    _ => -1,
+};
+````
+
+## Expression Orientation
+
+Wrap expressions in other expressions:
+
+````rust tag:playground-button playground-wrap:main
+fn next_value(previous: i32) -> i32 {
+    match previous {
+        5 => 6,
+        8 => 9,
+        n if n % 2 == 0 => n + 1,
+        _ => -1,
+    }
+}
+````
+
+---
+
+## Review
+
+- Expressions can be used anywhere
+- `if`, `loop`, and `match` are  also just expressions
+- Function bodies are one large expression
+- Control flow and expressions are intertwined
 
 ---
 

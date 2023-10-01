@@ -30,7 +30,7 @@ _paginate: false
 
 ## Overview
 
-![bg blur:6px left:33%](../images/gears.png)
+![bg blur:6px left:33%](images/gears.png)
 
 Install Rust and the toolchain
 
@@ -42,7 +42,7 @@ Help choosing an IDE ecosystem
 
 <!-- header: ' ' -->
 
-## [rustup.rs](rustup.rs) - The Rust Toolschain Installer
+## [rustup.rs](rustup.rs) - The Rust Toolchain Installer
 
 "The benefit of using the Rustup toolchain manager instead of the standalone prepackaged Rust in the software repository is the ability to install multiple toolchains (...) for multiple targets (...) and architectures (...)."
 
@@ -133,7 +133,7 @@ Zwischendurch gab es Racer, RLS, …
 
 ## Plugins für VSCode
 
-![bg right height:600px](images/plugins.png)
+![bg right height:600px](images/1_getting_started/plugins.png)
 
 Empfohlen (mit Reihenfolge):
 
@@ -159,11 +159,11 @@ Aber: Achtung, kann manchmal große ungewollte Diffs erzeugen
 
 Quickfixes:
 
-![center](images/ra-1.png)
+![center](images/1_getting_started/ra-1.png)
 
 wird zu:
 
-![center](images/ra-2.png)
+![center](images/1_getting_started/ra-2.png)
 
 ---
 
@@ -171,7 +171,7 @@ wird zu:
 
 Crate Version Management:
 
-![center height:400px](images/crate-version-management.png)
+![center height:400px](images/1_getting_started/crate-version-management.png)
 
 ---
 
@@ -179,7 +179,7 @@ Crate Version Management:
 
 Inline Errors:
 
-![center width:1100px](images/error-lens.png)
+![center width:1100px](images/1_getting_started/error-lens.png)
 
 ---
 
@@ -187,7 +187,7 @@ Inline Errors:
 
 Funktionieren auch für unit tests!
 
-![center width:1100px](images/inline-run-debug.png)
+![center width:1100px](images/1_getting_started/inline-run-debug.png)
 
 ---
 
@@ -195,7 +195,7 @@ Funktionieren auch für unit tests!
 
 Manchmal etwas nervig, aber super praktisch:
 
-![center width:1100px](images/docs-on-hover.png)
+![center width:1100px](images/1_getting_started/docs-on-hover.png)
 
 ---
 
@@ -203,19 +203,19 @@ Manchmal etwas nervig, aber super praktisch:
 
 Gerne verwendet auch im kommerziellen Umfeld
 
-![center height:400px](images/jetbrains-rust-plugin.png)
+![center height:400px](images/1_getting_started/jetbrains-rust-plugin.png)
 
 ---
 
 ## JetBrains Hover Tips
 
-![center height:400px](images/jetbrains-hover-tip.png)
+![center height:400px](images/1_getting_started/jetbrains-hover-tip.png)
 
 ---
 
 ## JetBrains Inline Docs
 
-![center width:550px](images/jetbrains-docs.png)
+![center width:550px](images/1_getting_started/jetbrains-docs.png)
 
 ---
 
@@ -223,7 +223,7 @@ Gerne verwendet auch im kommerziellen Umfeld
 
 Sehr komfortabel direkt eingebaut, auch Coverage
 
-![bg right height:450px](images/profiler.png)
+![bg right height:450px](images/1_getting_started/profiler.png)
 
 ---
 
@@ -251,12 +251,12 @@ td {
 <table>
 <td>
 
-![width:500px](images/jetbrains-cargo.toml.png)
+![width:500px](images/1_getting_started/jetbrains-cargo.toml.png)
 
 </td>
 <td>
 
-![width:500px](images/jetbrains-dependency-browser.png)
+![width:500px](images/1_getting_started/jetbrains-dependency-browser.png)
 
 </td>
 </tr>
@@ -266,4 +266,4 @@ td {
 
 ## JetBrains Code Inspector
 
-![width:900px](images/jetbrains-inspect-code.png)
+![width:900px](images/1_getting_started/jetbrains-inspect-code.png)

@@ -22,7 +22,7 @@ _paginate: false
 
 <br>
 
-## Language Basics:<br>How to bind values to names
+## How to bind values to names
 
 ![bg](images/waves_orange_lightblue.png)
 
@@ -130,8 +130,8 @@ To print a value using its "debug representation":
 let dir = std::env::current_dir().unwrap();
 let id = std::process::id();
 
-println!("{:?}", dir);
-println!("{:?}", id);
+println!("dir: {:?}", dir);
+println!("id: {:?}", id);
 ````
 
 <!-- _footer: 'The `:?` means debug. `:#?` is debug with pretty-print.' -->
@@ -273,11 +273,10 @@ Real-life examples [here](https://github.com/search?type=code&auto_enroll=true&q
 
 ## Special Binding Names
 
-To suppress "unused binding" warnings:
+An unused variable:
 
 ````rust tag:playground-button playground-before:$"fn some_function() -> String { todo!() } fn main() {"$ playground-after:$"}"$
-// means: "`_name` is unused, pls no compiler warnings".
-let _name = some_function();
+let name = some_function();
 ````
 
 <div data-marpit-fragment>
@@ -292,7 +291,18 @@ warning: unused variable: `name`
 
 </div>
 
-<!-- _footer: 'In this case, the value is kept alive until the end of its scope.' -->
+---
+
+## Special Binding Names
+
+To suppress "unused binding" warnings:
+
+````rust tag:playground-button playground-before:$"fn some_function() -> String { todo!() } fn main() {"$ playground-after:$"}"$
+// means: "`_name` is unused, pls no compiler warnings".
+let _name = some_function();
+````
+
+<!-- _footer: 'In this case, the value is still kept alive until the end of its scope.' -->
 
 ---
 
@@ -379,8 +389,6 @@ let sum = [1, 2, 3, 4].iter().sum::<u8>();
 ````
 
 </div>
-
-<!-- _footer: 'We will see later exactly how this works.' -->
 
 ---
 
@@ -494,8 +502,8 @@ let abs = 3.abs();
 let result = abs + 1u8;
 ````
 
-We will see later: function signatures require stating a full type.
-This vastly simplifies type inference (and obviously readability!).
+Function signatures require stating a full type.
+This vastly simplifies type inference (and improves readability!).
 
 ---
 

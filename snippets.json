@@ -119,6 +119,12 @@
       }
     },
     "projects/simple_snippets/src/lib.rs": {
+      "config_leak": {
+        "content": "        let config = Config::load_from_disk()?;\n        let config: &'static _ = Box::leak(Box::new(config));\n        dbg!(config); // config may now be handed out among threads.",
+        "file": "projects/simple_snippets/src/lib.rs",
+        "line": 85,
+        "col": 0
+      },
       "find_tv_fn": {
         "content": "        fn find_tv<'a>(input: &'a str) -> Option<Selection<'a>> {\n            input\n                .split_whitespace()\n                .find(|token| token.contains(\"television\"))\n                .map(Selection)\n        }",
         "file": "projects/simple_snippets/src/lib.rs",

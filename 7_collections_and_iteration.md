@@ -27,13 +27,15 @@ _paginate: false
 
 ### It's Iterators all the way down!
 
+![bg](images/intro.png)
+
 ---
 
-### How are Algorithms and Datastructures organized in [`std`](rust:std)
+## How are Algorithms and Datastructures organized in [`std`](rust:std)?
 
-### What are the differences between the Rust collections and the containers in the C++ STL?
+## What are the differences between the Rust collections and the containers in the C++ STL?
 
-### Overview of the idiomatic APIs in [`std`](rust:std)
+## Overview of the idiomatic APIs in [`std`](rust:std)?
 
 ---
 
@@ -273,6 +275,9 @@ Filter nimmt ein Prädikat und behält nur die Elemente des Iterators, für welc
 ```rust
 let mut iter: Filter<Iter<'_, i32>, _> = a.iter().filter(|x| x.is_positive());
 ```
+
+<div data-marpit-fragment>
+
 einfacher:
 ```rust
 let mut iter: Filter<_, _> = a.iter().filter(|x| x.is_positive());
@@ -281,6 +286,8 @@ let mut iter: Filter<_, _> = a.iter().filter(|x| x.is_positive());
 ```rust
 let mut iter = a.iter().filter(|x| x.is_positive());
 ```
+
+</div>
 
 <!-- _footer: "[Playground Link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+core%3A%3Aiter%3A%3AFilter%3B%0Ause+std%3A%3Aslice%3A%3AIter%3B%0A%0Afn+main%28%29+%7B%0A++++let+a+%3D+%5B0i32%2C+-1%2C+2%2C+-3%2C+4%5D%3B%0A++++let+mut+iter%3A+Filter%3CIter%3C%27_%2C+i32%3E%2C+_%3E+%3D+a.iter%28%29.filter%28%7Cx%7C+x.is_positive%28%29%29%3B%0A++++%0A++++while+let+Some%28n%29+%3D+iter.next%28%29+%7B%0A++++++++dbg%21%28n%29%3B%0A++++%7D%0A%7D%0A)" -->
 
@@ -499,77 +506,9 @@ edges.entry(dv.init).and_modify(|e| *e += 1).or_insert(1);
 
 ---
 
-<!-- _class: lead -->
+## Review
 
-## Static Table Patterns
-
----
-
-## Perfect Hash Function
-
-Die [phf](https://github.com/rust-phf/rust-phf) Crate erstellt statische Tabellen zur Compilezeit und ermöglicht so das Lookup mithilfe einer "Perfekten Hashfunktion".
-
-```rust
-static KEYWORDS: phf::Map<&'static str, Keyword> = phf_map! {
-    "loop" => Keyword::Loop,
-    "continue" => Keyword::Continue,
-    "break" => Keyword::Break,
-    "fn" => Keyword::Fn,
-    "extern" => Keyword::Extern,
-};
-```
-
-<!-- _footer: "[Offizielles Beispiel](https://docs.rs/phf/latest/phf/index.html#example-with-the-macros-feature-enabled)" -->
-
----
-
-## Vor- und Nachteile von PHF
-
-* unschlagbar schnell
-* unterstützt auch ordered und unordered sets
-
-Aber:
-* Die Keys müssen Literale sein (integer, characters, oder strings)
-* Die Tabelle und ihre Inhalte sind vollkommen statisch
-* Sowohl die Makro-API als auch der Codegenerator im `build.rs` sind nicht besonders idiomatisch
-
-<!-- _footer: "[Playground Link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+phf%3A%3Aphf_map%3B%0A%0A%23%5Bderive%28Clone%29%5D%0Apub+enum+Keyword+%7B%0A++++Loop%2C%0A++++Continue%2C%0A++++Break%2C%0A++++Fn%2C%0A++++Extern%2C%0A%7D%0A%0Astatic+KEYWORDS%3A+phf%3A%3AMap%3C%26%27static+str%2C+Keyword%3E+%3D+phf_map%21+%7B%0A++++%22loop%22+%3D%3E+Keyword%3A%3ALoop%2C%0A++++%22continue%22+%3D%3E+Keyword%3A%3AContinue%2C%0A++++%22break%22+%3D%3E+Keyword%3A%3ABhttps://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+std%3A%3A%7Bsync%3A%3AMutex%2C+collections%3A%3AHashMap%7D%3B%0Ause+once_cell%3A%3Async%3A%3ALazy%3B%0A%0Astatic+GLOBAL_DATA%3A+Lazy%3CMutex%3CHashMap%3Ci32%2C+String%3E%3E%3E+%3D+Lazy%3A%3Anew%28%7C%7C+%7B%0A++++let+mut+m+%3D+HashMap%3A%3Anew%28%29%3B%0A++++m.insert%2813%2C+%22Spica%22.to_string%28%29%29%3B%0A++++m.insert%2874%2C+%22Hoyten%22.to_string%28%29%29%3B%0A++++Mutex%3A%3Anew%28m%29%0A%7D%29%3B%0A%0Afn+main%28%29+%7B%0A++++println%21%28%22%7B%3A%3F%7D%22%2C+GLOBAL_DATA.lock%28%29.unwrap%28%29%29%3B%0A%7Dreak%2C%0A++++%22fn%22+%3D%3E+Keyword%3A%3AFn%2C%0A++++%22extern%22+%3D%3E+Keyword%3A%3AExtern%2C%0A%7D%3B%0A%0Apub+fn+parse_keyword%28keyword%3A+%26str%29+-%3E+Option%3CKeyword%3E+%7B%0A++++KEYWORDS.get%28keyword%29.cloned%28%29%0A%7D%0A)" -->
-
----
-
-## Lazy Static Mutable Map
-
-Ein Mutex schützt eine globale HashMap, welche beim ersten Abruf (lazy) populiert wird:
-
-```rust
-static GLOBAL_DATA: Lazy<Mutex<HashMap<i32, String>>> = Lazy::new(|| {
-    let mut m = HashMap::new();
-    m.insert(13, "Spica".to_string());
-    m.insert(74, "Hoyten".to_string());
-    Mutex::new(m)
-});
-```
-
-<!-- _footer: "[Playground Link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+std%3A%3A%7Bsync%3A%3AMutex%2C+collections%3A%3AHashMap%7D%3B%0Ause+once_cell%3A%3Async%3A%3ALazy%3B%0A%0Astatic+GLOBAL_DATA%3A+Lazy%3CMutex%3CHashMap%3Ci32%2C+String%3E%3E%3E+%3D+Lazy%3A%3Anew%28%7C%7C+%7B%0A++++let+mut+m+%3D+HashMap%3A%3Anew%28%29%3B%0A++++m.insert%2813%2C+%22Spica%22.to_string%28%29%29%3B%0A++++m.insert%2874%2C+%22Hoyten%22.to_string%28%29%29%3B%0A++++Mutex%3A%3Anew%28m%29%0A%7D%29%3B%0A%0Afn+main%28%29+%7B%0A++++println%21%28%22%7B%3A%3F%7D%22%2C+GLOBAL_DATA.lock%28%29.unwrap%28%29%29%3B%0A%7D)" -->
-
----
-
-## Vor- und Nachteile LSMM
-
-* Konzeptionell einfach zu verstehen
-* Thread Safe trotz Global Mutable State
-* HashMap ist relativ flexibel und hat eine riesige gute API
-
-Aber:
-
-* Mutex
-* Initiale Konstruktion der HashMap muss ohne Argumente auskommen
-
----
-
-## Rückschau
-
-* Details über Iteratoren
-* Kombinatoren für Iteratoren
-* Die HashMap Entry API
-* Static Table Patterns
+ - Collections
+ - Iterators
+ - Iterator Combinators
+ - The HashMap Entry API
