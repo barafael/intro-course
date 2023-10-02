@@ -109,6 +109,12 @@ fn reset(counter: &mut i32) {
 }
 ````
 
+<div data-marpit-fragment>
+
+Functional languages have generally only expressions. Rust strikes a balance here between conceptional purity and being honest about what's happening.
+
+</div>
+
 <!-- calling a mutating function of course can be considered a statement -->
 
 ---
@@ -228,7 +234,8 @@ It's the only subtype that exists (it can become any other type).
 
 ## "Special Blocks": [`match`](keyword:match)
 
-TODO
+Say you have this enumeration:
+
 ````rust tag:playground-button playground-wrap:main
 enum PageEvent {
     Load,
@@ -236,7 +243,17 @@ enum PageEvent {
     Paste(String),
     Click { x: i64, y: i64 },
 }
+````
 
+How would you match its patterns?
+
+---
+
+## "Special Blocks": [`match`](keyword:match)
+
+[`match`](keyword:match) on it!
+
+````rust tag:playground-button playground-before:$" enum PageEvent { Load, KeyPress(char), Paste(String), Click { x: i64, y: i64 }, }fn main(){ "$ playground-after:$"}"$
 impl PageEvent {
     pub fn show(&self) -> String {
         match self {
@@ -253,37 +270,66 @@ impl PageEvent {
 
 ## Match as a generalized `else-if` chain
 
+An else-if can kind-of sub for a match, but really match is so much cooler.
+
 ````rust tag:playground-button playground-wrap:main
 let small = 2;
 let text = match small {
     1 => "one",
     2 => "two",
-    _ => "a lot...",
+    3..=5 => "several",
+    n if n < 100 => "lots...",
+    _ => "so many!",
 };
 ````
 
 ---
 
-TODO: if let
+## Specialized [`match`](keyword:match): `if let`
+
+Sometimes, just one pattern is interesting.
+
+````rust tag:playground-button playground-wrap:main
+if let Err(e) = std::fs::read_to_string("nothing.txt") {
+    eprintln!("Error reading nothing: {e:?}");
+}
+````
+
+This comes in particularly handy with error handling.
 
 ---
 
-TODO: let-else
+## Even more specialized [`match`](keyword:match): `let else`
 
+Some patterns are **refutable**, others are **irrefutable**.
+
+To process the content of a **refutable** pattern and diverge otherwise, use a `let-else`:
+
+````rust tag:playground-button playground-wrap:main
 let GeoJson::FeatureCollection(features) = geojson else {
     return Err(format_err_status!(
         422,
         "GeoJSON was not a Feature Collection",
     ));
 };
+````
 
+---
 
+## Even more specialized [`match`](keyword:match): `let else`
+
+Particularly handy when processing enums or options in parser- and compiler-like programs:
+
+````rust
 pub fn div(val: Value, _env: &mut Environment) -> Result<Value, anyhow::Error> {
     let Value::Sexpr(s) = val else {
         return Err(anyhow::anyhow!("non-sexpr passed to 'div'"));
     };
     s.div()
 }
+````
+
+<!-- _footer: '[barafael/pils](https://github.com/barafael/pils)' -->
 
 ---
 
@@ -301,19 +347,6 @@ loop {
     if index == values.len() {
         break;
     }
-}
-````
-
----
-
-## "Special Blocks": [`for`](keyword:for)
-
-Of course, [`for`](keyword:for)-style loops are a thing:
-
-````rust tag:playground-button playground-wrap:main
-let values = [1, 3, 4, 8];
-for value in values {
-    println!("{value}");
 }
 ````
 
@@ -348,7 +381,7 @@ let end = loop {
 
 ---
 
-## "Special Blocks": [`loop`][keyword:loop]
+## "Special Blocks": [`loop`](keyword:loop)
 
 In a function returning `Ok(())` or `Err(...)`
 
@@ -376,17 +409,47 @@ let end = loop {
 
 ---
 
-TODO: while-let
+## "Special Blocks": [`for`](keyword:for)
 
-while let Ok(e) = page.next_event() {
-    let event = match e.event {
+Of course, [`for`](keyword:for)-style loops are a thing:
+
+````rust tag:playground-button playground-wrap:main
+let values = [1, 3, 4, 8];
+for value in values {
+    println!("{value}");
+}
+````
+
+---
+
+## "Special Blocks": [`while`](keyword:while)
+
+A while loop isn't particularly exciting:
+
+````rust tag:playground-button playground-wrap:main
+while !*quit {
+    info!("Waiting for quit of midi connection");
+    quit = cvar.wait(quit).unwrap();
+}
+````
+
+Rarely used like this, surprisingly.
+
+---
+
+## Specialized [`while`](keyword:while): `while let`
+
+````rust tag:playground-button playground-before:$" enum PageEvent { Load, KeyPress(char), Paste(String), Click { x: i64, y: i64 }, }fn main(){    let mut page = vec![PageEvent::Load, PageEvent::KeyPress('a'), PageEvent::Paste(String::from("clipboard content")), PageEvent::Click { x: 10, y: 20 }].into_iter(); "$ playground-after:$"}"$
+while let Some(e) = page.next() {
+    let event = match e {
         PageEvent::Load => "Page loaded".to_string(),
         PageEvent::KeyPress(c) => format!("Key {c} pressed"),
         PageEvent::Paste(content) => format!("Pasted content {content}"),
         PageEvent::Click { x, y } => format!("Clicked at (x: {x}, y: {y})"),
     };
-    println!("Event {event} logged at {}", e.timestamp);
-};
+    println!("Event: {event}");
+}
+````
 
 ---
 
@@ -407,10 +470,11 @@ fn random() -> u32 {
 
 Omitting the return type makes the function return `()`, called "Unit":
 
-````rust tag:playground-button
-fn trigger(&mut self) {
+````rust tag:playground-button playground-wrap:main
+fn trigger(level: u8) {
     // ...
 }
+let result: () = trigger(12);
 ````
 
 ---
@@ -489,6 +553,8 @@ let next = match value {
 };
 ````
 
+---
+
 ## Expression Orientation
 
 Wrap expressions in other expressions:
@@ -508,8 +574,11 @@ fn next_value(previous: i32) -> i32 {
 
 ## Review
 
+![bg right:34%](images/colorkit%20(2).png)
+
 - Expressions can be used anywhere
 - `if`, `loop`, and `match` are  also just expressions
+- `if let`, `let-else`, `while let`, ...
 - Function bodies are one large expression
 - Control flow and expressions are intertwined
 

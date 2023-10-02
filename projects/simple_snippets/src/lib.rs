@@ -87,7 +87,7 @@ mod test {
         let config = Config::load_from_disk()?;
         let config: &'static _ = Box::leak(Box::new(config));
         dbg!(config); // config may now be handed out among threads.
-        // marker-end:config_leak
+                      // marker-end:config_leak
         Ok(())
     }
 }
