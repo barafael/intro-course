@@ -20,7 +20,11 @@ _paginate: false
 
 # Luhns Algorithm
 
+![bg](images/intro.png)
+
 ---
+
+<!-- header: ' ' -->
 
 ## First Project! Luhn Algorithm
 
@@ -33,8 +37,9 @@ _paginate: false
 * During development, run:
 
 ````bash
-cargo test # or
-cargo t # or, if you like
+cargo test
+cargo t # shorthand
+# or, if you like
 cargo watch -x test
 ````
 
@@ -65,5 +70,3 @@ In `bin/`: REPL and a CLI interface examples.
 
 <iframe style="margin-top:5%" width="100%" height="60%" src="https://barafael.github.io/luhney/">
 </iframe>
-
----

@@ -65,13 +65,6 @@ tokio-stream = "0.1.9"
 
 Crates.io doesn't make any assertions about CVEs, but:
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
 ![w:650px center](assets/images/rustsec.png)
 
 ---
@@ -80,13 +73,6 @@ img[alt~="center"] {
 
 Crates.io doesn't make any assertions about CVEs, but:
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
 ![w:650px center](assets/images/tokio-rustsec.png)
 
 ---
@@ -94,13 +80,6 @@ img[alt~="center"] {
 ## Aside: RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
 
 Lists known CVEs in all your dependencies and recommends mitigations.
-
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 
 ![w:850px center](assets/images/cargo-audit.png)
 

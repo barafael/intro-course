@@ -480,12 +480,6 @@ Purpose: detect compiler regressions with all known codebases.
 
 [crater reports](https://crater-reports.s3.amazonaws.com/pr-104429/index.html)
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 ![center height:250px](images/crater_status.png)
 
 ---
@@ -604,13 +598,6 @@ VERY many different approaches in experimentation stage!
 ---
 
 ## It ain't all flowers
-
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 
 ![center width:500px](images/evangelism_strike_force.png)
 

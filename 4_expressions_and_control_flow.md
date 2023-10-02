@@ -37,9 +37,8 @@ It shouldn't be surprising that control flow is also just an **expression**.
 
 ## Expressions are declarative
 
-Expression: specifies a calculation to be performed.
+Expressions declare calculations to be performed.
 
-Expression:
 ````rust tag:playground-button playground-before:$"fn main() { let vals = [1,2,3,4,5,6,7];"$ playground-after:$";}"$
 vals[3] + u8::min(5, 6)
 ````
@@ -49,7 +48,7 @@ vals[3] + u8::min(5, 6)
 An expression can be suppressed via `;`.
 This can be used to bind a value to a name ([`let`](keyword:let)):
 
-````rust
+````rust tag:playground-button playground-before:$"fn main() { let vals = [1,2,3,4,5,6,7];"$ playground-after:$";}"$
 let a = vals[3] + u8::min(5, 6);
 ````
 
@@ -59,15 +58,24 @@ let a = vals[3] + u8::min(5, 6);
 
 ## Statements are imperative
 
-Statement: specifies an action to be performed.
+Statements specify actions to be performed.
 
-Statement(-like expression):
-
+Statement:
 ````rust
 *GLOBAL_HANDLE.lock().unwrap() = Some(handle);
 ````
 
 Assignments (via [`let`](keyword:let) or like above) really are re-bindings of new values to existing bindings.
+
+---
+
+## Declarative vs. Imperative
+
+The machine ultimately is _state_ ful.
+Expressions are more abstract than statements.
+The compilers job is to turn abstract expressions into statements.
+
+Expressions are a way to declaratively describe statements.
 
 ---
 

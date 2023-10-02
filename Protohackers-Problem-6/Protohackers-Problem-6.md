@@ -16,14 +16,6 @@ _paginate: false
 
 # Protohackers<br>Solution for Problem 6<br>(Speed Daemon)
 
-<style>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
-
 ---
 
 <!-- header: ' ' -->

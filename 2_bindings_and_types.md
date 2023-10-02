@@ -225,12 +225,6 @@ println!("path: {}", env!("PATH"));
 
 ## Aside: Macro Visualization
 
-<style scoped>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
 ![center width:800px](images/dbg-macro-graph.png)
 
 <!-- _footer: '[macro_railroad](https://github.com/lukaslueg/macro_railroad_ext)' -->

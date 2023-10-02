@@ -6,13 +6,6 @@ color: "dark-gray"
 
 ---
 
-<style>
-img[alt~="center"] {
-  display: block;
-  margin: 0 auto;
-}
-</style>
-
 <!--
 paginate: true
  -->

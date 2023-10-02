@@ -567,6 +567,8 @@ where
     B: ?Sized,
 ````
 
+---
+
 ## Review: Borrowing
 
 - An owner may **borrow** a value another owner
