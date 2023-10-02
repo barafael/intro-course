@@ -1,3 +1,6 @@
 [submodule "marp-theme-rhea"]
 	path = marp-theme-rhea
 	url = https://github.com/barafael/marp-theme-rhea.git
+[submodule "achat"]
+	path = achat
+	url = https://github.com/barafael/achat
