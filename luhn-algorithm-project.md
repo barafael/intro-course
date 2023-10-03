@@ -26,13 +26,23 @@ _paginate: false
 
 <!-- header: ' ' -->
 
-## First Project! Luhn Algorithm
+## Luhns Algorithm
+
+This is a credit card number validation algorithm.
+It takes a string as input and returns a boolean.
+
+[Inspired by "Comprehensive Rust"](https://comprehensive-rust.pages.dev/exercises/day-2/luhn#luhn-algorithm), but we'll do it with a twist.
+
+---
+
+## Luhns Algorithm
 
 * Clone [https://github.com/barafael/luhns-algorithm-exercise](github.com/barafael/luhns-algorithm-exercise)
 
 * If you speak german: follow the instructions in the README.
 
 * Else: we'll collab to understand the problem.
+  * Or: go [here](https://comprehensive-rust.pages.dev/exercises/day-2/luhn#luhn-algorithm) for a description of the algorithm in english.
 
 * During development, run:
 
@@ -47,7 +57,7 @@ cargo watch -x test
 
 ## WASM Surprise
 
-To test your program, run:
+To interact with your program via REPL, run:
 
 ````bash
 wasm-pack build --target web
