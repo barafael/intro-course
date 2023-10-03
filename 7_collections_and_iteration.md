@@ -31,11 +31,13 @@ _paginate: false
 
 ---
 
-## How are Algorithms and Datastructures organized in [`std`](rust:std)?
+![bg right](images/gears_2.gif)
 
-## What are the differences between the Rust collections and the containers in the C++ STL?
+- How are Algorithms and Datastructures organized in [`std`](rust:std)?
 
-## Overview of the idiomatic APIs in [`std`](rust:std)?
+- What are the differences between the Rust collections and the containers in the C++ STL?
+
+- Overview of the idiomatic APIs in [`std`](rust:std)
 
 ---
 
@@ -49,7 +51,7 @@ _paginate: false
 
 <!-- header: ' ' -->
 
-## Basics: Rust [`Iterator`](rust:std::iter::Iterator)
+## Foundation: Rust [`Iterator`](rust:std::iter::Iterator)
 
 ```rust
 pub trait Iterator {
@@ -59,23 +61,40 @@ pub trait Iterator {
 }
 ```
 
----
-
-## Basics: Rust [`Iterator`](rust:std::iter::Iterator)
-
-```rust
-pub trait Iterator {
-    type Item;
-
-    fn next(&mut self) -> Option<Self::Item>;
-}
-```
+<div data-marpit-fragment>
 
 Very many concepts in this one snippet!
 
 * Associated type [`Item`](rust:std::iter::Iterator::Item): allows the trait implementor to specify the element type
 * Method [`next`](rust:std::iter::Iterator::next): returns `Some(Item)` until the iterator is empty, then `None`.
 
+</div>
+
+---
+
+## Create an Iterator from a Collection
+
+Iterators can be created from collections:
+
+````rust tag:playground-button playground-wrap:main
+let values = std::collections::HashSet::from(['a', 'b', 'c']);
+//let values = std::collections::BTreeSet::from(['a', 'b', 'c']);
+let mut iter = values.into_iter();
+let first: Option<char> = dbg!(iter.next());
+````
+
+<div data-marpit-fragment>
+
+On exhaustion:
+
+````rust tag:playground-button playground-before:$"fn main() { let values = std::collections::HashSet::from(['a', 'b', 'c']); //let values = std::collections::BTreeSet::from(['a', 'b', 'c']); let mut iter = values.into_iter(); let first: Option<char> = dbg!(iter.next());"$ playground-after:$"}"$
+let second: Option<char> = dbg!(iter.next());
+let third: Option<char> = dbg!(iter.next());
+let none: Option<char> = dbg!(iter.next());
+````
+
+</div>
+
 ---
 
 ## Iterators are inherently lazy
@@ -88,35 +107,43 @@ let iter = values.iter();
 iter.map(|val| val + 1);
 ````
 
----
-
-## Iterators are inherently lazy
-
-An iterator must be actively used to yield elements.
-
-````rust tag:playground-button playground-wrap:main
-let values = vec![1, 2, 3];
-let iter = values.iter();
-iter.map(|val| val + 1);
-````
+<div data-marpit-fragment>
 
 ````
 warning: unused `Map` that must be used
- --> src/main.rs:4:5
-  |
 4 |     iter.map(|val| val + 1);
   |     ^^^^^^^^^^^^^^^^^^^^^^^
-  |
   = note: iterators are lazy and do nothing unless consumed
+  = note: `#[warn(unused_must_use)]` on by default
+help: use `let _ = ...` to ignore the resulting value
+  |
+4 |     let _ = iter.map(|val| val + 1);
+````
+
+</div>
+
+---
+
+## HowTo disable warnings like this
+
+The warning hints at the name of the check: `#[warn(unused_must_use)]`
+
+````rust tag:playground-button
+#[allow(unused_must_use)]
+fn main() {
+    let values = vec![1, 2, 3];
+    let iter = values.iter();
+    iter.map(|val| val + 1);
+}
 ````
 
 ---
 
 ## Implementing the Iterator Trait
 
-Let's implement the famous "fizzbuzz" via an iterator.
+Let's implement the famous "fizzbuzz" via iterator.
 
-We must store the iterator state somewhere:
+Most iterators have internal state:
 
 ````rust marker:fizzbuzz_struct
 
@@ -124,9 +151,9 @@ We must store the iterator state somewhere:
 
 ---
 
-## Implementing the Iterator Trait
+## FizzBuzz Iterator Item Type
 
-Our [`Item`](rust:std::iter::Iterator::Item) type is a [`String`](rust:String) to print.
+Our associated type [`Item`](rust:std::iter::Iterator::Item) is a [`String`](rust:String) to print.
 
 ````rust marker:fizzbuzz_iterator_trait_impl_1
 
@@ -134,7 +161,23 @@ Our [`Item`](rust:std::iter::Iterator::Item) type is a [`String`](rust:String) t
 
 ---
 
-## Implementing the Iterator Trait
+## FizzBuzz Iterator Item Type
+
+It could have been:
+
+````rust
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum FizzBuzz {
+    Fizz,
+    Buzz,
+    FizzBuzz,
+    Number(u64),
+}
+````
+
+---
+
+## FizzBuzz Iterator via [`match`](keyword:match)
 
 It's a match!
 
@@ -144,7 +187,7 @@ It's a match!
 
 ---
 
-## Implementing the Iterator Trait
+## FizzBuzz Iterator usage
 
 Here's how to use it (we'll see more on this):
 
@@ -154,19 +197,44 @@ Here's how to use it (we'll see more on this):
 
 ---
 
+## FizzBuzz Iterator usage
+
+Here's how to use it (we'll see more on this):
+
+````rust
+let fizzbuzz = Fizzbuzz::default();
+for elem in fizzbuzz.take(20) {
+    println!("{elem}");
+}
+````
+
+---
+
 ## Constructing Iterators from Collections
 
 Most collections offer three iterator functions:
 
+* `into_iter()`: iterate "by value", consuming the datastructure in the process
 * `iter()`: iterate over shared references (`&T`) to the items
 * `iter_mut()`: iterate over unique, mutable references (`&mut T`) to the items
-* `into_iter()`: iterate "by value", consuming the datastructure in the process
+
+---
+
+## The Rust Trinity
+
+Here is a fundamental trinity:
+
+- `T`, `&T`, and `&mut T`
+- `.into_iter()`, `.iter()`, and `.iter_mut()`.
+- [`FnOnce`](rust:std::ops::FnOnce), [`Fn`](rust:std::ops::Fn), [`FnMut`](rust:std::ops::FnMut)
+
+Ownership, Sharing, Mutation
 
 ---
 
 ## Iterators and For-loops
 
-The type of the expression in a for-loop determines the type of iteration (shared, mutable, owned):
+The type of the expression in a for-loop determines the type of iteration (owned, shared, mutable):
 
 ````rust tag:playground-button playground-before:$"#![feature(type_name_of_val)] fn main() {"$ playground-after:$"}"$ playground-channel:nightly
 let mut some_vec = vec![1, 2, 4, 8];
@@ -231,40 +299,12 @@ In this example, tickets may only be dispatched if on that particular day none h
 if Self::days(ticket.timestamp1, ticket.timestamp2)
     .any(|day| already_ticketed_days.contains(&day))
 {
-    let day = Self::day(ticket.timestamp1);
     tracing::info!("Ignoring ticket starting on {day}: {ticket:?}");
+    let day = Self::day(ticket.timestamp1);
 }
 ```
 
 <!-- _footer: "[Protohackers Speedd](https://github.com/barafael/protohackers/blob/f1fe6cf0d6864661efd7d0014edc327ed523114d/speedd/src/collector.rs#L75)" -->
-
----
-
-## Iterator combinators: [`Iterator::map`](rust:std::iter::Iterator::map)
-
-[`Iterator::map`](rust:std::iter::Iterator::map) implements a bijective mapping of the elements in one iterator to the elements in a new one.
-The function passed determines the type of the new iterator.
-
-````rust tag:playground-button playground-before:$"fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
-input
-    .split_whitespace()
-    .map(parse_hex_digit)
-    .for_each(|item| {
-        println!("{item}");
-    });
-````
-
-<!-- _footer: "[Protohackers Netcrab](https://github.com/barafael/protohackers/blob/f1fe6cf0d6864661efd7d0014edc327ed523114d/netcrab/src/main.rs#L32-L36)" -->
-
----
-
-## Aside: `Result<Vec<T>, E>` or `Vec<Result<T, E>>`?
-
-Note: `parse_hex_digit` returns a `Result<T, E>`, so the iterator item type becomes `Iterator<Item = Result<u8, Error>>`
-
-What we want is a `Result<Vec<T>, E>`.
-
-[`Iterator::collect`](rust:std::iter::Iterator::collect) can do just that, and more!
 
 ---
 
@@ -293,12 +333,30 @@ let mut iter = a.iter().filter(|x| x.is_positive());
 
 ---
 
-## Kombinatoren für Iteratoren: `collect`
+## Iterator combinators: [`Iterator::map`](rust:std::iter::Iterator::map)
 
-`collect` erstellt eine Collection aus einem Iterator.
-Hier ist häufig ein Turbofish oder eine Annotation nötig.
+[`Iterator::map`](rust:std::iter::Iterator::map) implements a bijective mapping of the elements in one iterator to the elements in a new one.
+The function passed determines the type of the new iterator.
 
-```rust
+````rust tag:playground-button playground-before:$" pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
+input
+    .split_whitespace()
+    .map(parse_hex_digit)
+    .for_each(|item| {
+        println!("{item}");
+    });
+````
+
+<!-- _footer: "[Protohackers Netcrab](https://github.com/barafael/protohackers/blob/f1fe6cf0d6864661efd7d0014edc327ed523114d/netcrab/src/main.rs#L32-L36)" -->
+
+---
+
+## Creating [`collect`](rust:std::iter::Iterator::collect)ions from iterators
+
+`collect` creates a collection from an iterator.
+This frequently requires a turbofish or an annotation.
+
+```rust tag:playground-button playground-wrap:main
 let values = vec!["birdie", "cat", "doggo"];
 let result: HashSet<_> = values
     .iter()
@@ -306,14 +364,13 @@ let result: HashSet<_> = values
     .collect();
 ```
 
-Die Typinferenz setzt hier den Freiheitsgrad von [`collect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect) fest.
-Oft kann man so mit einem [`let`](https://doc.rust-lang.org/std/keyword.let.html) binding den Turbofish vermeiden.
+The type annotation fixes a degree of freedom of [`collect`](rust:std::iter::Iterator::collect).
 
 ---
 
-## Kombinatoren für Iteratoren: `collect`
+## Creating [`collect`](rust:std::iter::Iterator::collect)ions from iterators
 
-Manchmal braucht es einen Turbofish!
+Sometimes, a turbofish is required:
 
 ```rust
 let line = input                    // String
@@ -322,15 +379,29 @@ let line = input                    // String
     .collect::<Result<Vec<u8>>>()?; // Vec<u8>
 ```
 
-Hier setzt der Turbofish den Freiheitsgrad fest.
+Here, the turbofish fixes a degree of freedom of [`collect`](rust:std::iter::Iterator::collect).
 
-Das Ergebnis ist ein `Result<Vec<u8>, Error>`, weil man auch ein `Result<T, E>` als Collection sehen kann.
+The target collection is a `Result<Vec<u8>, Error>` - because a `Result<T, E>` can be seen as some kind of collection, too.
 
 <!-- _footer: "[Protohackers Netcrab](https://github.com/barafael/protohackers/blob/f1fe6cf0d6864661efd7d0014edc327ed523114d/netcrab/src/main.rs#L32)" -->
 
 ---
 
+## Collecting HashMaps
+
+````rust tag:playground-button playground-wrap:main
+let map: std::collections::HashMap<char, bool> =
+    [('a', true), ('b', false), ('c', false), ('z', true)]
+        .into_iter()
+        .collect();
+dbg!(map);
+````
+
+---
+
 ## Aside: Point-free style
+
+Debatable readability. I personally love it.
 
 ````rust tag:playground-button playground-before:$"fn main() { let seq = "\n\t\r\\";"$ playground-after:$"}"$
 seq.chars().map(char::escape_default).for_each(|elem| {
@@ -340,13 +411,26 @@ seq.chars().map(char::escape_default).for_each(|elem| {
 
 ---
 
-## Collecting und [`Result<Collection, E>`](https://doc.rust-lang.org/std/result/)
+## `Vec<Result<T, E>>` or `Result<Vec<T>, E>`?
 
-Gegeben ein [`Result<T, E>`](https://doc.rust-lang.org/std/result/), wie kann man [`?`](https://doc.rust-lang.org/std/result/index.html#the-question-mark-operator-) zur Fehlerbehandlung einsetzen?
+`parse_hex_digit` returns a `Result<T, E>`, so the iterator item type becomes `Iterator<Item = Result<u8, Error>>`
 
-<p style = "text-align: center;">
-<code>Iterator<Item = Result<T, E>> -> Result<Vec<T>, E></code>
-</p>
+What we want is a `Result<Vec<T>, E>`.
+
+````rust tag:playground-button playground-before:$" pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
+input
+    .split_whitespace()
+    .map(parse_hex_digit)
+    .for_each(|item| {
+        println!("{item}");
+    });
+````
+
+---
+
+## `Iterator<Item = Result<T, E>> -> Result<Vec<T>, E`
+
+This is a ubiquitous pattern:
 
 ```rust
 let handles = env
@@ -360,22 +444,25 @@ let handles = env
 
 ---
 
-## Collecting und [`Result<Collection, E>`](https://doc.rust-lang.org/std/result/)
+## Collecting and [`Result<Collection, E>`](https://doc.rust-lang.org/std/result/)
 
-Der [`FromIterator<A>`](https://doc.rust-lang.org/std/iter/trait.FromIterator.html) Trait wird genutzt um [`collect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect) zu implementieren.
+The [`FromIterator<A>`](rust:std::iter::FromIterator) Trait is required to implement [`collect`](rust:std::iter::Iterator::collect).
 
 ```rust
 impl<A, E, V: FromIterator<A>> FromIterator<Result<A, E>> for Result<V, E>
 ```
 
-Ganz schön kompliziert. Daumenregel: man kann [`collect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect) auf Iteratoren aufrufen, auch auf Iteratoren von `Result`.
-Und man sollte den gewünschten Ausgabetyp festlegen.
+Rule of thumb: use [`collect`](rust:std::iter::Iterator::collect) to collect into collection-like things.
+
+<div data-marpit-fragment>
+
+</div>
 
 ---
 
-## Collecting und [`try_join_all`](https://docs.rs/futures/latest/futures/future/fn.try_join_all.html)
+## Collecting and [`try_join_all`](https://docs.rs/futures/latest/futures/future/fn.try_join_all.html)
 
-Realistisches Beispiel mit Futures und Future-Kombinatoren:
+A realistic example with future combinators:
 
 ```rust
 // let handles: Vec<JoinHandle> = ...;
@@ -387,7 +474,7 @@ futures::future::try_join_all(handles)
     .context("Error in client task")
 ```
 
-Das ist ein sehr beliebtes Pattern.
+This pattern is used all over the place.
 
 <!-- _footer: "
 [Achat: chat with cancellation](https://github.com/barafael/achat/blob/c8fa30d90b703b41993e04f53fe474070b0ab199/bin/chat_with_cancel.rs#L51)
@@ -395,23 +482,23 @@ Das ist ein sehr beliebtes Pattern.
 
 ---
 
-## Weitere Kombinatoren
+## More combinators
 
-`map`, `filter`, `collect` sind nur der Anfang!
+`map`, `filter`, `collect` are just the beginning.
 
-[Provided Methods vom Iterator](https://doc.rust-lang.org/std/iter/trait.Iterator.html#provided-methods)
+[Provided Methods of `Iterator`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#provided-methods)
 
-[Provided Methods von String Slices (`&str`)](https://doc.rust-lang.org/std/primitive.str.html)
+[Provided Methods of String Slices (`&str`)](https://doc.rust-lang.org/std/primitive.str.html)
 
-Besondere/beliebte Kombinatoren: `chain`, `zip`, `cycle`, `take`, `windows`, `fold`, ...
+[`chain`](rust:std::iter::Iterator::chain), [`zip`](rust:std::iter::Iterator::zip), [`cycle`](rust:std::iter::Iterator::cycle), [`take`](rust:std::iter::Iterator::take), [`windows`](rust:std::iter::Iterator::windows), [`fold`](rust:std::iter::Iterator::fold), ...
 
-Viele weitere in [itertools](https://github.com/rust-itertools/itertools): `windows`, `interleave`, `collect_vec`, `join`, `partition`, `peek_nth`
+Even more in [itertools](https://github.com/rust-itertools/itertools): `windows`, `interleave`, `collect_vec`, `join`, `partition`, `peek_nth`
 
 ---
 
-## Einschub: Parallele Iteratoren
+## Aside: Parallel Iterators
 
-Die Iteratoren sind eh schon Threadsafe! Also: work stealing.
+Iteration is already threadsafe. Why not capitalize on that?
 
 ```rust
 let mut pixels = img.enumerate_pixels_mut().collect::<Vec<_>>();
@@ -428,22 +515,20 @@ pixels.par_iter_mut().for_each(|(x, y, pixel)| {
 
 ---
 
-## Iteratoren jenseits von Collections
+## Iterators beyond Collections
 
-Auch viele andere Funktionen geben einen Iterator zurück, selbst wenn es keine Collection dahinter gibt:
+Many other functions return an iterator less related to collections:
 
 * `std::env::args()`: Argumente des Programmes
 * `std::str::matches()`: Matches eines Patterns in einem String
-
-Man kann die Schnittstelle auch sonst vielfältig nutzen, zum Beispiel um [Fibonacci-Sequenzen](https://doc.rust-lang.org/rust-by-example/trait/iter.html) zu erzeugen.
+* Our fibonacci implementation
 
 ---
 
-## Die HashMap Entry API
+## The HashMap Entry API
 
-Die Entry API ist der idiomatische und ergonomische Weg, HashMap-Einträge zu bearbeiten.
-Dabei werden die Einträge der Map in-place editiert!
-Ein Entry:
+The entry API is the idiomatic and ergonomic way to edit map entries.
+Entries are mutated in-place:
 ```rust
 pub enum Entry<'a, K: 'a, V: 'a> {
     Occupied(OccupiedEntry<'a, K, V>),
@@ -451,52 +536,50 @@ pub enum Entry<'a, K: 'a, V: 'a> {
 }
 ```
 
-Mehr Details auf "[A Rust Gem - The Rust Map API](https://www.thecodedmessage.com/posts/rust-map-entry/)"
+Rationale & usage at "[A Rust Gem - The Rust Map API](https://www.thecodedmessage.com/posts/rust-map-entry/)"
 
 ---
 
-## Beispiel: `or_insert`
+## Example: [`or_insert`](rust:std::collections::hash_map::Entry::or_insert)
 
-Oft will man auf existierenden Elementen operieren, oder falls es keine gibt, einen Anfangswert einfügen:
+If an entry doesn't exist, insert the default, then return a mutable reference to the entry:
 
-```rust
+````rust tag:playground-button playground-wrap:main
+use std::collections::HashMap;
 let mut counts: HashMap<&str, usize> = HashMap::new();
-for name in ["a", "b", "c", "a", "a"] {
-    *counts.entry(name).or_insert(0) += 1;
+for letter in ["a", "b", "c", "a", "a"] {
+    *counts.entry(letter).or_insert(0) += 1;
 }
-```
-
-
-<!-- _footer: "[Playground Link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+std%3A%3Acollections%3A%3AHashMap%3B%0A%0Afn+main%28%29+%7B%0A++++let+mut+counts%3A+HashMap%3C%26str%2C+usize%3E+%3D+HashMap%3A%3Anew%28%29%3B%0A++++for+name+in+%5B%22a%22%2C+%22b%22%2C+%22c%22%2C+%22a%22%2C+%22a%22%5D+%7B%0A++++++++*counts.entry%28name%29.or_insert%280%29+%2B%3D+1%3B%0A++++%7D%0A++++dbg%21%28counts%29%3B%0A%7D%0A)" -->
+dbg!(counts);
+````
 
 ---
 
-## Beispiel: `or_default`
+## Example: [`or_default`](rust:std::collections::hash_map::Entry::or_default)
 
-```rust
+The previous example, just simpler:
+
+````rust tag:playground-button playground-wrap
+use std::collections::HashMap;
 let mut counts: HashMap<&str, usize> = HashMap::new();
 for name in ["a", "b", "c", "a", "a"] {
     *counts.entry(name).or_default() += 1;
 }
-```
+````
 
-`or_default` gibt ein `&mut V`, also einen mutable borrow auf den Wert in der HashMap.
-
-Wo kommt der default-Wert her? Natürlich vom `Default` Trait!
-
-<!-- _footer: "[Playground Link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use+std%3A%3Acollections%3A%3AHashMap%3B%0A%0Afn+main%28%29+%7B%0A++++let+mut+counts%3A+HashMap%3C%26str%2C+usize%3E+%3D+HashMap%3A%3Anew%28%29%3B%0A++++for+name+in+%5B%22a%22%2C+%22b%22%2C+%22c%22%2C+%22a%22%2C+%22a%22%5D+%7B%0A++++++++*counts.entry%28name%29.or_default%28%29+%2B%3D+1%3B%0A++++%7D%0A++++dbg%21%28counts%29%3B%0A%7D%0A)" -->
+Which default value here? Obviously the trait [`Default`](rust:std::default::Default)!
 
 ---
 
-## Beispiel: `and_modify`
+## Example: [`and_modify`](rust:std::collections::hash_map::Entry::and_modify)
 
-Viele der [Usages](https://github.com/search?q=%22and_modify%22+language%3ARust&type=code&ref=advsearch) lassen sich auch als Kombination von `or_insert(.)` oder `or_default`.
+Not sure why exactly this exists, to be honest:
 
 ```rust
 edges.entry(dv.init).and_modify(|e| *e += 1).or_insert(1);
 ```
 
-Äquivalent:
+Equivalent:
 
 ```rust
 *edges.entry(dv.init).or_default() += 1;
@@ -512,3 +595,10 @@ edges.entry(dv.init).and_modify(|e| *e += 1).or_insert(1);
  - Iterators
  - Iterator Combinators
  - The HashMap Entry API
+
+---
+
+## Questions?
+
+<jframe style="margin-top:5%" width="100%" height="80%" src="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn+main%28%29+%7B%7D%0A">
+</iframe>
