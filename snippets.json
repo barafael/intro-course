@@ -12,7 +12,7 @@
       "disc_union_enum": {
         "content": "#[repr(C)]\n#[derive(Debug)]\npub enum Value {\n    Null,\n    Bool(bool),\n    Number(f64),\n    String(*const c_char),\n    // Array(Vec<Value>),\n    // Object(HashMap<CString, Box<Value>>),\n}",
         "file": "projects/discriminated_union/src/lib.rs",
-        "line": 14,
+        "line": 10,
         "col": 0
       }
     },
@@ -159,6 +159,70 @@
         "content": "        let value = Mutex::new(5);\n        let mut guard: MutexGuard<'_, i32> = value.lock().unwrap();\n        *guard = 1;\n        dbg!(*guard);",
         "file": "projects/simple_snippets/src/lib.rs",
         "line": 6,
+        "col": 0
+      }
+    },
+    "projects/simple_tests/Cargo.toml": {
+      "dev_dependencies_proptest": {
+        "content": "[dev-dependencies]\nproptest = \"1\"",
+        "file": "projects/simple_tests/Cargo.toml",
+        "line": 5,
+        "col": 0
+      }
+    },
+    "projects/simple_tests/src/lib.rs": {
+      "any_strategy_proptest": {
+        "content": "        #[test]\n        fn should_map_any_i32(a in any::<i32>()) {\n            assert_eq!(a, identity(a));\n        }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 71,
+        "col": 0
+      },
+      "identity_fn": {
+        "content": "pub fn identity<T>(elem: T) -> T {\n    elem\n}",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 12,
+        "col": 0
+      },
+      "simple_doctest": {
+        "content": "/// An identity function.\n///\n/// ````rust\n/// use simple_tests::identity;\n///\n/// let x = 4;\n/// assert_eq!(identity(&x), &4);\n/// ````",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 2,
+        "col": 0
+      },
+      "simple_proptest": {
+        "content": "        #[test]\n        fn should_map_small_i32(a in 0..1000i32) {\n            assert_eq!(a, identity(a));\n        }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 64,
+        "col": 0
+      },
+      "test_module": {
+        "content": "#[cfg(test)]\nmod test {\n    use super::*;",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 26,
+        "col": 0
+      },
+      "test_should_map_function_pointer": {
+        "content": "    // #[test]\n    // fn should_map_function_pointer() {\n    //     let id = &identity::<bool>;\n    //     assert_eq!(id, identity(id));\n    // }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 40,
+        "col": 0
+      },
+      "test_should_map_integers": {
+        "content": "    #[test]\n    fn should_map_integers() {\n        assert!(identity(3) == 3);\n        assert_eq!(4, identity(4));\n    }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 32,
+        "col": 0
+      },
+      "test_should_panic": {
+        "content": "    #[allow(unconditional_panic)]\n    #[test]\n    #[should_panic(expected = \"attempt to divide by zero\")]\n    fn refuses_to_divide_by_zero() {\n        let n = rand::random::<i8>();\n        // let n  = 0;\n        let _ = n / 0;\n    }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 48,
+        "col": 0
+      },
+      "vec_strategy_proptest": {
+        "content": "        #[test]\n        fn should_map_vec_elems(a in prop::collection::vec(any::<u128>(), 1..1000)) {\n            assert!(a.into_iter().all(|elem| elem == identity(elem)));\n        }",
+        "file": "projects/simple_tests/src/lib.rs",
+        "line": 78,
         "col": 0
       }
     },

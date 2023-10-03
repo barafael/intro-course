@@ -2,13 +2,14 @@
 resolver = "2"
 
 members = [
-    "projects/to_byte_slice",
     "projects/discriminated_union",
-    "projects/simple_server",
-    "projects/maybe",
     "projects/fizzbuzz_iterator",
     "projects/gzip_roundtrip",
+    "projects/maybe",
+    "projects/simple_server",
     "projects/simple_snippets",
+    "projects/simple_tests",
+    "projects/to_byte_slice",
     "projects/traffic_light",
 ]
 

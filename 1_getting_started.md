@@ -3,6 +3,7 @@ title: Hello Rust - Getting Started
 marp: true
 theme: rhea
 color: "dark-gray"
+size: 16:9
 
 ---
 
@@ -466,7 +467,7 @@ impl Default for Foo {
 }
 </style>
 
-<iframe style="margin:auto" width="1200" height="540" src="https://rust-lang.github.io/rust-clippy/master/index.html" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="1200" height="540" src="https://rust-lang.github.io/rust-clippy/master/index.html" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <!-- _footer: '[Lint List](https://rust-lang.github.io/rust-clippy/master/index.html)' -->
 

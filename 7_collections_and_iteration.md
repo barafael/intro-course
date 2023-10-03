@@ -31,7 +31,7 @@ _paginate: false
 
 ---
 
-![bg right](images/gears_2.gif)
+![bg right](images/barrel.webp)
 
 - How are Algorithms and Datastructures organized in [`std`](rust:std)?
 
@@ -515,6 +515,12 @@ pixels.par_iter_mut().for_each(|(x, y, pixel)| {
 
 ---
 
+## Julia Fractal
+
+![center](images/fractal.png)
+
+---
+
 ## Iterators beyond Collections
 
 Many other functions return an iterator less related to collections:
@@ -595,6 +601,8 @@ Equivalent:
  - Iterators
  - Iterator Combinators
  - The HashMap Entry API
+
+![bg left:50%](images/pump.webp)
 
 ---
 

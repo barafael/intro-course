@@ -3,11 +3,7 @@
 //! Note that this may not be a great example of doing C FFI,
 //! because a number of the types used here aren't FFI-Safe.
 
-use core::ffi::c_char;
-use std::{
-    collections::HashMap,
-    ffi::{c_int, CString},
-};
+use core::ffi::{c_char, c_int};
 
 /// An enum representing JSON data.
 /// For a production-quality version of this, see

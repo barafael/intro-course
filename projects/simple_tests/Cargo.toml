@@ -1,0 +1,14 @@
+[package]
+name = "simple_tests"
+version = "0.1.0"
+edition = "2021"
+
+# marker-start:dev_dependencies_proptest
+[dev-dependencies]
+proptest = "1"
+# marker-end:dev_dependencies_proptest
+
+[dependencies]
+anyhow = "1"
+tokio = { version = "1", features = ["full"] }
+rand = "*"

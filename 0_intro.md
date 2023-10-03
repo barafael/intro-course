@@ -22,22 +22,27 @@ _paginate: false
 
 ## Rust Core Motivations and Values
 
+![bg](images/intro.png)
+
 ---
 
 <!-- header: ' '-->
 
 ## `$whoami`
 
+![bg right](images/colorkit%20(2).png)
 - Learning Rust since 2016
 - Embedded Work (C, C++, Rust)
 - Automotive (Rust)
 - Distributed Systems (Rust)
 - Since 3 years: Rust Meetup Nuremberg
-- Opensource auf GitHub: [github.com/barafael](github.com/barafael)
+- Opensource on GitHub: [github.com/barafael](github.com/barafael)
 
 ---
 
 ## `$now`
+
+![bg right](images/map.webp)
 
 - Intro Round
 - Pls fill out "Teilnehmerliste"
@@ -50,7 +55,7 @@ _paginate: false
 - Development history, motivations, philosophy of Rust
 - Development environment
 - Language Basics
-  - Control flow, types, functions, data structures
+  - Control flow, types, functions
 
 Projects:
 - [Luhn’s Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
@@ -61,7 +66,7 @@ Projects:
 ## Morgen
 
 - References, Move Semantics, Sharing XOR Mutability
-- Smart Pointer
+- Datastructures
 - API Design, Resource Management, Multithreading
 
 Projects:
@@ -76,8 +81,8 @@ Projects:
 
 - Error Management
 - Collections und Iteration
-- Polymorphie, Traits und Generics
 - Concurrency+Parallelism with `async`/`.await`
+- Ecosystem overview
 
 ---
 
@@ -99,6 +104,8 @@ Projects:
 # "Software is getting slower more rapidly than hardware is getting faster"
 
 -- Niklaus Wirth (Turing Award Winner, designer of Pascal and others, ...), **1995**
+
+<!-- _footer: '["A Plea for Lean Software"](https://www.computer.org/csdl/magazine/co/1995/02/r2064/13rRUwInv7E) -->
 
 ---
 
@@ -166,10 +173,15 @@ Difference between incidental complexiry and inherent complexity
 
 ---
 
-## Core Values
+## Core Values: ["How Rust views Tradeoffs"](https://www.youtube.com/watch?v=2ajos-0OWts&t=823s)
 
-["How Rust views Tradeoffs"](https://www.youtube.com/watch?v=2ajos-0OWts&t=823s)
-
+<style scoped>
+  iframe {
+    margin:auto;
+    margin-top: 50px;
+    display:block;
+}
+</style>
 
 <iframe width="830" height="480" src="https://www.youtube.com/embed/2ajos-0OWts?si=wU_Jge6XquxK9ipv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -229,30 +241,6 @@ Segmented Stacks, Exceptions
 "Fearless Concurrency": this "idiom" may refer to parallelized CSS styling in Firefox, described [here](https://hacks.mozilla.org/2019/02/rewriting-a-browser-component-in-rust/)
 
 "Official" post: [Fearless Concurrency with Rust](https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html)
-
----
-
-## "Amateur Rust Historians"
-
-<style scoped>
-a, p {
-    font-size: 28px;
-}
-</style>
-
-[Steve Klabnik - The History of Rust](https://www.youtube.com/watch?v=79PSagCD_AY)
-
-[Marijn Haverbeke - The Rust That Could Have Been](https://www.youtube.com/watch?v=olbTX95hdbg)
-
-[Steve Klabnik - How Rust Views Tradeoffs](https://www.youtube.com/watch?v=2ajos-0OWts)
-
-[Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI)
-
-[Bryan Cantrill - Is It Time to Rewrite the Operating System in Rust?](https://www.youtube.com/watch?v=HgtRAbE1nBM)
-
-[History of Rust with Ben Striegel - The Rustacean Station Podcast](https://rustacean-station.org/episode/042-ben-striegel/)
-
-[graydon/rust-prehistory: historical archive of rust pre-publication development](https://github.com/graydon/rust-prehistory)
 
 ---
 
@@ -348,7 +336,9 @@ println!("{s1}, world!");
 
 ---
 
-![bg right:50% width:100%](images/derive_clone_meme.png)
+<div class="columns">
+
+<div>
 
 ````rust tag:playground-button playground-wrap:main
 #[derive(Debug, Clone)]
@@ -357,13 +347,35 @@ pub struct Handle {
 }
 ````
 
+</div>
+
+<div>
+
+![center height:500px](images/derive_clone_meme.png)
+
+</div>
+
 ---
 
 ## “A platform as a reflection of its core values”
 
+<style scoped>
+  p {
+    font-size:30px;
+}
+</style>
+
 [Scale By The Bay 2018: Bryan Cantrill, Rust and Other Interesting Things](https://www.youtube.com/watch?v=2wZ1pCpJUIM)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2wZ1pCpJUIM?si=hPkI1IGzKs7M0Mc_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<style scoped>
+  iframe {
+    margin:auto;
+    margin-top: 15px;
+    display:block;
+}
+</style>
+
+<iframe width="830" height="480" src="https://www.youtube.com/embed/2wZ1pCpJUIM?si=hPkI1IGzKs7M0Mc_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ---
 
@@ -390,6 +402,7 @@ System Architecture, foundational invariants, Toolability, Interoperability with
 ---
 
 ![bg 85%](images/core_values_cantrill.png)
+
 <!--
 _footer: '[Scale By The Bay 2018: Bryan Cantrill, Rust and Other Interesting Things](https://www.youtube.com/watch?v=2wZ1pCpJUIM)'
 -->
@@ -548,6 +561,8 @@ rustyline = "9.1.2"
 
 ## It ain't all flowers
 
+And this is a harmless and simplified example!
+
 ![bg width:1200px](images/depgraph.png)
 
 <!-- _footer: '[Example](https://github.com/barafael/ebyte-e32-ui#simplified-dependency-graph)' -->
@@ -558,7 +573,7 @@ rustyline = "9.1.2"
 
 Asynchronous programming implementation is innovative, but not up-to-par with the rest of Rust.
 
-<!-- But it's not as bad as the blog articles recommend! -->
+<!-- But it's not as bad as the blog articles suggest! -->
 
 <!-- Programming requires being careful again! -->
 
@@ -591,7 +606,7 @@ VERY many different approaches in experimentation stage!
 
 ## It ain't all flowers
 
-![width:1200px](images/hype.png)
+![center width:1100px](images/hype.png)
 
 <!-- _footer: '["Rust In Action" by Tim McNamara](https://livebook.manning.com/book/rust-in-action/chapter-1/v-11/125)' -->
 
@@ -600,6 +615,30 @@ VERY many different approaches in experimentation stage!
 ## It ain't all flowers
 
 ![center width:500px](images/evangelism_strike_force.png)
+
+---
+
+## "Amateur Rust Historians"
+
+<style scoped>
+a, p {
+    font-size: 28px;
+}
+</style>
+
+[Steve Klabnik - The History of Rust](https://www.youtube.com/watch?v=79PSagCD_AY)
+
+[Marijn Haverbeke - The Rust That Could Have Been](https://www.youtube.com/watch?v=olbTX95hdbg)
+
+[Steve Klabnik - How Rust Views Tradeoffs](https://www.youtube.com/watch?v=2ajos-0OWts)
+
+[Rust's Journey to Async/Await](https://www.youtube.com/watch?v=lJ3NC-R3gSI)
+
+[Bryan Cantrill - Is It Time to Rewrite the Operating System in Rust?](https://www.youtube.com/watch?v=HgtRAbE1nBM)
+
+[History of Rust with Ben Striegel - The Rustacean Station Podcast](https://rustacean-station.org/episode/042-ben-striegel/)
+
+[graydon/rust-prehistory: historical archive of rust pre-publication development](https://github.com/graydon/rust-prehistory)
 
 ---
 
@@ -633,3 +672,15 @@ li {
 
 </div>
 
+---
+
+## Review
+
+- Wirths Law vs. Moores Law, Core Values
+- Goal of Rust around 2018: "Safety, Performance, Concurrency"
+- "A Platform as a Reflection of Values"
+- Goal of Rust since 2021:
+  "Empowering everyone to build reliable and efficient Software"
+- Tooling + Ecosystem
+- Downsides
+- Communities

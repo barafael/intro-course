@@ -4,3 +4,6 @@
 [submodule "achat"]
 	path = achat
 	url = https://github.com/barafael/achat
+[submodule "watchdog"]
+	path = watchdog
+	url = https://github.com/barafael/watchdog

@@ -503,7 +503,7 @@ This vastly simplifies type inference (and improves readability!).
 
 ## Review
 
-![bg right](images/stripes.png)
+![bg right](images/colorkit%20(14).png)
 
 - Bindings
 - Immutability

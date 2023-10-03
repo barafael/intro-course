@@ -1,7 +1,7 @@
 ---
 
-title: "Move Semantics"
-description: "A sensible default"
+title: "Ownership & Move Semantics"
+description: "Sensible Defaults"
 marp: true
 theme: rhea
 color: ""
@@ -18,7 +18,7 @@ _paginate: false
  -->
 <!-- _class: lead -->
 
-# Move Semantics & Ownership
+# Ownership & Move Semantics
 
 ## Sensible Defaults
 
@@ -28,9 +28,9 @@ _paginate: false
 
 ## Overview
 
-![bg left:33%](images/conveyor.jpeg)
+![bg left:33%](images/perpetuummobilewasser-df9cd3-small.jpg)
 
-Move Semantics and Ownership:
+Ownership and Move Semantics:
 Ideas at the core of Rust
 
 Implications for
@@ -58,7 +58,7 @@ let owner = vec![1, 2, 3, 4];
 
 ---
 
-## Moving Ownership
+## Transferring Ownership
 
 Ownership can transfer using a **Move**. Guess the output:
 ````rust tag:playground-button playground-before:$"fn main() { #[derive(Debug, Default)] struct Thing;"$ playground-after:$"}"$
@@ -661,7 +661,7 @@ Deserialize an item containing shared references back to the input string:
 
 Signature of [`from_str`](docsrs:https://docs.rs/serde_json/latest/serde_json/fn.from_str.html):
 
-````rust tag:playground-button
+````rust
 pub fn from_str<'a, T>(s: &'a str) -> Result<T>
 where
     T: de::Deserialize<'a>,
@@ -754,6 +754,8 @@ dbg!(thing);
 ````
 
 Now it doesn't compile anymore :smile:
+
+---
 
 ## Non-lexical Lifetimes
 
@@ -867,6 +869,20 @@ However, these things can happen regardless:
 - Heap Exhaustion
 - Infinite Loops
 - Infinite Busy Loops
+
+---
+
+## Review
+
+![bg right:45%](images/colorkit%20(2).png)
+
+- Ownership
+- Transferring Ownership
+- APIs and Ownership + Move Semantics
+- Drop, Copy
+- Shared and Mutable Borrowing
+- Lifetimes
+- Sharing XOR Mutation
 
 ---
 

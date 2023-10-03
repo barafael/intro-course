@@ -43,7 +43,7 @@ _paginate: false
   - Special types
 - Type Inference
 
-![bg right height:600px](images/gears_2.gif)
+![bg right](images/colorkit%20(7).png)
 
 ---
 
@@ -485,4 +485,4 @@ let config: Config = serde_json::from_str(r#"{"value": 3}"#).unwrap();
 - Special types
 - Type Inference
 
-![bg right:33%](images/gears_3.jpg)
+![bg right:45%](images/gears_2.gif)

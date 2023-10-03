@@ -28,7 +28,7 @@ _paginate: false
 
 ## Overview
 
-![bg blur:6px left:33%](images/gears.png)
+![bg blur:6px left:33%](images/colorkit%20(7).png)
 
 "All of these things": [`struct`](keyword:struct)
 
