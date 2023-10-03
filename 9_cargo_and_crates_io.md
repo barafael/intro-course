@@ -250,7 +250,7 @@ Of course, then there may not be any inconsistencies.
 
 Transitive deps go fat quickly:
 
-![width:1000px height:250px center](images/transitive-deps.png)
+![width:1000px height:250px center](images/9_cargo_and_crates_io/transitive-deps.png)
 
 <!-- _footer: "[cargo depgraph](https://github.com/jplatte/cargo-depgraph) auf [github.com/barafael/achat](https://github.com/barafael/achat)" -->
 
@@ -334,6 +334,30 @@ https://rustsec.org/advisories/RUSTSEC-2022-0081.html
 
 ---
 
+## RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
+
+Crates.io doesn't make any assertions about CVEs, but:
+
+![w:650px center](images/9_cargo_and_crates_io/rustsec.png)
+
+---
+
+## RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
+
+Crates.io doesn't make any assertions about CVEs, but:
+
+![w:650px center](images/9_cargo_and_crates_io/tokio-rustsec.png)
+
+---
+
+## RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
+
+Lists known CVEs in all your dependencies and recommends mitigations.
+
+![w:850px center](images/9_cargo_and_crates_io/cargo-audit.png)
+
+---
+
 ### Cargo Audit (RustSec Advisories in Cargo.lock)
 
 ```
@@ -363,5 +387,7 @@ alloc-cortex-m 0.4.4
 - Normal and Special features of cargo
 - SemVer
 - Why Cargo.lock?
+- Crates.io (good and bad)
+- RustSec
 
 ![bg right](images/crate.webp)

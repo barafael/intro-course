@@ -3,6 +3,7 @@ title: Cargo, Crates and Registries
 marp: true
 theme: rhea
 color: "dark-gray"
+size: 16:9
 
 ---
 
@@ -19,15 +20,17 @@ _paginate: false
 
 # Cargo, Crates and Registries
 
+![bg](images/intro.png)
+
 ---
 
-### How to manage proprietary crates?
+<!-- header: ' ' -->
 
-### How to include modified/patched crates?
-
-### How to supply guaranteed reproducible build environments?
-
-### How to reduce dependency on the internet and [crates.io](crates.io)
+![bg right](images/barrel.webp)
+- How to manage proprietary crates?
+- How to include modified/patched crates?
+- How to supply guaranteed reproducible build environments?
+- How to reduce dependency on the internet and [crates.io](crates.io)
 
 ---
 
@@ -58,30 +61,6 @@ tokio-stream = "0.1.9"
 * This also applies to crate versions which have been "yanked" (unlisted)
 * Valid dependency declarations
 * Valid build
-
----
-
-## Aside: RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
-
-Crates.io doesn't make any assertions about CVEs, but:
-
-![w:650px center](assets/images/rustsec.png)
-
----
-
-## Aside: RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
-
-Crates.io doesn't make any assertions about CVEs, but:
-
-![w:650px center](assets/images/tokio-rustsec.png)
-
----
-
-## Aside: RustSec and [`cargo audit`](https://crates.io/crates/cargo-audit)
-
-Lists known CVEs in all your dependencies and recommends mitigations.
-
-![w:850px center](assets/images/cargo-audit.png)
 
 ---
 
