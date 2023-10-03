@@ -7,3 +7,6 @@
 [submodule "watchdog"]
 	path = watchdog
 	url = https://github.com/barafael/watchdog
+[submodule "luhns-algorithm-exercise"]
+	path = luhns-algorithm-exercise
+	url = git@github.com:barafael/luhns-algorithm-exercise.git
