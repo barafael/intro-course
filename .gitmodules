@@ -10,3 +10,9 @@
 [submodule "luhns-algorithm-exercise"]
 	path = luhns-algorithm-exercise
 	url = git@github.com:barafael/luhns-algorithm-exercise.git
+[submodule "wpdl"]
+	path = wpdl
+	url = git@github.com:barafael/wpdl.git
+[submodule "julia-set-renderer"]
+	path = julia-set-renderer
+	url = git@github.com:cocomundo/julia-set-renderer.git

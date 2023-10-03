@@ -13,4 +13,4 @@ members = [
     "projects/traffic_light",
 ]
 
-exclude = ["achat"]
+exclude = ["achat", "luhns-algorithm-exercise", "wpdl"]
