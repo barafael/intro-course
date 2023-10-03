@@ -1,7 +1,4 @@
 error handling:
 
-unit testing
-
 nice things to come by: A HashSet is just a HashMap with the Value type set to `()`.
-Option<&T> is just a pointer in the binary
 c2rust.com

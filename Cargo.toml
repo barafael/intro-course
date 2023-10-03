@@ -2,15 +2,24 @@
 resolver = "2"
 
 members = [
-    "projects/discriminated_union",
-    "projects/fizzbuzz_iterator",
-    "projects/gzip_roundtrip",
-    "projects/maybe",
-    "projects/simple_server",
-    "projects/simple_snippets",
-    "projects/simple_tests",
-    "projects/to_byte_slice",
-    "projects/traffic_light",
+    # snippets
+    "snippets/discriminated_union",
+    "snippets/fizzbuzz_iterator",
+    "snippets/gzip_roundtrip",
+    "snippets/maybe",
+    "snippets/simple_server",
+    "snippets/simple_snippets",
+    "snippets/simple_tests",
+    "snippets/to_byte_slice",
+    "snippets/traffic_light",
+
+    # projects
+    "julia-set-renderer",
+    "luhns-algorithm-exercise",
+    "msg-repeater",
+    "wpdl",
 ]
 
-exclude = ["achat", "luhns-algorithm-exercise", "wpdl"]
+exclude = [
+    "achat", # because its CI is complex due to installing shared objects for gui
+]
