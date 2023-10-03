@@ -16,3 +16,6 @@
 [submodule "julia-set-renderer"]
 	path = julia-set-renderer
 	url = git@github.com:cocomundo/julia-set-renderer.git
+[submodule "msg-repeater"]
+	path = msg-repeater
+	url = git@github.com:barafael/msg-repeater.git
