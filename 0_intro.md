@@ -58,7 +58,7 @@ _paginate: false
   - Control flow, types, functions
 
 Projects:
-- [Luhn’s Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
+- [Luhns Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
 - [Simple Web Page Downloader](https://github.com/barafael/wpdl), Extension: Web Server API testing tool
 
 ---
@@ -141,7 +141,7 @@ Moores Law is well known - [supposedly it is slowing slightly](https://www.power
 
 Secondary metrics (systems languages usually lack here):
 
-- Productivity, Ergonomics, Safety, Security, Tooling, Prtability, static/dynamic analyzeability
+- Productivity, Ergonomics, Safety, Security, Tooling, Portability, static/dynamic analyzeability
 
 ---
 
@@ -166,7 +166,7 @@ Very hard to measure, but:
 
 - MISRA, ASpice, Frama-C, linting, etc.: partial post-hoc fixes
 
-Difference between incidental complexiry and inherent complexity
+Difference between incidental complexity and inherent complexity
   - C++ has many reasonable but terrible historical baggage
 
 <!-- _footer: '[Scale By The Bay 2018: Bryan Cantrill, Rust and Other Interesting Things](https://www.youtube.com/watch?v=2wZ1pCpJUIM)' -->
@@ -310,7 +310,7 @@ help: consider cloning the value if the performance cost is acceptable
 
 ## "Just Reference It"
 
-Sometimes, references are preferrable over moves. But, lifetimes become complicated.
+Sometimes, references are preferable over moves. But, lifetimes become complicated.
 
 ````rust tag:playground-button playground-wrap:main
 let s1 = String::from("hello");

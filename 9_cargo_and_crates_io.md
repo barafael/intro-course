@@ -3,6 +3,7 @@ title: Cargo and Crates.io
 marp: true
 theme: rhea
 color: "dark-gray"
+size: 16:9
 
 ---
 
@@ -59,12 +60,12 @@ td {
 <table>
 <td>
 
-![width:200px](assets/images/binary-crate.png)
+![width:200px](images/9_cargo_and_crates_io/binary-crate.png)
 
 </td>
 <td>
 
-![width:600px](assets/images/library-crate.png)
+![width:600px](images/9_cargo_and_crates_io/library-crate.png)
 
 </td>
 </tr>
@@ -245,7 +246,7 @@ Of course, then there may not be any inconsistencies.
 
 ---
 
-## Transitive Abhängigkeiten
+## Transitive Dependencies
 
 Transitive deps go fat quickly:
 
@@ -261,8 +262,6 @@ From "Cargo.toml vs. Cargo.lock" in the Cargo Book:
 
 “If you’re building a non-end product, such as a rust library that other rust packages will depend on, put Cargo.lock in your .gitignore.
 If you’re building an end product, which are executable like command-line tool or an application, [...] check Cargo.lock into git.”
-
-Also: Cargo.lock hauptsächlich relevant für Binary Crates! 
 
 <!-- _footer: '[Chapter in the Cargo Book](https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html)' -->
 ---
@@ -284,19 +283,19 @@ Central repo for all Rust crates. Authenticated maintainers can:
 
 ## Crates.io
 
-![width:600px center](images/crates.io.png)
+![width:600px center](images/9_cargo_and_crates_io/crates.io.png)
 
 ---
 
 ## Crates.io - Namespace Pollution
 
-![width:1000px center](images/namespace-pollution-crates.io.png)
+![width:1000px center](images/9_cargo_and_crates_io/namespace-pollution-crates.io.png)
 
 ---
 
 ## Crates.io - Namespace Occupation
 
-![width:1000px center](images/namespace-occupation-crates.io.png)
+![width:1000px center](images/9_cargo_and_crates_io/namespace-occupation-crates.io.png)
 
 ---
 
@@ -307,7 +306,7 @@ Ah the irony!
 This crate called "Crater" was occupied (has no content since 2 years).
 The only downloads happen through the crater project...
 
-![bg right height:700px](images/name-hogging.png)
+![bg right height:700px](images/9_cargo_and_crates_io/name-hogging.png)
 
 <!-- _footer: "[https://crates.io/crates/crater](https://crates.io/crates/crater)" -->
 
@@ -317,13 +316,13 @@ The only downloads happen through the crater project...
 
 Clever move: to ensure no typosquatting, this crate was hogged:
 
-![width:1000px center](images/reverse-hogging.png)
+![width:1000px center](images/9_cargo_and_crates_io/reverse-hogging.png)
 
 ---
 
 ## Vulnerability Index
 
-RustSec sammelt CVEs. Beispiel:
+RustSec collects CVEs. Example:
 
 __RUSTSEC-2020-0071__
 Potential segfault in the time crate:
@@ -356,3 +355,13 @@ alloc-cortex-m 0.4.4
 ```
 
 <!-- _footer: "[rustsec.org](rustsec.org)" -->
+
+---
+
+## Review
+
+- Normal and Special features of cargo
+- SemVer
+- Why Cargo.lock?
+
+![bg right](images/crate.webp)

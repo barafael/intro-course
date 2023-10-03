@@ -253,6 +253,7 @@ Try changing the expression being iterated upon!
 ## Custom Iterator Constructors
 
 Some collections offer interfaces to iterate over aspects of their contents:
+
 ````rust tag:playground-button playground-before:$"use std::collections::HashMap;"$
 fn sum_values<K>(map: &HashMap<K, u32>) -> u32 {
     let mut sum = 0;
@@ -265,7 +266,7 @@ fn sum_values<K>(map: &HashMap<K, u32>) -> u32 {
 
 ---
 
-## Iterator combinators: [`Iterator::sum`](rust:std::iter::Iterator::sum)
+## Iterator combinator: [`Iterator::sum`](rust:std::iter::Iterator::sum)
 
 The trait [`Iterator`](rust:std::iter::Iterator) only requires implementing [`Iterator::next`](rust:std::iter::Iterator::next).
 The trait defines common generic combinators:
@@ -278,7 +279,7 @@ fn sum_values<K>(map: &HashMap<K, u32>) -> u32 {
 
 ---
 
-## Iterator combinators: [`Iterator::all`](rust:std::iter::Iterator::all)
+## Iterator combinator: [`Iterator::all`](rust:std::iter::Iterator::all)
 
 The [`Iterator::all`](rust:std::iter::Iterator::all) combinator evaluates a predicate for all items:
 
@@ -290,7 +291,7 @@ assert!(name.chars().all(|c| c.is_ascii_alphanumeric()));
 
 ---
 
-## Iterator combinators: [`Iterator::any`](rust:std::iter::Iterator::any)
+## Iterator combinator: [`Iterator::any`](rust:std::iter::Iterator::any)
 
 The dual of [`Iterator::all`](rust:std::iter::Iterator::all) is [`Iterator::any`](rust:std::iter::Iterator::any).
 
@@ -308,9 +309,9 @@ if Self::days(ticket.timestamp1, ticket.timestamp2)
 
 ---
 
-## Kombinatoren für Iteratoren: `filter`
+## Iterator combinator: [`Iterator::filter`](rust:std::iter::Iterator::filter)
 
-Filter nimmt ein Prädikat und behält nur die Elemente des Iterators, für welche das Prädikat wahr ist.
+Takes a predicate and yields only the elements for which the predicate is valid.
 
 ```rust
 let mut iter: Filter<Iter<'_, i32>, _> = a.iter().filter(|x| x.is_positive());
@@ -318,7 +319,7 @@ let mut iter: Filter<Iter<'_, i32>, _> = a.iter().filter(|x| x.is_positive());
 
 <div data-marpit-fragment>
 
-einfacher:
+simpler:
 ```rust
 let mut iter: Filter<_, _> = a.iter().filter(|x| x.is_positive());
 ```
@@ -333,7 +334,7 @@ let mut iter = a.iter().filter(|x| x.is_positive());
 
 ---
 
-## Iterator combinators: [`Iterator::map`](rust:std::iter::Iterator::map)
+## Iterator combinator: [`Iterator::map`](rust:std::iter::Iterator::map)
 
 [`Iterator::map`](rust:std::iter::Iterator::map) implements a bijective mapping of the elements in one iterator to the elements in a new one.
 The function passed determines the type of the new iterator.
@@ -482,7 +483,7 @@ This pattern is used all over the place.
 
 ---
 
-## More combinators
+## More combinator
 
 `map`, `filter`, `collect` are just the beginning.
 
@@ -525,8 +526,8 @@ pixels.par_iter_mut().for_each(|(x, y, pixel)| {
 
 Many other functions return an iterator less related to collections:
 
-* `std::env::args()`: Argumente des Programmes
-* `std::str::matches()`: Matches eines Patterns in einem String
+* `std::env::args()`: program binary args
+* `std::str::matches()`: matches of a pattern in a string
 * Our fibonacci implementation
 
 ---
@@ -608,5 +609,5 @@ Equivalent:
 
 ## Questions?
 
-<jframe style="margin-top:5%" width="100%" height="80%" src="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn+main%28%29+%7B%7D%0A">
+<iframe style="margin-top:5%" width="100%" height="80%" src="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn+main%28%29+%7B%7D%0A">
 </iframe>
