@@ -160,7 +160,7 @@ p {
 
 This applies primarily to lib crates.
 
-<!-- _footer: "Aus [semver.org/lang/de/](semver.org/lang/de/)" -->
+<!-- _footer: "Aus [semver.org/lang/de/](https://semver.org/lang/de/)" -->
 
 ---
 
@@ -378,7 +378,7 @@ alloc-cortex-m 0.4.4
 └── wasmi-m4 0.1.0
 ```
 
-<!-- _footer: "[rustsec.org](rustsec.org)" -->
+<!-- _footer: "[rustsec.org](https://rustsec.org)" -->
 
 ---
 

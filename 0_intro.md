@@ -36,7 +36,7 @@ _paginate: false
 - Automotive (Rust)
 - Distributed Systems (Rust)
 - Since 3 years: Rust Meetup Nuremberg
-- Opensource on GitHub: [github.com/barafael](github.com/barafael)
+- Opensource on GitHub: [github.com/barafael](https://github.com/barafael)
 
 ---
 
@@ -58,7 +58,7 @@ _paginate: false
   - Control flow, types, functions
 
 Projects:
-- [Luhns Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
+- [Luhn Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
 - [Simple Web Page Downloader](https://github.com/barafael/wpdl), Extension: Web Server API testing tool
 
 ---
@@ -76,7 +76,6 @@ Projects:
 
 ---
 
-
 ## Übermorgen
 
 - Error Management
@@ -93,7 +92,7 @@ Projects:
 - [Message Repeater TCP Server](https://github.com/barafael/msg-repeater)
 - [Bare Metal Async I/O with embassy](https://github.com/barafael/really-fast-buttons)
 - [Async I/O Example Programs with Tokio](https://github.com/barafael/achat)
-- [Protohackers Exercises](https://github.com/barafael/protohackers) from [protohackers.com](protohackers.com)
+- [Protohackers Exercises](https://github.com/barafael/protohackers) from [protohackers.com](https://protohackers.com)
 - ["Learning Async Rust with Entirely Too Many Web Servers"](https://ibraheem.ca/posts/too-many-web-servers/)
 - [The "Tokio Tutorial"](https://tokio.rs/tokio/tutorial)
 
@@ -141,7 +140,7 @@ Moores Law is well known - [supposedly it is slowing slightly](https://www.power
 
 Secondary metrics (systems languages usually lack here):
 
-- Productivity, Ergonomics, Safety, Security, Tooling, Portability, static/dynamic analyzeability
+- Productivity, Ergonomics, Safety, Security, Tooling, Portability, static/dynamic Analyze-ability
 
 ---
 
@@ -216,7 +215,7 @@ Around 2010 Rust was Golang:
 GC, Green Threads, Runtime,
 Segmented Stacks, Exceptions
 
-- 1.0-Release (2015) ends teenie phase
+- Less rapid change since 2015 (1.0)
 
 [Graydon Hoare 2010](http://venge.net/graydon/talks/intro-talk-2.pdf)
 [Graydon Hoare 2012](http://venge.net/graydon/talks/rust-2012.pdf)
@@ -473,21 +472,21 @@ li {
 </style>
 
 - Cargo: Build, dependencies, testing, documentation, benchmarks
-- [crates.io](crates.io): Library repo
+- [crates.io](https://crates.io): Library repo
 - Clippy: 99.9% Hit Rate Linting [(so many lints)](https://rust-lang.github.io/rust-clippy/master/index.html)
 
 Tools:
 depgraph, miri, tarpaulin, tomlfmt, tokei, kondo, cross, probe-rs, audit, licenses, nextest, ...
 
-[docs.rs](docs.rs): Centrally hosted generated documentation
+[docs.rs](https://docs.rs): Centrally hosted generated documentation
 [Rust Analyzer](https://rust-analyzer.github.io/): IDE functionality via LSP
-[Rustup](rustup.rs): Toolchain and component installation and management
+[Rustup](https://rustup.rs): Toolchain and component installation and management
 
 ---
 
 ## Tooling & Ecosystem
 
-Before a new compiler release, [Crater](https://github.com/rust-lang/crater) loads most of [crates.io](crates.io).
+Before a new compiler release, [Crater](https://github.com/rust-lang/crater) loads most of [crates.io](https://crates.io).
 It builds and tests them with the old and the new compiler
 Purpose: detect compiler regressions with all known codebases.
 
@@ -664,7 +663,7 @@ li {
 
 <div>
 
-- [berline.rs](berline.rs): Germanys largest and oldest Rust Online Meetup
+- [berline.rs](https://berline.rs): Germanys largest and oldest Rust Online Meetup
 - [rust-linz.at](https://rust-linz.at/): It's time for the steel city to Rust!
 - [Rust Noris](https://www.meetup.com/de-DE/rust-noris/): Rust Nuremberg Meetup
 

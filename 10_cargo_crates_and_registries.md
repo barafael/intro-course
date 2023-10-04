@@ -30,7 +30,7 @@ _paginate: false
 - How to manage proprietary crates?
 - How to include modified/patched crates?
 - How to supply guaranteed reproducible build environments?
-- How to reduce dependency on the internet and [crates.io](crates.io)
+- How to reduce dependency on the internet and [crates.io](https://crates.io)
 
 ---
 
@@ -55,7 +55,7 @@ tokio-stream = "0.1.9"
 
 ---
 
-## Promises of [crates.io](crates.io)
+## Promises of [crates.io](https://crates.io)
 
 * Once published, a crate version stays available
 * This also applies to crate versions which have been "yanked" (unlisted)
@@ -302,13 +302,13 @@ publish = ["dolphin"]
 
 ## Providers of private registries
 
-* [meuse.mcorbin.fr](meuse.mcorbin.fr)
+* [meuse.mcorbin.fr](https://meuse.mcorbin.fr)
     - Open Source and Storage-agnostic
-    - Fanatics note that it is written in Clojure ([Grund](https://www.reddit.com/r/rust/comments/cs14dh/comment/exe5zxj/))
+    - Fanatics note that it is written in Clojure ([reason](https://www.reddit.com/r/rust/comments/cs14dh/comment/exe5zxj/))
 
-* [shipyard.rs](shipyard.rs)
+* [shipyard.rs](https://shipyard.rs)
     - Active and passionate dev community
-    - [Blogpost](https://fasterthanli.me/series/building-a-rust-service-with-nix/part-7) by [Fasterthanlime](fasterthanli.me)
+    - [Blogpost](https://fasterthanli.me/series/building-a-rust-service-with-nix/part-7) by [Fasterthanlime](https://fasterthanli.me)
     - Free Tier (for evaluation)
     - uses Meuse, Gitea, actix-web
 

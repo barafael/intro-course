@@ -138,7 +138,7 @@ assert_eq!(
 <iframe style="margin-top:5%" width="100%" height="80%" src="https://doc.rust-lang.org/std/#primitives"></iframe>
 
 <!--
-_footer: '[https://doc.rust-lang.org/std/#primitives](doc.rust-lang.org/std/#primitives)'
+_footer: '[doc.rust-lang.org/std/#primitives](https://doc.rust-lang.org/std/#primitives)'
  -->
 
 ---
@@ -211,7 +211,7 @@ Just like other slices, it isn't used without `&`.
 let arg: String = std::env::args().next().unwrap();
 println!("Size of String: {}", std::mem::size_of_val(&arg));
 let s = arg.as_str();
-println!("Size of str: {}", std::mem::size_of_val(&s));
+println!("Size of &str: {}", std::mem::size_of_val(&s));
 ````
 
 ---
@@ -382,7 +382,7 @@ pub fn size_of<T>() -> usize;
 size_of::<u8>()
 ````
 
-[turbo.fish](turbo.fish)
+[turbo.fish](https://turbo.fish)
 
 ---
 

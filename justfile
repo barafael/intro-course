@@ -1,5 +1,5 @@
 snippets:
-    snippet-extractor --directory projects --output snippets.json --relative
+    snippet-extractor --directory snippets --output snippets.json --relative
 
 autolink target:
     markdown-linkify {{target}}.md --config linkify.toml --output {{target}}.autolinked

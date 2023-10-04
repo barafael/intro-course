@@ -36,7 +36,7 @@ Help choosing an IDE ecosystem
 
 <!-- header: ' ' -->
 
-## [rustup.rs](rustup.rs) - The Rust Toolchain Installer
+## [rustup.rs](https://rustup.rs) - The Rust Toolchain Installer
 
 "The benefit of using the Rustup toolchain manager instead of the standalone prepackaged Rust in the software repository is the ability to install multiple toolchains (...) for multiple targets (...) and architectures (...)."
 
@@ -46,7 +46,7 @@ Rustup is the recommended installation method (not the distro package manager)
 
 ---
 
-## [rustup.rs](rustup.rs) - The Rust Toolchain Installer
+## [rustup.rs](https://rustup.rs) - The Rust Toolchain Installer
 
 <p style = "text-align: center"><a href="https://www.rustup.rs">rustup.rs</a></p>
 

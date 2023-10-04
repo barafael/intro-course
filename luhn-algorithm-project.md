@@ -1,6 +1,6 @@
 ---
 
-title: "Luhns Algorithm"
+title: "Luhn Algorithm"
 description: ""
 marp: true
 theme: rhea
@@ -18,7 +18,7 @@ _paginate: false
  -->
 <!-- _class: lead -->
 
-# Luhns Algorithm
+# Luhn Algorithm
 
 ![bg](images/intro.png)
 
@@ -26,7 +26,7 @@ _paginate: false
 
 <!-- header: ' ' -->
 
-## Luhns Algorithm
+## Luhn Algorithm
 
 This is a credit card number validation algorithm.
 It takes a string as input and returns a boolean.
@@ -35,9 +35,9 @@ It takes a string as input and returns a boolean.
 
 ---
 
-## Luhns Algorithm
+## Luhn Algorithm
 
-* Clone [https://github.com/barafael/luhns-algorithm-exercise](github.com/barafael/luhns-algorithm-exercise)
+* Clone [https://github.com/barafael/luhns-algorithm-exercise](https://github.com/barafael/luhns-algorithm-exercise)
 
 * If you speak german: follow the instructions in the README.
 
