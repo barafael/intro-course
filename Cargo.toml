@@ -14,12 +14,12 @@ members = [
     "snippets/traffic_light",
 
     # projects
-    "julia-set-renderer",
     "luhns-algorithm-exercise",
     "msg-repeater",
     "wpdl",
 ]
 
 exclude = [
-    "achat", # because its CI is complex due to installing shared objects for gui
+    "julia-set-renderer", # because its CI is complex due to installing shared objects for gui
+    "achat",              # because its CI is complex due to installing shared objects for gui
 ]
