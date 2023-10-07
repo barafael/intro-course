@@ -485,11 +485,8 @@ A mutable, unique reference may be created from a value by mutably **borrowing**
 ````rust tag:playground-button playground-wrap:main
 let mut s = String::from("some string");
 let ref_x = &mut s;
-s.push_str(" and another string");
+ref_s.push_str(" and another string");
 ````
-
-This isn't special - it could be done without the mutable reference.
-But, a mutable reference doesn't carry with it the obligation to clean up the value!
 
 ---
 
@@ -535,7 +532,6 @@ Mutable references are literally pointers with a few extra rules:
 - cannot be null
 - cannot be misaligned
 - cannot dangle (point to deallocated resources)
-- cannot be used to write
 - cannot coexist with any other reference
 
 Invariant: "Sharing XOR Mutability" at compile time.
@@ -818,18 +814,18 @@ for i in 0..10 {
 
 Same example, but with actually synchronized mutation:
 
-````rust tag:playground-button playground-before:$"use std::sync::{Arc, Mutex};fn main() {"$ playground-after:$"}"$
+````rust tag:playground-button playground-before:$"use std::{time::Duration, sync::{Arc, Mutex}};fn main() {"$ playground-after:$"}"$
 let x = Arc::new(Mutex::new(vec![1, 2, 3]));
 for i in 0..10 {
     let x = x.clone();
     std::thread::spawn(move || {
-        x.lock().unwrap().iter_mut().for_each(|elem| *elem += 1);
+        let mut x = x.lock().unwrap();
+        x.iter_mut().for_each(|elem| *elem += 1);
         println!("{i}: {x:?}");
     });
 }
+std::thread::sleep(Duration::from_millis(50));
 ````
-
-<!-- _footer: 'Mind the race condition here, though! Main thread finishes early.' -->
 
 ---
 
@@ -874,7 +870,7 @@ However, these things can happen regardless:
 
 ## Review
 
-![bg right:45%](images/colorkit%20(2).png)
+![bg right:45%](images/colorkit%20(11).png)
 
 - Ownership
 - Transferring Ownership

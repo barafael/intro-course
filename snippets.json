@@ -74,7 +74,7 @@
         "col": 0
       },
       "maybe_type_enum_sizes": {
-        "content": "        print_type_info(&Maybe::Just(1u8));\n        print_type_info(&Maybe::<u16>::Nothing);\n        print_type_info(&Maybe::Just(false));",
+        "content": "        print_type_info(&Maybe::Just(1u8));\n        print_type_info(&Maybe::<u16>::Just(5));\n        print_type_info(&Maybe::<bool>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
         "line": 66,
         "col": 0
@@ -86,7 +86,7 @@
         "col": 0
       },
       "maybe_type_size_of_boxes": {
-        "content": "        print_type_info(&Maybe::Just(Box::new(8)));\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
+        "content": "        print_type_info(&Maybe::<&i32>::Nothing);\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
         "line": 84,
         "col": 0
@@ -126,7 +126,7 @@
         "col": 0
       },
       "find_tv_fn": {
-        "content": "        fn find_tv<'a>(input: &'a str) -> Option<Selection<'a>> {\n            input\n                .split_whitespace()\n                .find(|token| token.contains(\"television\"))\n                .map(Selection)\n        }",
+        "content": "        fn find_tv<'a>(input: &'a str) -> Option<Selection<'a>> {\n            input\n                .split_whitespace()\n                .find(|token| token.contains(\"television\"))\n                .map(|s| Selection(s))\n        }",
         "file": "snippets/simple_snippets/src/lib.rs",
         "line": 36,
         "col": 0

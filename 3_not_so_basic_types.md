@@ -267,7 +267,7 @@ let (): () = println!("Println doesn't return anything");
 
 The unit type is zero-sized - it exists only at compile time. It is a first-class citizen.
 
-This means you can use it as a value in a datastructure normally.
+This means you can use it as a value in a data structure normally.
 
 ---
 

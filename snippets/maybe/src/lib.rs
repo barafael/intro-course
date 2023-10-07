@@ -66,8 +66,8 @@ mod test {
     fn maybe_type_meta() {
         // marker-start:maybe_type_enum_sizes
         print_type_info(&Maybe::Just(1u8));
-        print_type_info(&Maybe::<u16>::Nothing);
-        print_type_info(&Maybe::Just(false));
+        print_type_info(&Maybe::<u16>::Just(5));
+        print_type_info(&Maybe::<bool>::Nothing);
         // marker-end:maybe_type_enum_sizes
     }
 

@@ -33,7 +33,7 @@ _paginate: false
 
 ![bg right](images/barrel.webp)
 
-- How are Algorithms and Datastructures organized in [`std`](rust:std)?
+- How are Algorithms and Data structures organized in [`std`](rust:std)?
 
 - What are the differences between the Rust collections and the containers in the C++ STL?
 
@@ -77,8 +77,8 @@ Very many concepts in this one snippet!
 Iterators can be created from collections:
 
 ````rust tag:playground-button playground-wrap:main
-let values = std::collections::HashSet::from(['a', 'b', 'c']);
-//let values = std::collections::BTreeSet::from(['a', 'b', 'c']);
+let values = std::collections::HashSet::/*BTreeSet::*/from(['a', 'b', 'c']);
+
 let mut iter = values.into_iter();
 let first: Option<char> = dbg!(iter.next());
 ````
@@ -87,7 +87,7 @@ let first: Option<char> = dbg!(iter.next());
 
 On exhaustion:
 
-````rust tag:playground-button playground-before:$"fn main() { let values = std::collections::HashSet::from(['a', 'b', 'c']); //let values = std::collections::BTreeSet::from(['a', 'b', 'c']); let mut iter = values.into_iter(); let first: Option<char> = dbg!(iter.next());"$ playground-after:$"}"$
+````rust tag:playground-button playground-before:$"fn main() { let values = std::collections::HashSet::/*BTreeSet::*/from(['a', 'b', 'c']); let mut iter = values.into_iter(); let first: Option<char> = dbg!(iter.next());"$ playground-after:$"}"$
 let second: Option<char> = dbg!(iter.next());
 let third: Option<char> = dbg!(iter.next());
 let none: Option<char> = dbg!(iter.next());
@@ -214,7 +214,7 @@ for elem in fizzbuzz.take(20) {
 
 Most collections offer three iterator functions:
 
-* `into_iter()`: iterate "by value", consuming the datastructure in the process
+* `into_iter()`: iterate "by value", consuming the data structure in the process
 * `iter()`: iterate over shared references (`&T`) to the items
 * `iter_mut()`: iterate over unique, mutable references (`&mut T`) to the items
 
@@ -400,18 +400,6 @@ dbg!(map);
 
 ---
 
-## Aside: Point-free style
-
-Debatable readability. I personally love it.
-
-````rust tag:playground-button playground-before:$"fn main() { let seq = "\n\t\r\\";"$ playground-after:$"}"$
-seq.chars().map(char::escape_default).for_each(|elem| {
-    print!("{elem}");
-});
-````
-
----
-
 ## `Vec<Result<T, E>>` or `Result<Vec<T>, E>`?
 
 `parse_hex_digit` returns a `Result<T, E>`, so the iterator item type becomes `Iterator<Item = Result<u8, Error>>`
@@ -491,7 +479,7 @@ This pattern is used all over the place.
 
 [Provided Methods of String Slices (`&str`)](https://doc.rust-lang.org/std/primitive.str.html)
 
-[`chain`](rust:std::iter::Iterator::chain), [`zip`](rust:std::iter::Iterator::zip), [`cycle`](rust:std::iter::Iterator::cycle), [`take`](rust:std::iter::Iterator::take), [`windows`](rust:std::iter::Iterator::windows), [`fold`](rust:std::iter::Iterator::fold), ...
+[`chain`](rust:std::iter::Iterator::chain), [`zip`](rust:std::iter::Iterator::zip), [`cycle`](rust:std::iter::Iterator::cycle), [`take`](rust:std::iter::Iterator::take), [`fold`](rust:std::iter::Iterator::fold), ...
 
 Even more in [itertools](https://github.com/rust-itertools/itertools): `windows`, `interleave`, `collect_vec`, `join`, `partition`, `peek_nth`
 
@@ -566,7 +554,7 @@ dbg!(counts);
 
 The previous example, just simpler:
 
-````rust tag:playground-button playground-wrap
+````rust tag:playground-button playground-wrap:main
 use std::collections::HashMap;
 let mut counts: HashMap<&str, usize> = HashMap::new();
 for name in ["a", "b", "c", "a", "a"] {

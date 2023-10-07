@@ -30,7 +30,7 @@ _paginate: false
 
 ## `$whoami`
 
-![bg right](images/colorkit%20(2).png)
+![bg right](images/colorkit%20(13).png)
 - Learning Rust since 2016
 - Embedded Work (C, C++, Rust)
 - Automotive (Rust)
@@ -66,7 +66,7 @@ Projects:
 ## Morgen
 
 - References, Move Semantics, Sharing XOR Mutability
-- Datastructures
+- Data structures
 - API Design, Resource Management, Multithreading
 
 Projects:
@@ -136,7 +136,7 @@ Moores Law is well known - [supposedly it is slowing slightly](https://www.power
 
 "Performance" as in "time taken" is just one of many metrics
 
-- Memory, Allocation behaviour, System Resources (threads, locks), Energy, CPU features (cache, SIMD, special instructions), Serialization/marshaling cost, startup cost of interpreters
+- Memory, Allocation behavior, System Resources (threads, locks), Energy, CPU features (cache, SIMD, special instructions), Serialization/marshaling cost, startup cost of interpreters
 
 Secondary metrics (systems languages usually lack here):
 
@@ -394,7 +394,7 @@ Can’t have it all. If given a choice, which values are a priority?
 
 How to decide on the "Big Things"?
 
-System Architecture, foundational invariants, Toolability, Interoperability with other systems...
+System Architecture, foundational invariants, Tool-ability, Interoperability with other systems...
 
 "Which values are you ready to de-prioritize in favor of others?"
 
@@ -562,7 +562,7 @@ rustyline = "9.1.2"
 
 And this is a harmless and simplified example!
 
-![bg width:1200px](images/depgraph.png)
+![bg width:1200px](images/depgraph.svg)
 
 <!-- _footer: '[Example](https://github.com/barafael/ebyte-e32-ui#simplified-dependency-graph)' -->
 
