@@ -17,7 +17,7 @@ A set of slides designed to introduce the philosophy of Rust, teach the basics, 
 - Clone this repo recursively.
 - Open the workspace file with `vscode` and let it compile the Rust code.
 - Run `just open $presentation_name` where `$presentation_name` is the filename without extension, such as `7_collections_and_iteration`.
-- For (somewhat) continuous updates while working on the slides: `watchexec --exts md --debounce 3s "just presentation 4_expressions_and_control_flow"`.
+- For (somewhat) continuous updates while working on the slides: `watchexec --exts md --debounce 3s "just presentation 4_expressions_and_control_flow"` (keep in mind you may have to reload in your browser for this to work).
 
 ## Issues
 
