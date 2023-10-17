@@ -496,9 +496,11 @@ fn main() -> ! {
 
 ## The `main` function
 
-````rust tag:playground-button playground-wrap:main
+````rust tag:playground-button
+use anyhow::Context;
 fn main() -> anyhow::Result<()> {
-    Err(anyhow::anyhow!("Not feeling it today"))
+    "blergh".parse::<u32>().context("Not feeling it today")?;
+    Err(anyhow::anyhow!("Nah..."))
 }
 ````
 

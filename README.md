@@ -21,4 +21,9 @@ A set of slides designed to introduce the philosophy of Rust, teach the basics, 
 
 ## Issues
 
-Not sure this works on windows, at all... due to differences in path handling. Can't really test right now.
+* Not sure this works on windows, at all... due to differences in path handling. Can't really test right now.
+* Probably remove the memes
+* The background imagery might need rethinking.
+* The final playground in each chapter is not useful so far
+* Especially the intro is all over the place
+* More diagrams, illustrations

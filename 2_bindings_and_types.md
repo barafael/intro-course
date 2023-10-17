@@ -320,10 +320,18 @@ println!("{before}, then {after}");
 
 Structures can unsurprisingly also be destructured:
 
-````rust
-struct Message { ... }
-...
-let Message { sender, content, tag, .. } = client.recv().await?;
+````rust tag:playground-button playground-before:$"use anyhow::Context; struct Message { content: String, sender: String, receiver: String,tag: bool } enum Tag {Instant, Async}"$ playground-after:$""$
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let (_server, mut client) = tokio::sync::mpsc::channel(16);
+    let Message {
+        sender,
+        content,
+        tag,
+        ..
+    } = client.recv().await.context("channel closed")?;
+    Ok(())
+}
 ````
 
 ---

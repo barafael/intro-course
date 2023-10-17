@@ -1,11 +1,9 @@
 use itertools::Itertools;
 
 pub fn make_byte_slice<T: Sized>(value: &T) -> &[u8] {
-    unsafe {
-        let len = std::mem::size_of::<T>();
-        let data = value as *const T as *const u8;
-        std::slice::from_raw_parts(data, len)
-    }
+    let len = std::mem::size_of::<T>();
+    let data = value as *const T as *const u8;
+    unsafe { std::slice::from_raw_parts(data, len) }
 }
 
 pub fn print_type_info<T>(value: &T) {

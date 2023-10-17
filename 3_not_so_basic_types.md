@@ -167,11 +167,11 @@ Arrays can never change size, and they are copied, not moved.
 A slice is a pointer to the start and a length.
 
 ````rust tag:playground-button playground-wrap:main
-let values = vec![1, 2, 3, 4];
-let slice: &[u8] = &values[..1];
+let values = vec![1, 8, 3, 4, 5, 3, 1];
+let slice: &[u8] = &values[..3];
 dbg!(slice);
 
-println!("size of slice: {}", std::mem::size_of::<&[u8]>());
+println!("size of slice: {}", std::mem::size_of_val(&slice));
 ````
 
 Size is `2 * size_of::<usize>`.
@@ -443,7 +443,7 @@ _footer: 'This thing is called the [turbofish](http://turbo.fish)'
 While parsing, you need to tell what type you are expecting:
 
 ````rust tag:playground-button playground-before:$"fn main(){"$ playground-after:$"dbg!(parsed);}"$
-let parsed = String::from("1337").parse::<usize>().unwrap();
+let parsed = "1337".parse::<usize>().unwrap();
 ````
 
 <div data-marpit-fragment>
@@ -451,7 +451,7 @@ let parsed = String::from("1337").parse::<usize>().unwrap();
 Simpler, with normal type specification:
 
 ````rust tag:playground-button playground-before:$"fn main(){"$ playground-after:$"dbg!(parsed);}"$
-let parsed: usize = String::from("1337").parse().unwrap();
+let parsed: usize = "1337".parse().unwrap();
 ````
 
 This works for all types implementing [`FromStr`](rust:`std::str::FromStr`) (see signature of [`str::parse`](rust:`str::parse`)).
