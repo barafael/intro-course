@@ -321,7 +321,7 @@ Plenty of crates, though: [https://crates.io/search?q=mock](https://crates.io/se
 
 ---
 
-## Stop Time
+## Stop Time/Fast Forwarding Time
 
 Some test cases would take a long time in realtime. But `tokio` can travel faster than light!
 
@@ -331,9 +331,19 @@ Whenever the runtime is only waiting on timers, it fast-forwards to the next one
 
 ---
 
-## Stop Time
+## Stop Time/Fast Forwarding Time
 
-It's not magic. This test should run within milliseconds.
+It's not magic. This test runs within milliseconds.
+
+````rust marker:start_paused_timeout
+
+````
+
+---
+
+## Stop Time/Fast Forwarding Time
+
+It's not magic. This test runs within milliseconds.
 
 ````rust
 #[tokio::test(start_paused = true)]

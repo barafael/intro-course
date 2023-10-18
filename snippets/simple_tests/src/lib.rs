@@ -57,6 +57,20 @@ mod test {
     }
     // marker-end:test_should_panic
 
+    // marker-start:start_paused_timeout
+    #[tokio::test(start_paused = true)]
+    async fn should_time_out() {
+        use std::time::Duration;
+        use tokio::{sync::mpsc, time::timeout};
+        const TIMEOUT: Duration = Duration::from_millis(500);
+
+        let now = std::time::Instant::now();
+        let (tx, mut rx) = mpsc::channel::<String>(16);
+        assert!(timeout(TIMEOUT, rx.recv()).await.is_err());
+        // marker-end:start_paused_timeout
+        dbg!(now.elapsed());
+    }
+
     use proptest::prelude::*;
 
     proptest! {

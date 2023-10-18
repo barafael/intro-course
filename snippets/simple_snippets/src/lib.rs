@@ -54,9 +54,9 @@ mod test {
         use serde::{Deserialize, Serialize};
         // marker-start:serde_deserialize_with_shared_references_1
         #[derive(Debug, Deserialize, Serialize)]
-        struct Item<'a, 'b> {
+        struct Item<'a> {
             name: &'a str,
-            description: &'b str,
+            description: &'a str,
         }
         // marker-end:serde_deserialize_with_shared_references_1
         // marker-start:serde_deserialize_with_shared_references_2
@@ -88,6 +88,27 @@ mod test {
         let config: &'static _ = Box::leak(Box::new(config));
         dbg!(config); // config may now be handed out among threads.
                       // marker-end:config_leak
+        Ok(())
+    }
+
+    #[test]
+    fn parses_hex_digit() -> anyhow::Result<()> {
+        use anyhow::Context;
+
+        pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> {
+            u8::from_str_radix(s, 16).context("Failed to parse hex byte")
+        }
+
+        let input = "1 a b 4 5 66 7 a";
+        input
+            .split_whitespace()
+            .map(parse_hex_digit)
+            .collect::<Result<Vec<u8>, anyhow::Error>>()
+            .unwrap()
+            .iter()
+            .for_each(|item| {
+                println!("{item:?}");
+            });
         Ok(())
     }
 }

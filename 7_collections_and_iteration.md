@@ -339,12 +339,12 @@ let mut iter = a.iter().filter(|x| x.is_positive());
 [`Iterator::map`](rust:std::iter::Iterator::map) implements a bijective mapping of the elements in one iterator to the elements in a new one.
 The function passed determines the type of the new iterator.
 
-````rust tag:playground-button playground-before:$" pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
+````rust tag:playground-button playground-before:$" use anyhow::Context; pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
 input
     .split_whitespace()
     .map(parse_hex_digit)
     .for_each(|item| {
-        println!("{item}");
+        println!("{item:?}");
     });
 ````
 
@@ -359,10 +359,11 @@ This frequently requires a turbofish or an annotation.
 
 ```rust tag:playground-button playground-wrap:main
 let values = vec!["birdie", "cat", "doggo"];
-let result: HashSet<_> = values
+let result: std::collections::HashSet<_> = values
     .iter()
     .map(|a| a.to_uppercase())
     .collect();
+dbg!(result);
 ```
 
 The type annotation fixes a degree of freedom of [`collect`](rust:std::iter::Iterator::collect).
@@ -406,12 +407,12 @@ dbg!(map);
 
 What we want is a `Result<Vec<T>, E>`.
 
-````rust tag:playground-button playground-before:$" pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
+````rust tag:playground-button playground-before:$" use anyhow::Context; pub fn parse_hex_digit(s: &str) -> anyhow::Result<u8> { u8::from_str_radix(s, 16).context("Failed to parse hex byte") } fn main() { let input = "1 a b 4 5 66 7 a";"$ playground-after:$"}"$
 input
     .split_whitespace()
     .map(parse_hex_digit)
     .for_each(|item| {
-        println!("{item}");
+        println!("{item:?}");
     });
 ````
 
@@ -442,10 +443,6 @@ impl<A, E, V: FromIterator<A>> FromIterator<Result<A, E>> for Result<V, E>
 ```
 
 Rule of thumb: use [`collect`](rust:std::iter::Iterator::collect) to collect into collection-like things.
-
-<div data-marpit-fragment>
-
-</div>
 
 ---
 

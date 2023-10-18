@@ -44,57 +44,57 @@
     },
     "snippets/maybe/src/lib.rs": {
       "enum_type_maybe": {
-        "content": "pub enum Maybe<T> {\n    Just(T),\n    Nothing,\n}",
+        "content": "pub enum Maybe<T> {\n    Something(T),\n    #[default]\n    Nothing,\n}",
         "file": "snippets/maybe/src/lib.rs",
         "line": 1,
         "col": 0
       },
       "enum_type_maybe_match": {
-        "content": "        match it {\n            Maybe::Just(\"something\") => println!(\"found \\\"something\\\"!\"),\n            Maybe::Just(\"data!\") => println!(\"found \\\"data!\\\"\"),\n            Maybe::Just(something_else) => println!(\"found {something_else}!\"),\n            Maybe::Nothing => println!(\"there was nothing in it...\"),\n        }",
+        "content": "        match it {\n            Maybe::Something(\"something\") => println!(\"found \\\"something\\\"!\"),\n            Maybe::Something(\"data!\") => println!(\"found \\\"data!\\\"\"),\n            Maybe::Something(something_else) => println!(\"found {something_else}!\"),\n            Maybe::Nothing => println!(\"there was nothing in it...\"),\n        }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 54,
+        "line": 83,
         "col": 0
       },
       "maybe_fn": {
-        "content": "    pub fn is_just(&self) -> bool {\n        matches!(self, &Maybe::Just(_))\n    }",
+        "content": "    pub fn is_something(&self) -> bool {\n        //matches!(self, &Maybe::Something(_))\n        match self {\n            Maybe::Something(_) => true,\n            Maybe::Nothing => false,\n        }\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 18,
+        "line": 19,
         "col": 0
       },
       "maybe_fn_mut": {
         "content": "    pub fn take(&mut self) -> Maybe<T> {\n        std::mem::replace(self, Maybe::Nothing)\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 24,
+        "line": 29,
         "col": 0
       },
       "maybe_fn_once": {
-        "content": "    pub fn unwrap(self) -> T {\n        match self {\n            Maybe::Just(t) => t,\n            Maybe::Nothing => panic!(\"`unwrap` on a `Maybe::Nothing`!\"),\n        }\n    }",
+        "content": "    pub fn unwrap(self) -> T {\n        match self {\n            Maybe::Something(t) => t,\n            Maybe::Nothing => panic!(\"`unwrap` on a `Maybe::Nothing`!\"),\n        }\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 9,
+        "line": 10,
         "col": 0
       },
       "maybe_type_enum_sizes": {
-        "content": "        print_type_info(&Maybe::Just(1u8));\n        print_type_info(&Maybe::<u16>::Just(5));\n        print_type_info(&Maybe::<bool>::Nothing);",
+        "content": "        print_type_info(&Maybe::Something(1u8));\n        print_type_info(&Maybe::<u16>::Something(5));\n        print_type_info(&Maybe::<bool>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 66,
+        "line": 95,
         "col": 0
       },
       "maybe_type_iflet": {
-        "content": "        if let Maybe::Just(data) = it {\n            println!(\"got some data: {data:?}\");\n        } else {\n            println!(\"there's nothing in it.\");\n        }",
+        "content": "        if let Maybe::Something(data) = it {\n            println!(\"got some data: {data:?}\");\n        } else {\n            println!(\"there's nothing in it.\");\n        }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 42,
+        "line": 71,
         "col": 0
       },
       "maybe_type_size_of_boxes": {
-        "content": "        print_type_info(&Maybe::Just(Box::new(8)));\n        print_type_info(&Maybe::Just(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
+        "content": "        print_type_info(&Maybe::Something(Box::new(8)));\n        print_type_info(&Maybe::Something(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 84,
+        "line": 113,
         "col": 0
       },
       "maybe_type_size_of_references": {
-        "content": "        print_type_info(&Maybe::Just(&1u8));\n        print_type_info(&Maybe::Just(&[2u64]));\n        print_type_info(&Maybe::<&str>::Nothing);",
+        "content": "        print_type_info(&Maybe::Something(&1u8));\n        print_type_info(&Maybe::Something(&[2u64]));\n        print_type_info(&Maybe::<&str>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 75,
+        "line": 104,
         "col": 0
       }
     },
@@ -138,7 +138,7 @@
         "col": 0
       },
       "serde_deserialize_with_shared_references_1": {
-        "content": "        #[derive(Debug, Deserialize, Serialize)]\n        struct Item<'a, 'b> {\n            name: &'a str,\n            description: &'b str,\n        }",
+        "content": "        #[derive(Debug, Deserialize, Serialize)]\n        struct Item<'a> {\n            name: &'a str,\n            description: &'a str,\n        }",
         "file": "snippets/simple_snippets/src/lib.rs",
         "line": 54,
         "col": 0
@@ -174,11 +174,11 @@
       "any_strategy_proptest": {
         "content": "        #[test]\n        fn should_map_any_i32(a in any::<i32>()) {\n            assert_eq!(a, identity(a));\n        }",
         "file": "snippets/simple_tests/src/lib.rs",
-        "line": 71,
+        "line": 85,
         "col": 0
       },
       "identity_fn": {
-        "content": "pub fn identity<T>(elem: T) -> T {\n    elem\n}",
+        "content": "pub fn _identity<T>(elem: T) -> T {\n    elem\n}",
         "file": "snippets/simple_tests/src/lib.rs",
         "line": 12,
         "col": 0
@@ -192,7 +192,13 @@
       "simple_proptest": {
         "content": "        #[test]\n        fn should_map_small_i32(a in 0..1000i32) {\n            assert_eq!(a, identity(a));\n        }",
         "file": "snippets/simple_tests/src/lib.rs",
-        "line": 64,
+        "line": 78,
+        "col": 0
+      },
+      "start_paused_timeout": {
+        "content": "    #[tokio::test(start_paused = true)]\n    async fn should_time_out() {\n        use std::time::Duration;\n        use tokio::{sync::mpsc, time::timeout};\n        const TIMEOUT: Duration = Duration::from_millis(500);\n\n        let now = std::time::Instant::now();\n        let (tx, mut rx) = mpsc::channel::<String>(16);\n        assert!(timeout(TIMEOUT, rx.recv()).await.is_err());",
+        "file": "snippets/simple_tests/src/lib.rs",
+        "line": 59,
         "col": 0
       },
       "test_module": {
@@ -222,7 +228,7 @@
       "vec_strategy_proptest": {
         "content": "        #[test]\n        fn should_map_vec_elems(a in prop::collection::vec(any::<u128>(), 1..1000)) {\n            assert!(a.into_iter().all(|elem| elem == identity(elem)));\n        }",
         "file": "snippets/simple_tests/src/lib.rs",
-        "line": 78,
+        "line": 92,
         "col": 0
       }
     },

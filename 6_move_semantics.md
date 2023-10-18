@@ -52,10 +52,6 @@ Implications for
 
 Every value in Rust has exactly one owner at any point in time.
 
-````rust tag:playground-button playground-wrap:main
-let owner = vec![1, 2, 3, 4];
-````
-
 ---
 
 ## Transferring Ownership
@@ -114,7 +110,7 @@ fn bake(d: Dough) -> Baked {
 Functions can take arguments by-value (by-move):
 
 ````rust tag:playground-button playground-wrap
-fn takes_vec(handles: Vec<JoinHandle>) -> Result<(), JoinError> {
+fn join_handles(handles: Vec<JoinHandle>) -> Result<(), JoinError> {
     handles
         .into_iter()
         .map(JoinHandle::join)
@@ -147,9 +143,25 @@ It's an opinionated interface!
 
 ---
 
-## Processing a `Qexpr` with Move Semantics
+## Strict APIs with "Pass-by-Move"
+
+This API is strict:
 
 ````rust tag:playground-button
+fn uppercase(s: &str) -> String {
+    s.chars().map(|c| c.to_uppercase().to_string()).collect::<String>()
+}
+````
+
+However, the API is quite "honest": uppercasing may require (re-)allocation (ß -> SS).
+This function always deallocates, then allocates.
+It's an opinionated interface!
+
+---
+
+## Processing a `Qexpr` with Move Semantics
+
+````rust
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
 pub struct Qexpr(pub(crate) VecDeque<Value>);
 
@@ -221,7 +233,7 @@ hints that `Copy` can bypass move semantics.
 
 ---
 
-## Preview: The [`Copy`](https://doc.rust-lang.org/std/marker/trait.Copy.html) Marker
+## The [`Copy`](https://doc.rust-lang.org/std/marker/trait.Copy.html) Marker
 
 The trait [`Copy`](https://doc.rust-lang.org/std/marker/trait.Copy.html) marks a type which can trivially be copied bit-wise.
 Moving a `Copy` value leaves the original intact:
@@ -254,7 +266,7 @@ Advantage: the old binding becomes unusable.
 
 ---
 
-## Rebinding/Shadowing
+## Rebinding/Shadowing and generic APIs
 
 From [rust-lang/rust `librustdoc`](https://github.com/rust-lang/rust/blob/177091258c039398d30137b52e1c575a98aa7597/src/librustdoc/clean/types.rs#L172):
 
@@ -269,6 +281,22 @@ fn to_remote(url: impl ToString) -> ExternalLocation {
 ````
 
 <!-- _footer: another example from [facebook/sapling](https://github.com/facebook/sapling/blob/2ab9856d9478aa996ce9ba892c0d1dc347a6f3bb/eden/scm/lib/minibench/src/lib.rs#L50) -->
+
+---
+
+## Rebinding/Shadowing and generic APIs
+
+APIs can be defined on families of types, which are then normalized and re-bound.
+
+````rust tag:playground-button
+pub async fn create(path: impl AsRef<Path>) -> io::Result<File> {
+    let path = path.as_ref().to_owned();
+    let std_file = asyncify(move || StdFile::create(path)).await?;
+    Ok(File::from_std(std_file))
+}
+````
+
+<!-- _footer: another example from [tokio-rs/tokio](https://github.com/tokio-rs/tokio/blob/881b510a072f5acd773a10d3be0debf74113404e/tokio/src/fs/file.rs#L190-L194) -->
 
 ---
 
@@ -707,7 +735,8 @@ where
 - No potentially dangling references can be passed into a thread/task.
 - Also see [`tokio::spawn`](docsrs:https://docs.rs/tokio/1.32.0/tokio/task/fn.spawn.html).
 
-Recommendation: read `'static` as `'outlives`.
+Suggestion: read `'static` as `'forever` in a "`.rodata`" context,
+and as `'outlives` everywhere else.
 
 ---
 
@@ -759,6 +788,13 @@ NLL is a post-1.0 feature which made the compiler accept more of the actually va
 Pre-NLL, the snippet above would not have compiled either way.
 
 Non-lexical lifetimes allow a borrow to end before the end of the scope, to make the borrowed value ready for consumption again.
+
+<!--
+---
+
+## Scoped threads: `'env` and `'scope`
+
+-->
 
 ---
 
