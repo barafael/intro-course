@@ -1,3 +1,5 @@
+#![feature(assert_matches)]
+
 #[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord)]
 // marker-start:enum_type_maybe
 pub enum Maybe<T> {
@@ -36,7 +38,6 @@ impl<T> Maybe<T> {
 
 #[cfg(test)]
 mod test {
-    use std::assert_matches::assert_matches;
     use std::{io::ErrorKind, sync::Arc, time::Duration};
 
     use to_byte_slice::print_type_info;
@@ -56,7 +57,7 @@ mod test {
         maybe_str = Maybe::Something("hi");
         assert!(maybe_str.is_something());
         // assert!(matches!(maybe_str, Maybe::Something(_)));
-        // assert_matches!(maybe_str, Maybe::Something(_));
+        // std::assert_matches::assert_matches!(maybe_str, Maybe::Something(_));
     }
 
     #[test]

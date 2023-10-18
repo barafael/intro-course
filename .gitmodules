@@ -19,3 +19,6 @@
 [submodule "msg-repeater"]
 	path = msg-repeater
 	url = https://github.com/barafael/msg-repeater
+[submodule "BaMiRuFFI"]
+	path = BaMiRuFFI
+	url = https://github.com/barafael/BaMiRuFFI.git
