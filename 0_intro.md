@@ -31,6 +31,7 @@ _paginate: false
 ## `$whoami`
 
 ![bg right](images/colorkit%20(13).png)
+
 - Learning Rust since 2016
 - Embedded Work (C, C++, Rust)
 - Automotive (Rust)
@@ -58,6 +59,7 @@ _paginate: false
   - Control flow, types, functions
 
 Projects:
+
 - [Luhn Algorithm](https://github.com/barafael/luhns-algorithm-exercise) ("Frontend" via CLI, REPL, WASM, tests)
 - [Simple Web Page Downloader](https://github.com/barafael/wpdl), Extension: Web Server API testing tool
 
@@ -70,6 +72,7 @@ Projects:
 - API Design, Resource Management, Multithreading
 
 Projects:
+
 - Platform-independent [driver](https://github.com/barafael/ebyte-e32-rs) for Ebyte E32 LoRa Modules
 - [GUI/CLI Frontend](https://github.com/barafael/ebyte-e32-ui) for driver
 - Multithreaded [renderer](https://github.com/cocomundo/julia-set-renderer) for Julia fractals
@@ -166,7 +169,8 @@ Very hard to measure, but:
 - MISRA, ASpice, Frama-C, linting, etc.: partial post-hoc fixes
 
 Difference between incidental complexity and inherent complexity
-  - C++ has many reasonable but terrible historical baggage
+
+- C++ has many reasonable but terrible historical baggage
 
 <!-- _footer: '[Scale By The Bay 2018: Bryan Cantrill, Rust and Other Interesting Things](https://www.youtube.com/watch?v=2wZ1pCpJUIM)' -->
 
@@ -208,7 +212,7 @@ li {
 
 <div>
 
-- Graydon Hoare, Conception 2006 
+- Graydon Hoare, Conception 2006
 
 - Syntax and Semantics in flux:
 Around 2010 Rust was Golang:
@@ -253,7 +257,7 @@ Segmented Stacks, Exceptions
 
 ---
 
-## Simple Rules!
+## Simple Rules
 
 - Each value has one **owner**
 - A value may be moved
@@ -322,9 +326,9 @@ println!("{s1}, world!");
 
 ## "Just clone It"
 
-* Cloning only happens explicitly - it may not be cheap
-* Cloning can be semantically wrong
-* It's a simple way but expensive way to make the borrow checker happy:
+- Cloning only happens explicitly - it may not be cheap
+- Cloning can be semantically wrong
+- It's a simple but expensive way to make the borrow checker happy:
 
 ````rust tag:playground-button playground-wrap:main
 let s1 = String::from("hello");
@@ -422,25 +426,25 @@ _footer: '[Scale By The Bay 2018: Bryan Cantrill, Rust and Other Interesting Thi
 
 ### A Core Value Mismatch is **not necessarily lethal** - <br>it merely **limits potential**
 
-* Java does not have Pointers, yet it has the `NullPointerException` (famously, the "Billion Dollar Mistake")
+- Java does not have Pointers, yet it has the `NullPointerException` (famously, the "Billion Dollar Mistake")
 
-* C is being used for operating system implementations, infecting these systems with C's low degree of security
+- C is being used for operating system implementations, infecting these systems with C's low degree of security
 
-* Linux: difficulty getting experienced young contributors (openness vs. gatekeeping)
+- Linux: difficulty getting experienced young contributors (openness vs. gatekeeping)
 
-* Out-Of-Order Execution CPUs: Valued Performance over Security, leading to Spectre + Meltdown
+- Out-Of-Order Execution CPUs: Valued Performance over Security, leading to Spectre + Meltdown
 
 ---
 
 ## Core Value Conflicts in Rust
 
-* Highly rigorous syntax rules may produce unexpected situations (rigorosity vs. approachability)
+- Highly rigorous syntax rules may produce unexpected situations (rigorosity vs. approachability)
 
-* Debuggability in Async (performance vs. approachability)
+- Debuggability in Async (performance vs. approachability)
 
-* Programmer Productivity/Ergonomics and IDEability (productivity vs. correctness)
+- Programmer Productivity/Ergonomics and IDEability (productivity vs. correctness)
 
-* Rust prides itself on being energy-efficient - yet the various integrity measures at the project level are wildly expensive (rigorosity vs. frugality)
+- Rust prides itself on being energy-efficient - yet the various integrity measures at the project level are wildly expensive (rigorosity vs. frugality)
 
 ---
 

@@ -27,3 +27,4 @@ A set of slides designed to introduce the philosophy of Rust, teach the basics, 
 * The final playground in each chapter is not useful so far
 * Especially the intro is all over the place
 * More diagrams, illustrations
+* More on tuple type

@@ -38,11 +38,7 @@ async fn main() -> anyhow::Result<()> {
         }
     }
 
-    let addr = "127.0.0.1:8080"
-        .parse::<SocketAddr>()
-        .context("Invalid ip:port")?;
-
-    let listener = TcpListener::bind(addr)
+    let listener = TcpListener::bind("127.0.0.1:8080")
         .await
         .context(format!("Failed to bind on {addr}"))?;
 

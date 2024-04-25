@@ -46,55 +46,55 @@
       "enum_type_maybe": {
         "content": "pub enum Maybe<T> {\n    Something(T),\n    #[default]\n    Nothing,\n}",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 1,
+        "line": 3,
         "col": 0
       },
       "enum_type_maybe_match": {
         "content": "        match it {\n            Maybe::Something(\"something\") => println!(\"found \\\"something\\\"!\"),\n            Maybe::Something(\"data!\") => println!(\"found \\\"data!\\\"\"),\n            Maybe::Something(something_else) => println!(\"found {something_else}!\"),\n            Maybe::Nothing => println!(\"there was nothing in it...\"),\n        }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 83,
+        "line": 84,
         "col": 0
       },
       "maybe_fn": {
         "content": "    pub fn is_something(&self) -> bool {\n        //matches!(self, &Maybe::Something(_))\n        match self {\n            Maybe::Something(_) => true,\n            Maybe::Nothing => false,\n        }\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 19,
+        "line": 21,
         "col": 0
       },
       "maybe_fn_mut": {
         "content": "    pub fn take(&mut self) -> Maybe<T> {\n        std::mem::replace(self, Maybe::Nothing)\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 29,
+        "line": 31,
         "col": 0
       },
       "maybe_fn_once": {
         "content": "    pub fn unwrap(self) -> T {\n        match self {\n            Maybe::Something(t) => t,\n            Maybe::Nothing => panic!(\"`unwrap` on a `Maybe::Nothing`!\"),\n        }\n    }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 10,
+        "line": 12,
         "col": 0
       },
       "maybe_type_enum_sizes": {
         "content": "        print_type_info(&Maybe::Something(1u8));\n        print_type_info(&Maybe::<u16>::Something(5));\n        print_type_info(&Maybe::<bool>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 95,
+        "line": 96,
         "col": 0
       },
       "maybe_type_iflet": {
         "content": "        if let Maybe::Something(data) = it {\n            println!(\"got some data: {data:?}\");\n        } else {\n            println!(\"there's nothing in it.\");\n        }",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 71,
+        "line": 72,
         "col": 0
       },
       "maybe_type_size_of_boxes": {
         "content": "        print_type_info(&Maybe::Something(Box::new(8)));\n        print_type_info(&Maybe::Something(Arc::new(ErrorKind::AddrInUse)));\n        print_type_info(&Maybe::<Box<String>>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 113,
+        "line": 114,
         "col": 0
       },
       "maybe_type_size_of_references": {
         "content": "        print_type_info(&Maybe::Something(&1u8));\n        print_type_info(&Maybe::Something(&[2u64]));\n        print_type_info(&Maybe::<&str>::Nothing);",
         "file": "snippets/maybe/src/lib.rs",
-        "line": 104,
+        "line": 105,
         "col": 0
       }
     },
@@ -102,19 +102,19 @@
       "break_loop_with_value": {
         "content": "    loop {\n        if let Ok(bytes_read) = reader.read_line(&mut line).await {\n            if bytes_read == 0 {\n                break Ok(());\n            }",
         "file": "snippets/simple_server/src/main.rs",
-        "line": 90,
+        "line": 86,
         "col": 0
       },
       "mutable_binding_in_destructuring_pattern": {
         "content": "        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;",
         "file": "snippets/simple_server/src/main.rs",
-        "line": 58,
+        "line": 54,
         "col": 0
       },
       "server_cliche_loop": {
         "content": "    loop {\n        // marker-start:mutable_binding_in_destructuring_pattern\n        let (mut socket, addr) = listener\n            .accept()\n            .await\n            .context(\"Failed to accept on socket\")?;\n        // marker-end:mutable_binding_in_destructuring_pattern\n\n        let tx = tx.clone();\n\n        tokio::spawn(async move {\n            let (reader, writer) = socket.split();\n            handle_connection(addr.to_string(), reader, writer, tx)\n                .await\n                .expect(\"Failed to handle connection\");\n        });\n    }",
         "file": "snippets/simple_server/src/main.rs",
-        "line": 56,
+        "line": 52,
         "col": 0
       }
     },
@@ -178,7 +178,7 @@
         "col": 0
       },
       "identity_fn": {
-        "content": "pub fn _identity<T>(elem: T) -> T {\n    elem\n}",
+        "content": "pub fn identity<T>(elem: T) -> T {\n    elem\n}",
         "file": "snippets/simple_tests/src/lib.rs",
         "line": 12,
         "col": 0
@@ -196,7 +196,7 @@
         "col": 0
       },
       "start_paused_timeout": {
-        "content": "    #[tokio::test(start_paused = true)]\n    async fn should_time_out() {\n        use std::time::Duration;\n        use tokio::{sync::mpsc, time::timeout};\n        const TIMEOUT: Duration = Duration::from_millis(500);\n\n        let now = std::time::Instant::now();\n        let (tx, mut rx) = mpsc::channel::<String>(16);\n        assert!(timeout(TIMEOUT, rx.recv()).await.is_err());",
+        "content": "    #[tokio::test(start_paused = true)]\n    async fn should_time_out() {\n        use std::time::Duration;\n        use tokio::{sync::mpsc, time::timeout};\n        const TIMEOUT: Duration = Duration::from_millis(500);\n\n        let now = std::time::Instant::now();\n        let (_tx, mut rx) = mpsc::channel::<String>(16);\n        assert!(timeout(TIMEOUT, rx.recv()).await.is_err());",
         "file": "snippets/simple_tests/src/lib.rs",
         "line": 59,
         "col": 0
