@@ -90,7 +90,7 @@ Each client, before or after it identifies as Camera or Dispatcher, may activate
   - Dispatcher
 * Heartbeats
 
-![bg right height:90%](images/speedd.drawio.svg)
+![bg right height:90%](../images/speedd.drawio.svg)
 
 <!-- _footer: "[speedd.drawio.png](https://github.com/barafael/protohackers/blob/main/speedd/speedd.drawio.png)" -->
 
@@ -98,7 +98,7 @@ Each client, before or after it identifies as Camera or Dispatcher, may activate
 
 # A live snapshot
 
-![center height:500px](images/live-topology.drawio.svg)
+![center height:500px](../images/live-topology.drawio.svg)
 
 <!-- _footer: "[live-topology.drawio.png](https://github.com/barafael/protohackers/blob/main/speedd/live-topology.drawio.png)" -->
 
