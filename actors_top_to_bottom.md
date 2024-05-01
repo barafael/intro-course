@@ -49,8 +49,9 @@ _paginate: false
 - Embedded (C, C++, Rust)
 - Automotive (Rust)
 - Distributed Systems (Rust)
-- Seit 2020: Rust Meetup Nuremberg
-- Opensource auf GitHub: [github.com/barafael](https://github.com/barafael)
+- Seit 2020: [Rust Meetup Nuremberg](https://www.meetup.com/de-DE/rust-noris/)
+- [github.com/barafael](https://github.com/barafael)
+- [Workshops, Trainings](mailto:rafael.bachmann.93@gmail.com)
 
 ---
 
@@ -110,6 +111,7 @@ Korrekte Ownership = Gute Architektur?
 
 ## Vorraussetzungen
 
+- Nebenläufig vs. Parallel
 - "Rust schon mal gesehen"
 - Ownership, Borrowing, Lifetimes
 
@@ -742,7 +744,7 @@ Klischee Server Loop:
 loop {
     let (stream, client_addr) = listener.accept().await.context("Failed to accept")?;
 
-    let rx = sensor_event.resubscribe();
+    let rx = sensor_event.subscribe();
     let tx = sensor_request.clone();
     tokio::spawn(async move { // Client Aktor spawned hier!
         if let Err(e) = handle_client(stream, client_addr, rx, tx).await {
@@ -754,23 +756,46 @@ loop {
 
 ---
 
-## Cancel Culture (für Aktoren)
+## `async`/`.await` auf Mikrokontrollern I
 
-Am besten terminiert ein Aktor von alleine, wenn seine Zeit gekommen ist.
+Nicht so weit her geholt:
 
-Beispiel:
+- MCUs machen fast ausschließlich I/O
+- `async`/`.await` ist eine Zero Cost Abstraction
+  - Kein Allokator erforderlich
+- Die Interrupt-Peripherie ist ein nativer Event Loop
+- Meistens haben MCUs nur einen Kern, aber eben Interrupts
+- Low-Power: Wenn keine Futures lauffähig sind, `wfe()`
 
-````rust tag:playground-button playground-before:$"use tokio_stream::StreamExt; #[tokio::main] async fn main() { let mut stream = tokio_stream::iter(&[1, 2, 3]); "$ playground-after:$"}"$
-while let Some(v) = stream.next().await {
-    println!("GOT = {:?}", v);
-}
-````
-
-<!-- _footer:'[Streams chapter of tokio tutorial](https://tokio.rs/tokio/tutorial/streams)' -->
+<!-- _footer: '[embassy.dev](https://embassy.dev)' -->
 
 ---
 
-## Cancellation Token Antipattern
+## Architektur einer Sensor-Firmware
+
+![center width:100%](images/channels_and_cores.drawio.svg)
+
+---
+
+## `async`/`.await` auf Mikrokontrollern II
+
+- Kombination aus Aktor-based und Shared State (`Mutex<I2C>`)
+- Tasks sind fix auf Kerne verteilt
+- Spezielle Channels aus [`embassy-sync`](https://docs.embassy.dev/embassy-sync/git/default/index.html) und [`heapless`](https://docs.rs/heapless/latest/heapless/)
+
+---
+
+## `async`/`.await` auf Mikrokontrollern III
+
+- Tasks sind gut, aber nicht einmal zwingend notwendig
+  - `join!` und `select!`-like Kombinatoren können ausreichen
+  - Die Maximale Größe des Main Stackframes ist berechenbar!
+- Rust ist nicht Inter-{Core/Prozess} Safe!
+- Ökosystem ist [zunehmend `async`-fähig](https://blog.rust-embedded.org/embedded-hal-v1/)
+
+---
+
+<!-- ## Cancellation Token Antipattern
 
 Cancellation Token sollte nicht verwendet werden, um Aktoren zu beenden, die von alleine ein valides Shutdown-Verhalten haben.
 
@@ -794,68 +819,34 @@ loop {
 
 Problem: Unbearbeitete Nachrichten verbleiben im Channel und werden gedropped.
 
----
-
-## Automatisches Aufräumen
-
-Wenn kein Sender mehr da ist und keine Nachrichten mehr im Channel sind, gibt die `recv()` future `None` zurück.
-
-````rust
-match msg {
-    Some(Signal::Reset) => {
-        // on reset: set active, restart sleep.
-    }
-    // on channel end: exit watchdog.
-    None => break,
-}
-````
-
-Keine garbage collection, aber irgendwo doch...
-
-<!-- _footer: '[Watchdog actor auf GitHub](https://github.com/barafael/watchdog/blob/dddbc4debd759ca195fea4ffe945334e425515c7/src/lib.rs#L67C1-L78C1)' -->
+--- -->
 
 ---
 
-## [Protohackers Problem 6](https://protohackers.com/problem/6)
+## Was ist also ein Aktor?
 
-![bg right height:90%](images/speedd.drawio.svg)
-
-<!-- _footer: "[speedd.drawio.png](https://github.com/barafael/protohackers/blob/main/speedd/speedd.drawio.png)" -->
-
----
-
-![center height:600px](images/live-topology.drawio.svg)
-
----
-
-## Bausteine für das Aktor Pattern
-
-- Futures als Zero-Cost [Abstraktion](https://doc.rust-lang.org/std/future/trait.Future.html) über Event-getriebene Berechnung
-- Zero Cost Kombinatoren: `join!` und `select!` für Concurrency
-- Stackless Coroutines für Parallelismus (tokio tasks)
-- Channels mit Semantik für verschiedene Topologien
-  - mpsc (collector), oneshot, broadcast, watch
-
----
-
-## Aspekte des Aktor Patterns
-
-- Aktoren besitzen eine I/O Ressource (Socket, File Handle, etc.)
-  - Nebeneffekte werden innerhalb eines Aktors abgehandelt
-- Aktoren sind vollständig isolierte Entitäten
+- Verwaltet, besitzt eine I/O Ressource (Socket, File Handle, LED, ...)
+  - Nebeneffekte ausschließlich innerhalb eines Aktors abgehandelt
+- Empfängt/Sendet Nachrichten via Channels, Streams
+- Läuft asynchron, schläft wenn Idle, nicht an Thread gebunden
+- Kein sharing ('static), nur interne Mutation
+- Shutdown, cancellation, cleanup durch Channel-Topologie definiert
+- Cleanup bei Shutdown
   - Kein eigener Heap wie in Erlang: `'static` bound verhindert sharing
-- Ein Aktor schläft wenn es nichts zu tun gibt
 - Ein Aktor ist unsichtbar, er ist lediglich durch Channel Handles erreichbar
   - Die Message-Tabelle ist eine Art V-Table! Der Typ des Aktors ist unsichtbar.
+  - Dahinter kann Alternativ-Implementierung stehen, z.B. für andere Protokollversion
+
+<!-- _footer: '[Actors in Tokio](https://ryhl.io/blog/actors-with-tokio/)' -->
 
 ---
 
-## Aktoren auf Mikrokontroller
+## OOP (for real)
 
-![center width:100%](images/channels_and_cores.drawio.svg)
+[The big idea is "messaging"](https://lists.squeakfoundation.org/pipermail/squeak-dev/1998-October/017019.html)
 
----
+1. Everything Is An Object.
+2. Objects communicate by sending and receiving messages.
+3. Objects have their own memory.
 
-## Alan Kay
-
-oop in rust ja nein? Alan Kay quotes/perspektiven
+Adaptiert von: ["Alan Kays Definition Of Object Oriented" (C2 Wiki)](https://wiki.c2.com/?AlanKaysDefinitionOfObjectOriented)
